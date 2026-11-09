@@ -599,9 +599,17 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
           </select>
         </label>
       </div>
+      <div class="row2">
+        <label for="f-email">Email (optional)<input id="f-email" name="email" type="email" autocomplete="email"></label>
+        <label for="f-heard">How did you hear about us?
+          <select id="f-heard" name="heard">
+            <option value="">Choose one (optional)</option><option>Facebook</option><option>Google search</option><option>Referral from a friend or business</option><option>Flyer or card</option><option>Other</option>
+          </select>
+        </label>
+      </div>
       <label for="f-msg">Anything we should know? (optional)<textarea id="f-msg" name="message"></textarea></label>
-      <button class="btn btn-brass" type="submit">Request my free check</button>
-      <div id="formMsg" role="status">Thanks! Your email app should open with your request filled in. Just hit send. If it doesn't open, call or text (903) 251-5127 or email info@kingconnecttx.com.</div>
+      <button class="btn btn-brass" type="submit" id="f-send">Request my free check</button>
+      <div id="formMsg" role="status" aria-live="polite">Got it, thanks! We'll call you within one business day. Need us sooner? Call or text (903) 251-5127.</div>
     </form>
   </div>
 </section>
@@ -779,9 +787,20 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     var ok = ['f-name','f-biz','f-phone'].every(function(id){ var el=document.getElementById(id); var v=el.value.trim().length>0; el.style.borderColor = v ? '' : '#E04B3A'; return v; });
     if(!ok) return;
     var g=function(id){return document.getElementById(id).value.trim();};
-    var body='Name: '+g('f-name')+'\nBusiness: '+g('f-biz')+'\nPhone: '+g('f-phone')+'\nType: '+g('f-type')+'\n\n'+g('f-msg');
-    window.location.href='mailto:info@kingconnecttx.com?subject='+encodeURIComponent('Free missed-call check: '+g('f-biz'))+'&body='+encodeURIComponent(body);
-    document.getElementById('formMsg').style.display='block';
+    var form=this, btn=document.getElementById('f-send'), msg=document.getElementById('formMsg');
+    /* Sends straight to the "Contact King Connect" Google Form (owned by jordan@kingconnecttx.com) */
+    var data=new URLSearchParams();
+    data.append('entry.1634613612', g('f-name'));
+    data.append('entry.740076565',  g('f-biz'));
+    data.append('entry.1599790933', g('f-type'));
+    data.append('entry.1637722511', g('f-phone'));
+    if (g('f-email')) data.append('entry.420473111', g('f-email'));
+    if (g('f-heard')) data.append('entry.835965389', g('f-heard'));
+    if (g('f-msg'))   data.append('entry.986106593', g('f-msg'));
+    btn.disabled=true; btn.textContent='Sending…';
+    fetch('https://docs.google.com/forms/d/e/1FAIpQLSflsGEiWSVmy1LbIP4eh5lEyn9Xe1w2TGnu1OSzyEdap4BCLw/formResponse',{method:'POST',mode:'no-cors',body:data})
+      .then(function(){ form.reset(); msg.textContent="Got it, thanks! We'll call you within one business day. Need us sooner? Call or text (903) 251-5127."; msg.style.display='block'; btn.textContent='Sent ✓'; })
+      .catch(function(){ msg.textContent="That didn't go through. Please call or text (903) 251-5127 and we'll take care of you."; msg.style.display='block'; btn.disabled=false; btn.textContent='Request my free check'; });
   });
 })();
 </script>
