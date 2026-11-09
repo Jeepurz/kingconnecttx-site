@@ -4,273 +4,424 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>King Connect</title>
-<meta name="description" content="King Connect texts back your missed calls, gets you Google reviews and keeps your business profile working. Locally run at Cedar Creek Lake, Texas.">
+<meta name="description" content="King Connect texts back your missed calls, gets you Google reviews and keeps your business profile working. Locally run at Cedar Creek Lake, Texas. Call or text (903) 251-5127.">
+<meta name="theme-color" content="#0E1A22">
+<script>document.documentElement.classList.add('js');</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  /* Layout idea: dark "night on the lake" hero with a live missed-call demo, then plain workshop-white sections, signage-style condensed headings. */
-  --ink:#0E1A22;        /* night water */
-  --ink-2:#16262F;
-  --paper:#EEF2F3;      /* cool work-white */
+  /* Layout idea: night-lake hero with a live text-back demo per trade, then crisp work-white sections; condensed signage headings, brass crown accents. */
+  --ink:#0E1A22;
+  --ink-2:#15252E;
+  --ink-3:#1C303B;
+  --paper:#EEF2F3;
   --card:#FFFFFF;
-  --brass:#D29A2A;      /* crown brass */
-  --brass-deep:#9C6F12;
-  --signal:#E04B3A;     /* missed-call red */
-  --go:#2F9E6E;         /* answered green */
-  --muted:#5B6B73;
+  --brass:#D29A2A;
+  --brass-hi:#F0C25E;
+  --brass-deep:#8F650F;
+  --signal:#E04B3A;
+  --go:#2F9E6E;
+  --blue:#1F7AE0;
+  --muted:#52626A;
   --line:#D5DDE0;
   --display:"Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
   --body:"Public Sans", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --ease:cubic-bezier(.2,.8,.2,1);
   color-scheme: light;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
-body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.6 var(--body)}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.6 var(--body);overflow-x:hidden}
 h1,h2,h3{font-family:var(--display);text-transform:uppercase;letter-spacing:.01em;line-height:.95;margin:0;text-wrap:balance}
+p{text-wrap:pretty}
 a{color:inherit}
 :focus-visible{outline:3px solid var(--brass);outline-offset:3px;border-radius:4px}
-.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
-.btn{display:inline-flex;align-items:center;gap:8px;font:700 16px/1 var(--body);padding:16px 22px;border-radius:6px;text-decoration:none;border:2px solid transparent;cursor:pointer;transition:transform .15s, background .15s}
-.btn:hover{transform:translateY(-1px)}
-.btn-brass{background:var(--brass);color:var(--ink)}
-.btn-brass:hover{background:#E2AC3C}
-.btn-ghost{border-color:rgba(255,255,255,.35);color:#fff;background:transparent}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+@media (max-width:520px){.wrap{padding:0 18px}}
+
+/* ---------- INTRO ---------- */
+#intro{position:fixed;inset:0;z-index:100;background:var(--ink);display:grid;place-items:center;pointer-events:none;transition:transform .9s var(--ease) .1s, opacity .4s ease .9s}
+#intro .mark{display:flex;flex-direction:column;align-items:center;gap:14px}
+#intro svg{width:84px;height:84px}
+#intro svg path,#intro svg rect{fill:none;stroke:var(--brass);stroke-width:1.6;stroke-dasharray:140;stroke-dashoffset:140;animation:draw 1s var(--ease) forwards}
+#intro svg rect{animation-delay:.35s}
+#intro .word{font:900 clamp(34px,6vw,54px)/1 var(--display);letter-spacing:.18em;color:#fff;text-transform:uppercase;clip-path:inset(0 100% 0 0);animation:wipe .8s var(--ease) .55s forwards}
+#intro .tag{font:700 12px/1 var(--body);letter-spacing:.3em;text-transform:uppercase;color:var(--brass);opacity:0;animation:fade .5s ease 1.05s forwards}
+body.loaded #intro{transform:translateY(-100%)}
+@keyframes draw{to{stroke-dashoffset:0;fill:var(--brass)}}
+@keyframes wipe{to{clip-path:inset(0 0 0 0)}}
+@keyframes fade{to{opacity:1}}
+html:not(.js) #intro{display:none}
+
+/* ---------- PROGRESS + NAV ---------- */
+#progress{position:fixed;top:0;left:0;height:3px;width:100%;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,var(--brass),var(--brass-hi));z-index:60}
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;color:#fff;transition:background .35s ease, box-shadow .35s ease, padding .35s ease}
+.nav.solid{background:rgba(14,26,34,.86);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 8px 30px rgba(0,0,0,.25)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:18px;padding-bottom:18px;transition:padding .35s ease}
+.nav.solid .wrap{padding-top:12px;padding-bottom:12px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand svg{width:32px;height:32px;flex:none}
+.brand b{font:900 26px/1 var(--display);letter-spacing:.05em;text-transform:uppercase;display:block}
+.brand small{display:block;font:600 10.5px/1.3 var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--brass)}
+.nav .sm{display:none}
+@media (max-width:520px){.nav .lg{display:none}.nav .sm{display:inline}}
+.nav ul{list-style:none;display:flex;gap:28px;margin:0;padding:0;font-weight:600;font-size:15px}
+.nav ul a{text-decoration:none;opacity:.82;position:relative;padding:4px 0}
+.nav ul a::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;background:var(--brass);transform:scaleX(0);transform-origin:left;transition:transform .3s var(--ease)}
+.nav ul a:hover{opacity:1}
+.nav ul a:hover::after{transform:scaleX(1)}
+@media (max-width:900px){.nav ul{display:none}}
+@media (max-width:520px){.nav .btn{padding:11px 14px;font-size:14px}.brand small{display:none}.brand b{font-size:22px}}
+
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:8px;font:700 16px/1 var(--body);padding:16px 22px;border-radius:8px;text-decoration:none;border:2px solid transparent;cursor:pointer;transition:transform .25s var(--ease), background .2s, border-color .2s, box-shadow .25s;overflow:hidden;white-space:nowrap}
+.btn:hover{transform:translateY(-2px)}
+.btn-brass{background:var(--brass);color:var(--ink);box-shadow:0 10px 30px rgba(210,154,42,.25)}
+.btn-brass:hover{background:var(--brass-hi);box-shadow:0 14px 34px rgba(210,154,42,.35)}
+.btn-brass::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);animation:shine 4.5s ease-in-out 3s infinite}
+@keyframes shine{0%,70%{left:-60%}100%{left:130%}}
+.btn-ghost{border-color:rgba(255,255,255,.3);color:#fff}
 .btn-ghost:hover{border-color:#fff}
 .btn-dark{background:var(--ink);color:#fff}
+.btn-dark:hover{background:var(--ink-3)}
 
-/* NAV */
-.nav{background:var(--ink);color:#fff;border-bottom:1px solid rgba(255,255,255,.08)}
-.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:16px;padding-bottom:16px;flex-wrap:wrap}
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
-.brand svg{width:34px;height:34px}
-.brand b{font:900 28px/1 var(--display);letter-spacing:.04em;text-transform:uppercase}
-.brand small{display:block;font:600 11px/1.2 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--brass)}
-.nav ul{list-style:none;display:flex;gap:26px;margin:0;padding:0;font-weight:600;font-size:15px}
-.nav ul a{text-decoration:none;opacity:.85}
-.nav ul a:hover{opacity:1;color:var(--brass)}
-@media (max-width:820px){.nav ul{display:none}}
-
-/* HERO */
-.hero{background:var(--ink);color:#fff;position:relative;overflow:hidden}
-.hero::before{content:"";position:absolute;inset:auto -10% -40% -10%;height:70%;background:repeating-linear-gradient(170deg,rgba(255,255,255,.035) 0 2px,transparent 2px 22px);pointer-events:none}
-.hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center;padding-top:72px;padding-bottom:88px;position:relative}
-@media (max-width:900px){.hero .wrap{grid-template-columns:1fr;padding-top:48px}}
-.kicker{display:inline-flex;align-items:center;gap:8px;font:700 13px/1 var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--brass);margin-bottom:22px}
-.kicker::before{content:"";width:28px;height:2px;background:var(--brass)}
-.hero h1{font-size:clamp(54px,8.2vw,108px);font-weight:900}
-.hero h1 em{font-style:normal;color:var(--signal);display:inline-block;position:relative}
-.hero h1 em::after{content:"";position:absolute;left:0;right:0;top:52%;height:6px;background:var(--signal);transform:scaleX(0);transform-origin:left;animation:strike .6s 1.1s ease-out forwards}
-@keyframes strike{to{transform:scaleX(1)}}
-.hero p.lead{font-size:20px;line-height:1.55;color:#C9D5DA;max-width:34em;margin:26px 0 34px}
+/* ---------- HERO ---------- */
+.hero{position:relative;background:var(--ink);color:#fff;overflow:hidden;padding-top:96px}
+#waves{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.9}
+.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(60% 50% at 75% 35%,rgba(210,154,42,.14),transparent 70%),radial-gradient(50% 60% at 10% 90%,rgba(31,122,224,.10),transparent 70%);pointer-events:none}
+.hero .wrap > *{min-width:0}
+.hero .wrap{position:relative;z-index:2;display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;padding-top:56px;padding-bottom:96px}
+@media (max-width:960px){.hero .wrap{grid-template-columns:1fr;gap:44px;padding-top:36px;padding-bottom:72px}}
+.kicker{display:inline-flex;align-items:center;gap:10px;font:700 12.5px/1 var(--body);letter-spacing:.18em;text-transform:uppercase;color:var(--brass);margin-bottom:22px}
+.kicker::before{content:"";width:30px;height:2px;background:var(--brass)}
+.hero h1{font-size:clamp(52px,8vw,112px);font-weight:900}
+.hero h1 .ln{display:block;overflow:hidden;padding-bottom:.04em}
+.hero h1 .ln > span{display:inline-block}
+.js .hero h1 .ln > span{transform:translateY(105%)}
+body.loaded .hero h1 .ln > span{transform:none;transition:transform 1s var(--ease)}
+body.loaded .hero h1 .ln:nth-child(2) > span{transition-delay:.08s}
+body.loaded .hero h1 .ln:nth-child(3) > span{transition-delay:.16s}
+body.loaded .hero h1 .ln:nth-child(4) > span{transition-delay:.24s}
+.hero h1 em{font-style:normal;color:var(--signal);background:linear-gradient(var(--signal),var(--signal)) no-repeat 0 54%/0% .085em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+body.loaded .hero h1 em{background-size:100% .085em;transition:background-size .9s var(--ease) 1.1s}
+.hero p.lead{font-size:clamp(17px,1.6vw,20px);line-height:1.55;color:#C9D5DA;max-width:34em;margin:26px 0 32px}
 .hero .ctas{display:flex;gap:14px;flex-wrap:wrap}
-.proof{display:flex;gap:28px;flex-wrap:wrap;margin-top:40px;padding-top:26px;border-top:1px solid rgba(255,255,255,.12);font-size:14px;color:#AFC0C7}
-.proof b{display:block;font:800 30px/1 var(--display);color:#fff;letter-spacing:.02em}
+@media (max-width:520px){.hero .ctas .btn{flex:1 1 100%}}
+.proof{display:flex;gap:34px;flex-wrap:wrap;margin-top:42px;padding-top:26px;border-top:1px solid rgba(255,255,255,.12);font-size:14px;color:#AFC0C7}
+.proof b{display:block;font:800 32px/1 var(--display);color:#fff;letter-spacing:.02em;margin-bottom:4px}
+.js .hero .fade-up{opacity:0;transform:translateY(18px)}
+body.loaded .hero .fade-up{opacity:1;transform:none;transition:opacity .8s ease, transform .9s var(--ease)}
+body.loaded .hero .d1{transition-delay:.35s}
+body.loaded .hero .d2{transition-delay:.5s}
+body.loaded .hero .d3{transition-delay:.65s}
+body.loaded .hero .d4{transition-delay:.45s}
 
-/* PHONE DEMO */
-.phone{justify-self:center;width:min(330px,100%);background:#05090C;border-radius:42px;padding:14px;box-shadow:0 30px 80px rgba(0,0,0,.5),inset 0 0 0 2px #24343c}
-.screen{background:#F3F5F6;border-radius:30px;min-height:520px;padding:18px 14px 20px;display:flex;flex-direction:column;gap:10px;color:var(--ink);font-size:14.5px;line-height:1.4}
-.screen .top{text-align:center;font-size:12px;color:var(--muted);padding-bottom:8px;border-bottom:1px solid var(--line)}
-.screen .top b{display:block;color:var(--ink);font-size:15px}
-.call{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-left:4px solid var(--signal);border-radius:12px;padding:10px 12px;font-size:13px}
-.call svg{flex:none}
-.call b{color:var(--signal)}
-.msg{max-width:84%;padding:10px 13px;border-radius:18px;opacity:0;transform:translateY(8px);animation:pop .4s ease-out forwards}
-.msg.out{align-self:flex-end;background:#1F7AE0;color:#fff;border-bottom-right-radius:5px}
+/* ---------- PHONE DEMO ---------- */
+.demo{display:flex;flex-direction:column;align-items:center;gap:18px;min-width:0}
+.phone{position:relative;width:min(340px,100%);background:#05090C;border-radius:46px;padding:12px;box-shadow:0 40px 90px rgba(0,0,0,.55),0 0 0 1px #2a3a42,inset 0 0 0 2px #24343c;animation:float 7s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-.4deg)}50%{transform:translateY(-10px) rotate(.4deg)}}
+.phone::before{content:"";position:absolute;top:22px;left:50%;width:92px;height:24px;margin-left:-46px;background:#05090C;border-radius:14px;z-index:3}
+.screen{background:#F3F5F6;border-radius:36px;height:560px;overflow:hidden;display:flex;flex-direction:column;color:var(--ink)}
+@media (max-width:520px){.screen{height:520px}}
+.scr-top{padding:52px 16px 10px;text-align:center;border-bottom:1px solid var(--line);background:#fff;flex:none}
+.scr-top .av{width:40px;height:40px;border-radius:50%;margin:0 auto 6px;display:grid;place-items:center;font:800 18px/1 var(--display);color:#fff;background:var(--ink)}
+.scr-top b{display:block;font-size:15px;line-height:1.2}
+.scr-top small{font-size:11.5px;color:var(--muted)}
+.thread{flex:1;padding:14px 12px 16px;display:flex;flex-direction:column;justify-content:flex-end;gap:9px;font-size:14px;line-height:1.38;overflow:hidden}
+.ev{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:9px 11px;font-size:12.5px;animation:pop .45s var(--ease) both}
+.ev .ic{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center}
+.ev.call{border-left:4px solid var(--signal)}
+.ev.call .ic{background:rgba(224,75,58,.12)}
+.ev.trig{border-left:4px solid var(--brass)}
+.ev.trig .ic{background:rgba(210,154,42,.16)}
+.ev b{display:block;font-size:12.5px}
+.msg{max-width:84%;padding:9px 13px;border-radius:18px;animation:pop .45s var(--ease) both}
+.msg.out{align-self:flex-end;background:var(--blue);color:#fff;border-bottom-right-radius:5px}
 .msg.in{align-self:flex-start;background:#E2E7EA;border-bottom-left-radius:5px}
-.tag{align-self:center;font-size:11px;color:var(--muted);opacity:0;animation:pop .4s ease-out forwards}
-.tag.auto{color:var(--go);font-weight:700}
-.d1{animation-delay:.9s}.d2{animation-delay:1.6s}.d3{animation-delay:3s}.d4{animation-delay:4.3s}.d5{animation-delay:5.4s}.d6{animation-delay:6.4s}
-@keyframes pop{to{opacity:1;transform:none}}
-@media (prefers-reduced-motion: reduce){.msg,.tag{opacity:1;transform:none}}
+.sys{align-self:center;font-size:11px;color:var(--muted);animation:pop .4s ease both;text-align:center}
+.sys.auto{color:var(--go);font-weight:700}
+.done{align-self:center;display:inline-flex;align-items:center;gap:6px;background:rgba(47,158,110,.12);color:#1D6E4B;border:1px solid rgba(47,158,110,.35);font-size:12px;font-weight:700;padding:7px 12px;border-radius:999px;animation:pop .5s var(--ease) both}
+.typing{align-self:flex-end;background:var(--blue);border-radius:18px;border-bottom-right-radius:5px;padding:11px 14px;display:flex;gap:4px;animation:pop .3s ease both}
+.typing.in{align-self:flex-start;background:#E2E7EA}
+.typing i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.85);animation:dot 1s infinite}
+.typing.in i{background:#8A989F}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes dot{0%,60%,100%{transform:translateY(0);opacity:.5}30%{transform:translateY(-4px);opacity:1}}
+@keyframes pop{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}
+.chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;max-width:460px}
+@media (max-width:960px){.chips{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;max-width:100%;padding:2px 2px 8px;scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,#000 85%,transparent)}.chips::-webkit-scrollbar{display:none}}
+.chip{flex:none;font:600 13px/1 var(--body);color:#C9D5DA;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);padding:10px 13px;border-radius:999px;cursor:pointer;transition:background .25s, color .25s, border-color .25s, transform .25s var(--ease)}
+.chip:hover{color:#fff;border-color:rgba(255,255,255,.35);transform:translateY(-1px)}
+.chip[aria-pressed="true"]{background:var(--brass);color:var(--ink);border-color:var(--brass)}
+.demo-cap{font-size:12.5px;color:#8FA3AB;text-align:center;margin:0}
 
-/* SECTIONS */
-section{padding:96px 0}
-.sec-head{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:end;margin-bottom:48px}
-@media (max-width:820px){.sec-head{grid-template-columns:1fr;gap:16px}}
-.sec-head h2{font-size:clamp(42px,5.5vw,68px);font-weight:900}
+/* ---------- MARQUEE ---------- */
+.marquee{background:var(--brass);color:var(--ink);overflow:hidden;white-space:nowrap;border-top:1px solid rgba(0,0,0,.08)}
+.marquee .track{display:inline-flex;gap:0;animation:marq 38s linear infinite;padding:14px 0}
+.marquee span{font:800 22px/1 var(--display);letter-spacing:.08em;text-transform:uppercase;padding:0 22px;display:inline-flex;align-items:center;gap:22px}
+.marquee span::after{content:"";width:8px;height:8px;background:var(--ink);transform:rotate(45deg)}
+@keyframes marq{to{transform:translateX(-50%)}}
+
+/* ---------- SECTIONS ---------- */
+section{padding:110px 0;scroll-margin-top:72px}
+#demo{scroll-margin-top:90px}
+@media (max-width:700px){section{padding:76px 0}}
+.sec-head{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:end;margin-bottom:52px}
+@media (max-width:820px){.sec-head{grid-template-columns:1fr;gap:16px;margin-bottom:36px}}
+.sec-head h2{font-size:clamp(42px,5.6vw,72px);font-weight:900}
 .sec-head p{color:var(--muted);font-size:18px;margin:0;max-width:34em}
-.label{font:700 13px/1 var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--brass-deep);margin-bottom:14px;display:block}
+.label{font:700 12.5px/1 var(--body);letter-spacing:.18em;text-transform:uppercase;color:var(--brass-deep);margin-bottom:14px;display:block}
+.dark .label{color:var(--brass)}
+
+/* reveal on scroll */
+.js .reveal{opacity:0;transform:translateY(34px);transition:opacity .9s ease, transform 1s var(--ease)}
+.js .reveal.in{opacity:1;transform:none}
+.js .reveal.left{transform:translateX(-40px)}
+.js .reveal.right{transform:translateX(40px)}
+.js .reveal.left.in,.js .reveal.right.in{transform:none}
+@media (max-width:820px){.js .reveal.left,.js .reveal.right{transform:translateY(30px)}}
+html,body{overflow-x:hidden}
+@supports (overflow:clip){html,body{overflow-x:clip}}
+.js .reveal.zoom{transform:scale(.94)}
+.js .reveal.zoom.in{transform:none}
 
 /* SERVICES */
-.svc{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:2px solid var(--ink)}
-@media (max-width:900px){.svc{grid-template-columns:1fr 1fr}}
-@media (max-width:560px){.svc{grid-template-columns:1fr}}
-.svc article{padding:30px 28px 34px 0;border-bottom:1px solid var(--line)}
-.svc article:not(:nth-child(3n)){border-right:1px solid var(--line)}
-.svc article:not(:nth-child(3n+1)){padding-left:28px}
-@media (max-width:900px){.svc article{padding:26px 22px!important;border-right:none!important}.svc article:nth-child(odd){border-right:1px solid var(--line)!important}}
-@media (max-width:560px){.svc article{border-right:none!important;padding-left:0!important}}
-.svc .n{font:800 15px/1 var(--display);color:var(--brass-deep);letter-spacing:.08em}
-.svc h3{font-size:30px;font-weight:800;margin:10px 0 10px}
+.svc{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media (max-width:960px){.svc{grid-template-columns:1fr 1fr}}
+@media (max-width:600px){.svc{grid-template-columns:1fr}}
+.svc article{position:relative;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:28px 26px 30px;overflow:hidden;transition:transform .4s var(--ease), box-shadow .4s var(--ease), border-color .3s}
+.svc article::before{content:"";position:absolute;left:0;top:0;height:3px;width:100%;background:linear-gradient(90deg,var(--brass),var(--brass-hi));transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
+.svc article:hover{transform:translateY(-6px);box-shadow:0 24px 50px rgba(14,26,34,.12);border-color:transparent}
+.svc article:hover::before{transform:scaleX(1)}
+.svc .ico{width:48px;height:48px;border-radius:12px;background:var(--ink);display:grid;place-items:center;margin-bottom:18px;transition:transform .5s var(--ease)}
+.svc article:hover .ico{transform:rotate(-8deg) scale(1.08)}
+.svc .ico svg{width:24px;height:24px;stroke:var(--brass);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.svc .n{font:800 14px/1 var(--display);color:var(--brass-deep);letter-spacing:.1em;position:absolute;top:28px;right:26px}
+.svc h3{font-size:30px;font-weight:800;margin:0 0 10px}
 .svc p{margin:0;color:#34444C;font-size:16px}
 
 /* STEPS */
-.steps{background:var(--ink);color:#fff}
-.steps .sec-head p{color:#AFC0C7}
-.steps .label{color:var(--brass)}
-.steprow{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;counter-reset:s}
+.dark{background:var(--ink);color:#fff;position:relative;overflow:hidden}
+.dark .sec-head p{color:#AFC0C7}
+.steprow{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;position:relative}
 @media (max-width:820px){.steprow{grid-template-columns:1fr}}
-.step{background:var(--ink-2);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:28px}
-.step .when{font:800 44px/1 var(--display);color:var(--brass)}
-.step h3{font-size:26px;margin:14px 0 8px}
+.steprow::before{content:"";position:absolute;left:0;right:0;top:58px;height:2px;background:linear-gradient(90deg,var(--brass),rgba(210,154,42,.1));transform:scaleX(0);transform-origin:left;transition:transform 1.6s var(--ease)}
+.steprow.in::before{transform:scaleX(1)}
+@media (max-width:820px){.steprow::before{display:none}}
+.step{position:relative;background:var(--ink-2);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:30px}
+.step .when{font:800 46px/1 var(--display);color:var(--brass)}
+.step h3{font-size:27px;margin:16px 0 8px}
 .step p{margin:0;color:#C9D5DA;font-size:16px}
 
 /* PRICING */
 .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:stretch}
-@media (max-width:900px){.tiers{grid-template-columns:1fr}}
-.tier{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:30px 28px;display:flex;flex-direction:column;position:relative}
-.tier.pop{border:2px solid var(--brass);box-shadow:0 18px 50px rgba(14,26,34,.12)}
-.tier .flag{position:absolute;top:-14px;left:28px;background:var(--brass);color:var(--ink);font:700 12px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;padding:7px 10px;border-radius:4px}
-.tier h3{font-size:40px;font-weight:900}
+@media (max-width:960px){.tiers{grid-template-columns:1fr;max-width:520px;margin:0 auto}}
+.tier{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:32px 28px;display:flex;flex-direction:column;position:relative;transition:transform .4s var(--ease), box-shadow .4s var(--ease)}
+.tier:hover{transform:translateY(-6px);box-shadow:0 26px 60px rgba(14,26,34,.13)}
+.tier.pop{background:var(--ink);color:#fff;border-color:var(--ink);box-shadow:0 30px 70px rgba(14,26,34,.28)}
+.tier.pop .for,.tier.pop .setup,.tier.pop .price span{color:#AFC0C7}
+.tier.pop ul{border-top-color:rgba(255,255,255,.14)}
+.tier .flag{position:absolute;top:-14px;left:28px;background:var(--brass);color:var(--ink);font:700 11.5px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;padding:8px 11px;border-radius:5px}
+.tier h3{font-size:42px;font-weight:900}
+.tier.pop h3{color:var(--brass)}
 .tier .for{color:var(--muted);font-size:15px;margin:6px 0 20px;min-height:46px}
 .price{display:flex;align-items:baseline;gap:6px;font-variant-numeric:tabular-nums}
-.price b{font:900 64px/1 var(--display)}
+.price b{font:900 66px/1 var(--display)}
 .price span{color:var(--muted);font-weight:600}
 .setup{font-size:14px;color:var(--muted);margin:6px 0 22px}
-.setup s{opacity:.7}
 .tier ul{list-style:none;margin:0 0 26px;padding:20px 0 0;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:11px;font-size:15.5px;flex:1}
 .tier li{padding-left:26px;position:relative}
 .tier li::before{content:"";position:absolute;left:2px;top:7px;width:12px;height:7px;border-left:2.5px solid var(--go);border-bottom:2.5px solid var(--go);transform:rotate(-45deg)}
+.tier.pop li::before{border-color:var(--brass)}
 .tier li.plus{font-weight:700}
-.tier li.plus::before{border:none;content:"+";transform:none;top:-1px;left:3px;color:var(--brass-deep);font-weight:800;font-size:18px}
-.tier .btn{justify-content:center}
-.addons{margin-top:28px;display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-@media (max-width:900px){.addons{grid-template-columns:1fr 1fr}}
-@media (max-width:520px){.addons{grid-template-columns:1fr}}
-.addon{border:1px dashed #AEBBC0;border-radius:10px;padding:18px 18px 20px;background:transparent}
-.addon b{display:flex;justify-content:space-between;gap:10px;font-size:16px}
-.addon b span{font-variant-numeric:tabular-nums;color:var(--brass-deep);white-space:nowrap}
-.addon p{margin:6px 0 0;font-size:14.5px;color:var(--muted)}
-.founder{margin-top:28px;background:var(--ink);color:#fff;border-radius:12px;padding:26px 30px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
-.founder h3{font-size:30px;color:var(--brass)}
-.founder p{margin:6px 0 0;color:#C9D5DA;max-width:46em}
+.tier li.plus::before{border:none;content:"+";transform:none;top:-2px;left:3px;color:var(--brass-deep);font-weight:800;font-size:18px}
+.tier.pop li.plus::before{color:var(--brass)}
+.tier .btn{width:100%}
+
+.addons-head{margin:64px 0 22px;display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap}
+.addons-head h3{font-size:36px;font-weight:900}
+.addons-head p{margin:0;color:var(--muted);max-width:30em}
+.addons{display:grid;grid-template-columns:1.4fr 1fr 1fr;grid-template-rows:auto auto;gap:16px}
+@media (max-width:960px){.addons{grid-template-columns:1fr 1fr}}
+@media (max-width:600px){.addons{grid-template-columns:1fr}}
+.addon{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 22px 24px;transition:transform .35s var(--ease), box-shadow .35s}
+.addon:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(14,26,34,.1)}
+.addon .top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:6px}
+.addon b{font-size:17px}
+.addon .amt{font:800 22px/1 var(--display);color:var(--brass-deep);white-space:nowrap;font-variant-numeric:tabular-nums}
+.addon p{margin:0;font-size:15px;color:var(--muted)}
+.addon.wide{grid-column:span 2}
+@media (max-width:600px){.addon.wide{grid-column:auto}}
+.addon.feature{grid-row:span 2;background:linear-gradient(160deg,var(--ink) 0%,var(--ink-3) 100%);color:#fff;border-color:var(--ink);display:flex;flex-direction:column}
+.addon.feature p{color:#C9D5DA}
+.addon.feature .amt{color:var(--brass)}
+@media (max-width:960px){.addon.feature{grid-row:auto;grid-column:1/-1}}
+.journey{list-style:none;margin:18px 0 0;padding:0;display:flex;flex-direction:column;gap:0}
+.journey li{position:relative;padding:0 0 16px 34px;font-size:14.5px;color:#DDE6EA}
+.journey li:last-child{padding-bottom:0}
+.journey li::before{content:"";position:absolute;left:8px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--brass);box-shadow:0 0 0 4px rgba(210,154,42,.2)}
+.journey li::after{content:"";position:absolute;left:12px;top:18px;bottom:-2px;width:2px;background:rgba(210,154,42,.3)}
+.journey li:last-child::after{display:none}
+.journey b{display:block;color:#fff;font-size:14.5px}
+
+.founder{margin-top:30px;background:linear-gradient(120deg,var(--brass) 0%,var(--brass-hi) 100%);color:var(--ink);border-radius:16px;padding:28px 32px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;position:relative;overflow:hidden}
+.founder::after{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border:2px dashed rgba(14,26,34,.18);border-radius:50%;animation:spin 30s linear infinite}
+.founder h3{font-size:34px}
+.founder p{margin:6px 0 0;max-width:46em;font-weight:500}
 .terms{display:flex;gap:28px;flex-wrap:wrap;margin-top:22px;color:var(--muted);font-size:15px}
 .terms span::before{content:"✓ ";color:var(--go);font-weight:800}
 
 /* WHO */
 .who{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-@media (max-width:900px){.who{grid-template-columns:1fr 1fr}}
-.who div{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px}
-.who b{font:800 22px/1.05 var(--display);text-transform:uppercase;display:block;margin-bottom:6px}
-.who p{margin:0;font-size:14.5px;color:var(--muted)}
+@media (max-width:960px){.who{grid-template-columns:1fr 1fr}}
+.who button{all:unset;cursor:pointer;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;transition:transform .35s var(--ease), box-shadow .35s, border-color .3s;display:block}
+.who button:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(14,26,34,.1);border-color:var(--brass)}
+.who button:focus-visible{outline:3px solid var(--brass);outline-offset:3px}
+.who b{font:800 23px/1.05 var(--display);text-transform:uppercase;display:block;margin-bottom:6px}
+.who p{margin:0 0 10px;font-size:14.5px;color:var(--muted)}
+.who .see{font-size:13px;font-weight:700;color:var(--brass-deep)}
 
 /* ABOUT */
-.about{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:center}
-@media (max-width:820px){.about{grid-template-columns:1fr}}
-.badge{aspect-ratio:1;max-width:360px;width:100%;border-radius:50%;background:var(--ink);display:grid;place-items:center;color:#fff;text-align:center;position:relative;justify-self:center}
-.badge::before{content:"";position:absolute;inset:14px;border-radius:50%;border:2px dashed rgba(210,154,42,.6)}
-.badge b{font:900 56px/0.9 var(--display);text-transform:uppercase;display:block}
-.badge span{display:block;font:700 12px/1.4 var(--body);letter-spacing:.2em;text-transform:uppercase;color:var(--brass);margin-top:10px}
-.about h2{font-size:clamp(40px,5vw,60px);font-weight:900;margin-bottom:18px}
-.about p{color:#34444C;max-width:36em}
+.about{display:grid;grid-template-columns:.85fr 1.15fr;gap:64px;align-items:center}
+@media (max-width:860px){.about{grid-template-columns:1fr;gap:40px}}
+.badge{position:relative;aspect-ratio:1;max-width:380px;width:100%;justify-self:center;border-radius:50%;background:radial-gradient(circle at 30% 25%,var(--ink-3),var(--ink) 70%);display:grid;place-items:center;color:#fff;text-align:center;box-shadow:0 30px 70px rgba(14,26,34,.3)}
+.badge .ring{position:absolute;inset:14px;border-radius:50%;border:2px dashed rgba(210,154,42,.55);animation:spin 40s linear infinite}
+.badge svg.orbit{position:absolute;inset:0;width:100%;height:100%;animation:spin 26s linear infinite reverse}
+.badge svg.orbit text{font:700 11.5px var(--body);letter-spacing:.32em;fill:var(--brass);text-transform:uppercase}
+.badge b{font:900 clamp(34px,4.4vw,50px)/.92 var(--display);text-transform:uppercase;display:block}
+.badge .plane{display:block;margin:0 auto 10px;width:46px;height:46px;stroke:var(--brass);fill:none;stroke-width:1.8}
+@keyframes spin{to{transform:rotate(360deg)}}
+.about h2{font-size:clamp(40px,5vw,64px);font-weight:900;margin-bottom:20px}
+.about p{color:#34444C;max-width:36em;margin:0 0 16px}
+.creds{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.creds span{display:inline-flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:9px 14px;font-size:14px;font-weight:600}
+.creds svg{width:16px;height:16px;stroke:var(--brass-deep);fill:none;stroke-width:2}
 
 /* FAQ */
-.faq{max-width:820px}
-.faq details{border-top:1px solid var(--line);padding:20px 0}
+.faq{max-width:860px}
+.faq details{border-top:1px solid var(--line);padding:22px 0}
 .faq details:last-child{border-bottom:1px solid var(--line)}
-.faq summary{cursor:pointer;font-weight:700;font-size:18px;list-style:none;display:flex;justify-content:space-between;gap:20px}
-.faq summary::after{content:"+";font:800 26px/1 var(--display);color:var(--brass-deep)}
-.faq details[open] summary::after{content:"–"}
-.faq p{margin:12px 0 0;color:#34444C}
+.faq summary{cursor:pointer;font-weight:700;font-size:18px;list-style:none;display:flex;justify-content:space-between;gap:20px;align-items:center}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font:800 28px/1 var(--display);color:var(--brass-deep);transition:transform .35s var(--ease)}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq p{margin:12px 0 0;color:#34444C;max-width:44em}
 
 /* CONTACT */
-.contact{background:var(--ink);color:#fff}
-.contact .grid{display:grid;grid-template-columns:1fr 1fr;gap:56px}
-@media (max-width:820px){.contact .grid{grid-template-columns:1fr}}
-.contact h2{font-size:clamp(46px,6vw,76px);font-weight:900}
+.contact .grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+@media (max-width:860px){.contact .grid{grid-template-columns:1fr;gap:36px}}
+.contact h2{font-size:clamp(46px,6vw,80px);font-weight:900}
 .contact p{color:#C9D5DA}
-form{background:var(--ink-2);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:28px;display:grid;gap:16px}
+.reach{display:flex;flex-direction:column;gap:12px;margin-top:26px}
+.reach a{display:inline-flex;align-items:center;gap:12px;text-decoration:none;font-weight:700;font-size:18px;color:#fff;width:fit-content}
+.reach a span.i{width:42px;height:42px;border-radius:50%;background:rgba(210,154,42,.15);display:grid;place-items:center;transition:background .3s}
+.reach a:hover span.i{background:var(--brass)}
+.reach svg{width:18px;height:18px;stroke:var(--brass);fill:none;stroke-width:2}
+.reach a:hover svg{stroke:var(--ink)}
+form{background:var(--ink-2);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:28px;display:grid;gap:16px}
 label{font-size:14px;font-weight:600;color:#C9D5DA;display:grid;gap:6px}
-input,select,textarea{font:inherit;font-size:16px;padding:13px 14px;border-radius:6px;border:1px solid #33464F;background:#0B151B;color:#fff;width:100%}
+input,select,textarea{font:inherit;font-size:16px;padding:13px 14px;border-radius:8px;border:1px solid #33464F;background:#0B151B;color:#fff;width:100%;transition:border-color .2s, box-shadow .2s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--brass);box-shadow:0 0 0 3px rgba(210,154,42,.25)}
 textarea{min-height:90px;resize:vertical}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 @media (max-width:520px){.row2{grid-template-columns:1fr}}
 #formMsg{display:none;background:rgba(47,158,110,.15);border:1px solid var(--go);color:#D7F2E4;border-radius:8px;padding:14px 16px}
-footer{background:#081016;color:#8FA3AB;font-size:14px;padding:28px 0}
+footer{background:#081016;color:#8FA3AB;font-size:14px;padding:30px 0}
 footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  #intro{display:none}
+  .js .reveal,.js .hero .fade-up,.js .hero h1 .ln>span{opacity:1!important;transform:none!important}
+}
 </style>
 </head>
 <body>
 
-<header class="nav">
+<div id="intro" aria-hidden="true">
+  <div class="mark">
+    <svg viewBox="0 0 40 40"><path d="M5 30 L8 12 L15 20 L20 8 L25 20 L32 12 L35 30 Z"/><rect x="5" y="31" width="30" height="4" rx="1"/></svg>
+    <div class="word">King Connect</div>
+    <div class="tag">Cedar Creek Lake · Texas</div>
+  </div>
+</div>
+<div id="progress" aria-hidden="true"></div>
+
+<header class="nav" id="nav">
   <div class="wrap">
     <a class="brand" href="#top" aria-label="King Connect home">
       <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M5 30 L8 12 L15 20 L20 8 L25 20 L32 12 L35 30 Z" fill="#D29A2A"/><rect x="5" y="31" width="30" height="4" rx="1" fill="#D29A2A"/><circle cx="20" cy="22" r="3" fill="#0E1A22"/></svg>
       <span><b>King Connect</b><small>Cedar Creek Lake, Texas</small></span>
     </a>
     <ul>
+      <li><a href="#demo">See it work</a></li>
       <li><a href="#services">Services</a></li>
-      <li><a href="#how">How it works</a></li>
       <li><a href="#pricing">Pricing</a></li>
-      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#about">About</a></li>
     </ul>
-    <a class="btn btn-brass" href="#contact">Free missed-call check</a>
+    <a class="btn btn-brass" href="#contact"><span class="lg">Free missed-call check</span><span class="sm">Free check</span></a>
   </div>
 </header>
 
 <main id="top">
-<section class="hero" aria-labelledby="h1">
+<section class="hero" aria-labelledby="h1" style="padding-bottom:0">
+  <canvas id="waves" aria-hidden="true"></canvas>
   <div class="wrap">
     <div>
-      <span class="kicker">For lake-area businesses that stay busy</span>
-      <h1 id="h1">Every missed call is a job you <em>gave away.</em></h1>
-      <p class="lead">King Connect texts your callers back in seconds, asks every happy customer for a Google review, and keeps your business profile working while you're up on a roof, under a truck, or out on the water.</p>
-      <div class="ctas">
+      <span class="kicker fade-up d4">For lake-area businesses that stay busy</span>
+      <h1 id="h1"><span class="ln"><span>Every missed</span></span><span class="ln"><span>call is a job</span></span><span class="ln"><span>you <em>gave away.</em></span></span></h1>
+      <p class="lead fade-up d1">King Connect texts your callers back in seconds, asks every happy customer for a Google review, and keeps your business profile working while you're up on a roof, under a truck, or out on the water.</p>
+      <div class="ctas fade-up d2">
         <a class="btn btn-brass" href="#contact">Book a free 15-minute check</a>
         <a class="btn btn-ghost" href="#pricing">See plans from $129/mo</a>
       </div>
-      <div class="proof">
+      <div class="proof fade-up d3">
         <div><b>Seconds</b>to text back a missed call</div>
         <div><b>~2 weeks</b>from sign-up to live</div>
         <div><b>$0</b>contract. Cancel any month.</div>
       </div>
     </div>
 
-    <div class="phone" role="img" aria-label="Example: a missed call to a lawn company gets an automatic text back, the customer replies, and a job gets booked.">
-      <div class="screen">
-        <div class="top"><b>Lakeside Lawn Co.</b>Example business</div>
-        <div class="call">
-          <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z" fill="#E04B3A"/></svg>
-          <span><b>Missed call</b> · (903) ••• ••42 · 2:14 PM</span>
+    <div class="demo fade-up d2" id="demo">
+      <div class="phone" role="region" aria-label="Example text conversations for different kinds of businesses" aria-live="polite">
+        <div class="screen">
+          <div class="scr-top"><div class="av" id="av">L</div><b id="bizName">Lakeside Lawn Co.</b><small id="bizType">Example lawn &amp; tree business</small></div>
+          <div class="thread" id="thread"></div>
         </div>
-        <span class="tag auto d1">Sent automatically · 6 sec later</span>
-        <div class="msg out d2">Hey, this is Lakeside Lawn Co. Sorry we missed you, we're out on a job. What can we help with?</div>
-        <div class="msg in d3">Need my yard mowed and the brush cleared by the dock before Saturday</div>
-        <div class="msg out d4">We can do that. Want a quote? Reply with your address and we'll call you by 4 PM.</div>
-        <div class="msg in d5">123 Shoreline Dr, Gun Barrel City</div>
-        <span class="tag auto d6">✓ New lead added · Owner notified</span>
       </div>
+      <div class="chips" id="chips" role="group" aria-label="Pick a type of business"></div>
+      <p class="demo-cap">Tap a business type to see how King Connect works for it.</p>
     </div>
   </div>
+  <div class="marquee" aria-hidden="true"><div class="track" id="marq"></div></div>
 </section>
 
 <section id="services" aria-labelledby="svc-h">
   <div class="wrap">
     <div class="sec-head">
-      <div><span class="label">What runs while you work</span><h2 id="svc-h">Set it up once. It works every day.</h2></div>
-      <p>Each piece is built around how small businesses at the lake actually get work: phone calls, word of mouth and Google. You don't learn new software. You just get more calls answered and more reviews.</p>
+      <div class="reveal left"><span class="label">What runs while you work</span><h2 id="svc-h">Set it up once. It works every day.</h2></div>
+      <p class="reveal right">Each piece is built around how small businesses at the lake actually get work: phone calls, word of mouth and Google. You don't learn new software. You just get more calls answered and more reviews.</p>
     </div>
     <div class="svc">
-      <article><span class="n">01</span><h3>Missed-call text back</h3><p>When you can't pick up, the caller gets a friendly text from your business number in seconds, so they don't call the next guy on the list.</p></article>
-      <article><span class="n">02</span><h3>Review booster</h3><p>After each job, your customer gets a short text with a direct link to leave you a Google review. Unhappy customers reach you first, privately.</p></article>
-      <article><span class="n">03</span><h3>Review replies</h3><p>Every new review gets a thoughtful reply written for you, in your voice. You can approve them or let them post.</p></article>
-      <article><span class="n">04</span><h3>Google profile care</h3><p>Weekly posts, fresh photos, correct hours and holiday notices, so you show up when people around the lake search for what you do.</p></article>
-      <article><span class="n">05</span><h3>Instant lead replies</h3><p>Website forms and Facebook messages get answered right away, day or night, and land in one inbox on your phone.</p></article>
-      <article><span class="n">06</span><h3>Win-back texts</h3><p>Seasonal reminders to past customers: spring mowing, AC tune-ups, oil changes, boat winterizing. Repeat work without lifting a finger.</p></article>
+      <article class="reveal"><span class="n">01</span><div class="ico"><svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></div><h3>Missed-call text back</h3><p>When you can't pick up, the caller gets a friendly text from your business in seconds, so they don't call the next guy on the list.</p></article>
+      <article class="reveal"><span class="n">02</span><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg></div><h3>Review booster</h3><p>After each job, your customer gets a short text with a direct link to leave you a Google review. Unhappy customers reach you first, privately.</p></article>
+      <article class="reveal"><span class="n">03</span><div class="ico"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><h3>Review replies</h3><p>Every new review gets a thoughtful reply written for you, in your voice. You can approve them or let them post.</p></article>
+      <article class="reveal"><span class="n">04</span><div class="ico"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><h3>Google profile care</h3><p>Weekly posts, fresh photos, correct hours and holiday notices, so you show up when people around the lake search for what you do.</p></article>
+      <article class="reveal"><span class="n">05</span><div class="ico"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9z"/></svg></div><h3>Instant lead replies</h3><p>Website forms and Facebook messages get answered right away, day or night, and land in one inbox on your phone.</p></article>
+      <article class="reveal"><span class="n">06</span><div class="ico"><svg viewBox="0 0 24 24"><path d="M23 4v6h-6"/><path d="M20.5 15a9 9 0 1 1-2.1-9.4L23 10"/></svg></div><h3>Win-back texts</h3><p>Seasonal reminders to past customers: spring mowing, AC tune-ups, oil changes, boat winterizing. Repeat work without lifting a finger.</p></article>
     </div>
   </div>
 </section>
 
-<section class="steps" id="how" aria-labelledby="how-h">
+<section class="dark" id="how" aria-labelledby="how-h">
   <div class="wrap">
     <div class="sec-head">
-      <div><span class="label">How it works</span><h2 id="how-h">One phone call. Then you're done.</h2></div>
-      <p>We handle the setup, the tech and the upkeep. You keep doing the work you're good at.</p>
+      <div class="reveal left"><span class="label">How it works</span><h2 id="how-h">One phone call. Then you're done.</h2></div>
+      <p class="reveal right">We handle the setup, the tech and the upkeep. You keep doing the work you're good at.</p>
     </div>
-    <div class="steprow">
+    <div class="steprow reveal" id="steps">
       <div class="step"><div class="when">Day 1</div><h3>15-minute call</h3><p>We look at your Google profile together, call your number to see what a customer sees, and pick the plan that fits.</p></div>
       <div class="step"><div class="when">Weeks 1–2</div><h3>We build it</h3><p>We set up your texting, review links, profile and message templates, and register your number with the phone carriers. Your phone number stays the same.</p></div>
       <div class="step"><div class="when">Every month</div><h3>You get a report</h3><p>A short text with your numbers: calls caught, new reviews, leads answered. No logins required.</p></div>
@@ -281,12 +432,12 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 <section id="pricing" aria-labelledby="price-h">
   <div class="wrap">
     <div class="sec-head">
-      <div><span class="label">Plans</span><h2 id="price-h">Pick your crown.</h2></div>
-      <p>Simple monthly plans. No long contracts. If one extra job a month pays for it, it's worth it. For most service businesses, it's more than one.</p>
+      <div class="reveal left"><span class="label">Plans</span><h2 id="price-h">Pick your crown.</h2></div>
+      <p class="reveal right">Simple monthly plans. No long contracts. If one extra job a month pays for it, it's worth it. For most service businesses, it's more than one.</p>
     </div>
 
     <div class="tiers">
-      <div class="tier">
+      <div class="tier reveal">
         <h3>Knight</h3>
         <p class="for">Stop losing callers and start collecting reviews.</p>
         <div class="price"><b>$129</b><span>/month</span></div>
@@ -301,7 +452,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         <a class="btn btn-dark" href="#contact">Start with Knight</a>
       </div>
 
-      <div class="tier pop">
+      <div class="tier pop reveal">
         <span class="flag">Most popular</span>
         <h3>Crown</h3>
         <p class="for">Everything in Knight, plus a Google presence that keeps working.</p>
@@ -317,7 +468,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         <a class="btn btn-brass" href="#contact">Start with Crown</a>
       </div>
 
-      <div class="tier">
+      <div class="tier reveal">
         <h3>Kingdom</h3>
         <p class="for">The full marketing crew, without hiring one.</p>
         <div class="price"><b>$399</b><span>/month</span></div>
@@ -333,77 +484,109 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       </div>
     </div>
 
-    <div class="addons" aria-label="Add-ons">
-      <div class="addon"><b>Storm Alert <span>+$149/mo</span></b><p>For roofers. When hail or high wind hits a ZIP code, your past customers there get a text offering a free inspection.</p></div>
-      <div class="addon"><b>Guest Messaging <span>+$99/mo</span></b><p>For RV parks, marinas and lake rentals. Booking confirmations, check-in info and a review request after every stay.</p></div>
-      <div class="addon"><b>Extra location <span>+$79/mo</span></b><p>A second shop, office or phone line on the same plan.</p></div>
-      <div class="addon"><b>Lake Weekly sponsor <span>+$75/mo</span></b><p>Your spot in our weekly email of events, specials and fishing reports around Cedar Creek Lake.</p></div>
+    <div class="addons-head reveal">
+      <h3>Add-ons for your trade</h3>
+      <p>Bolt any of these onto a plan.</p>
+    </div>
+    <div class="addons">
+      <div class="addon feature reveal zoom">
+        <div class="top"><b style="font-size:20px">Guest Texts</b><span class="amt">+$99/mo</span></div>
+        <p>For RV parks, marinas, cabin and lake-house rentals. Your guests get the right text at the right moment, automatically, so you're not answering the same five questions all weekend.</p>
+        <ol class="journey">
+          <li><b>When they book</b>Confirmation with dates, site or slip number and check-in time.</li>
+          <li><b>Day before arrival</b>Directions, gate code, Wi-Fi and the rules.</li>
+          <li><b>After checkout</b>Thank-you text with your Google review link.</li>
+          <li><b>Off-season</b>"Come back" deal to past guests when you have empty weekends.</li>
+        </ol>
+        <p style="margin-top:16px;font-size:13.5px">Tap "RV Park" in the phone demo up top to watch it run.</p>
+      </div>
+      <div class="addon reveal"><div class="top"><b>Storm Alert</b><span class="amt">+$149/mo</span></div><p>For roofers. When hail or high wind hits a ZIP code, your past customers there get a text offering a free inspection.</p></div>
+      <div class="addon reveal"><div class="top"><b>Extra location</b><span class="amt">+$79/mo</span></div><p>A second shop, office or phone line on the same plan.</p></div>
+      <div class="addon wide reveal"><div class="top"><b>Lake Weekly sponsor</b><span class="amt">+$75/mo</span></div><p>Your spot in our weekly email of events, specials and fishing reports around Cedar Creek Lake.</p></div>
     </div>
 
-    <div class="founder">
+    <div class="founder reveal">
       <div>
         <h3>Founding Ten offer</h3>
         <p>The first ten lake-area businesses to sign up pay no setup fee and keep their monthly price locked for 12 months.</p>
       </div>
-      <a class="btn btn-brass" href="#contact">Claim a founding spot</a>
+      <a class="btn btn-dark" href="#contact">Claim a founding spot</a>
     </div>
-    <div class="terms"><span>Month to month</span><span>Keep your phone number</span><span>First month back if it isn't working for you</span><span>Texting costs included</span></div>
+    <div class="terms reveal"><span>Month to month</span><span>Keep your phone number</span><span>First month back if it isn't working for you</span><span>Texting costs included</span></div>
   </div>
 </section>
 
 <section aria-labelledby="who-h" style="padding-top:0">
   <div class="wrap">
     <div class="sec-head">
-      <div><span class="label">Built for the lake</span><h2 id="who-h">Who we work with</h2></div>
-      <p>Mabank, Gun Barrel City, Seven Points, Tool, Kemp, Eustace, Malakoff and Athens.</p>
+      <div class="reveal left"><span class="label">Built for the lake</span><h2 id="who-h">Who we work with</h2></div>
+      <p class="reveal right">Mabank, Gun Barrel City, Seven Points, Tool, Kemp, Eustace, Malakoff and Athens. Tap any card to see it in action.</p>
     </div>
     <div class="who">
-      <div><b>Roofers &amp; contractors</b><p>Catch every storm-season call and turn finished jobs into reviews.</p></div>
-      <div><b>HVAC &amp; plumbing</b><p>Answer emergencies fast and book tune-ups every season.</p></div>
-      <div><b>Lawn, tree &amp; pools</b><p>Fill the schedule in spring and keep customers coming back.</p></div>
-      <div><b>Auto &amp; boat repair</b><p>Service reminders that bring cars and boats back to your bay.</p></div>
-      <div><b>RV parks &amp; marinas</b><p>Guest texts, reviews after every stay, and off-season deals.</p></div>
-      <div><b>Salons &amp; barbers</b><p>Fewer no-shows, more rebookings, more 5-star reviews.</p></div>
-      <div><b>Real estate</b><p>Every lake-home lead gets a reply in seconds, not hours.</p></div>
-      <div><b>Bars &amp; restaurants</b><p>Event posts and specials that fill the room on slow nights.</p></div>
+      <button class="reveal" data-show="roof"><b>Roofers &amp; contractors</b><p>Catch every storm-season call and turn finished jobs into reviews.</p><span class="see">See the texts →</span></button>
+      <button class="reveal" data-show="hvac"><b>HVAC &amp; plumbing</b><p>Answer emergencies fast and book tune-ups every season.</p><span class="see">See the texts →</span></button>
+      <button class="reveal" data-show="lawn"><b>Lawn, tree &amp; pools</b><p>Fill the schedule in spring and keep customers coming back.</p><span class="see">See the texts →</span></button>
+      <button class="reveal" data-show="auto"><b>Auto &amp; boat repair</b><p>Service reminders that bring cars and boats back to your bay.</p><span class="see">See the texts →</span></button>
+      <button class="reveal" data-show="rv"><b>RV parks &amp; marinas</b><p>Guest texts, reviews after every stay, and off-season deals.</p><span class="see">See the texts →</span></button>
+      <button class="reveal" data-show="salon"><b>Salons &amp; barbers</b><p>Fewer no-shows, more rebookings, more 5-star reviews.</p><span class="see">See the texts →</span></button>
+      <button class="reveal" data-show="realty"><b>Real estate</b><p>Every lake-home lead gets a reply in seconds, not hours.</p><span class="see">See the texts →</span></button>
+      <button class="reveal" data-show="food"><b>Bars &amp; restaurants</b><p>Event posts and specials that fill the room on slow nights.</p><span class="see">See the texts →</span></button>
     </div>
   </div>
 </section>
 
-<section aria-labelledby="about-h" style="padding-top:0">
+<section id="about" aria-labelledby="about-h" style="padding-top:0">
   <div class="wrap about">
-    <div class="badge"><div><b>Local.<br>Veteran<br>run.</b><span>Mabank · Malakoff · Athens</span></div></div>
+    <div class="badge reveal zoom" aria-hidden="true">
+      <span class="ring"></span>
+      <svg class="orbit" viewBox="0 0 300 300"><defs><path id="circ" d="M150,150 m-122,0 a122,122 0 1,1 244,0 a122,122 0 1,1 -244,0"/></defs><text><textPath href="#circ">Army Veteran · Commercial Pilot · Local Operator · </textPath></text></svg>
+      <div>
+        <svg class="plane" viewBox="0 0 24 24"><path d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg>
+        <b>Veteran.<br>Pilot.<br>Local.</b>
+      </div>
+    </div>
     <div>
-      <span class="label">Who's behind it</span>
-      <h2 id="about-h">Run by someone from here</h2>
-      <p>King Connect is run by Jordan King, a U.S. Army veteran who lives in the Mabank area and graduated from Malakoff High School. I've run a roofing company and sold roofing, lawn and tree work around the lake, so I know what a missed call costs a crew that's out on a job.</p>
-      <p>You won't get a call center or a contract you can't get out of. You get one person you can text, who you'll probably see at the gas station.</p>
+      <span class="label reveal">Who's behind it</span>
+      <h2 id="about-h" class="reveal">Run by someone from here</h2>
+      <p class="reveal">I'm Jordan King. I'm a U.S. Army veteran, an FAA commercial pilot, and a Malakoff High School grad who lives in the Mabank area.</p>
+      <p class="reveal">For years I've helped my dad run our family's group of local companies: a roofing company, a car lot, a sports bar, and a lawn and tree crew. I've answered the phones, chased the leads and watched good jobs slip away because nobody could pick up in time.</p>
+      <p class="reveal">Flying taught me to trust checklists and systems that work every single time. That's how I build yours: set up right, tested, and running quietly in the background so you can stay on the job.</p>
+      <p class="reveal">No call center, no contract you can't get out of. Just one person you can text, who you'll probably see at the gas station.</p>
+      <div class="creds reveal">
+        <span><svg viewBox="0 0 24 24"><path d="M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6z"/></svg>U.S. Army veteran</span>
+        <span><svg viewBox="0 0 24 24"><path d="M2 12h20M12 2l3 10-3 10-3-10z"/></svg>FAA commercial pilot</span>
+        <span><svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6"/></svg>Family business operator</span>
+      </div>
     </div>
   </div>
 </section>
 
 <section id="faq" aria-labelledby="faq-h" style="padding-top:0">
   <div class="wrap">
-    <div class="sec-head"><div><span class="label">Questions</span><h2 id="faq-h">Straight answers</h2></div><p></p></div>
-    <div class="faq">
+    <div class="sec-head"><div class="reveal left"><span class="label">Questions</span><h2 id="faq-h">Straight answers</h2></div><p></p></div>
+    <div class="faq reveal">
       <details><summary>Do I have to change my phone number?</summary><p>No. Your customers keep calling the same number. We forward unanswered calls through our system so the text-back comes from your business.</p></details>
       <details><summary>Will I have to learn new software?</summary><p>No. Everything runs in the background. If you want to read and answer texts, there's a simple app for your phone, but you don't have to use it.</p></details>
       <details><summary>Is there a contract?</summary><p>No. Plans are month to month. If it isn't paying for itself, cancel any time. And if you're not happy in your first month, you get that month back.</p></details>
+      <details><summary>What exactly are Guest Texts?</summary><p>An add-on for businesses where people book a stay: RV parks, marinas, cabins and lake-house rentals. Guests automatically get a booking confirmation, arrival info with directions and gate codes the day before, a thank-you with a review link after checkout, and a deal to come back in the off-season.</p></details>
       <details><summary>Can you get rid of bad reviews?</summary><p>No one honest can. What we do is get your happy customers to post, so one bad review doesn't define you, and we help you reply to tough reviews professionally.</p></details>
       <details><summary>Are texting costs extra?</summary><p>Normal texting volume for a local business is included in every plan. If you send thousands of messages a month, we'll talk about it first.</p></details>
     </div>
   </div>
 </section>
 
-<section class="contact" id="contact" aria-labelledby="c-h">
+<section class="dark contact" id="contact" aria-labelledby="c-h">
   <div class="wrap grid">
-    <div>
-      <span class="label" style="color:var(--brass)">Free missed-call check</span>
+    <div class="reveal left">
+      <span class="label">Free missed-call check</span>
       <h2 id="c-h">Find out how many customers you're missing.</h2>
       <p>We'll call your business like a customer would, look over your Google profile, and send you a short, honest report. Free, no obligation, takes 15 minutes.</p>
-      <p>Or reach Jordan directly: call or text <a href="tel:+19032515127" style="color:var(--brass)">(903) 251-5127</a> · <a href="mailto:info@kingconnecttx.com" style="color:var(--brass)">info@kingconnecttx.com</a></p>
+      <div class="reach">
+        <a href="tel:+19032515127"><span class="i"><svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></span>(903) 251-5127</a>
+        <a href="mailto:info@kingconnecttx.com"><span class="i"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg></span>info@kingconnecttx.com</a>
+      </div>
     </div>
-    <form id="lead" novalidate>
+    <form id="lead" class="reveal right" novalidate>
       <div class="row2">
         <label for="f-name">Your name<input id="f-name" name="name" autocomplete="name" required></label>
         <label for="f-biz">Business name<input id="f-biz" name="business" required></label>
@@ -432,15 +615,175 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 </footer>
 
 <script>
-document.getElementById('lead').addEventListener('submit', function(e){
-  e.preventDefault();
-  var ok = ['f-name','f-biz','f-phone'].every(function(id){ var el=document.getElementById(id); var v=el.value.trim().length>0; el.style.borderColor = v ? '' : '#E04B3A'; return v; });
-  if(!ok) return;
-  var g=function(id){return document.getElementById(id).value.trim();};
-  var body='Name: '+g('f-name')+'\nBusiness: '+g('f-biz')+'\nPhone: '+g('f-phone')+'\nType: '+g('f-type')+'\n\n'+g('f-msg');
-  window.location.href='mailto:info@kingconnecttx.com?subject='+encodeURIComponent('Free missed-call check: '+g('f-biz'))+'&body='+encodeURIComponent(body);
-  document.getElementById('formMsg').style.display='block';
-});
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- intro ---------- */
+  var seen = false;
+  try { seen = sessionStorage.getItem('kc-intro') === '1'; sessionStorage.setItem('kc-intro','1'); } catch(e) {}
+  var intro = document.getElementById('intro');
+  function done(){ document.body.classList.add('loaded'); setTimeout(function(){ if(intro) intro.style.display='none'; }, 1300); }
+  if (reduce || seen) { if(intro) intro.style.display='none'; document.body.classList.add('loaded'); }
+  else { setTimeout(done, 1500); }
+
+  /* ---------- nav + progress ---------- */
+  var nav = document.getElementById('nav'), prog = document.getElementById('progress');
+  function onScroll(){
+    var y = window.scrollY || 0, h = document.documentElement.scrollHeight - innerHeight;
+    nav.classList.toggle('solid', y > 30);
+    prog.style.transform = 'scaleX(' + (h > 0 ? Math.min(1, y / h) : 0) + ')';
+  }
+  addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+  /* ---------- reveal on scroll ---------- */
+  var items = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && !reduce) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) {
+          var el = e.target, sibs = el.parentElement ? Array.prototype.filter.call(el.parentElement.children, function(c){return c.classList.contains('reveal');}) : [];
+          var i = Math.max(0, sibs.indexOf(el));
+          el.style.transitionDelay = (Math.min(i, 7) * 0.08) + 's';
+          el.classList.add('in'); io.unobserve(el);
+        }
+      });
+    }, {threshold:0.12, rootMargin:'0px 0px -6% 0px'});
+    items.forEach(function(el){ io.observe(el); });
+  } else { items.forEach(function(el){ el.classList.add('in'); }); }
+
+  /* ---------- marquee ---------- */
+  var towns = ['Mabank','Gun Barrel City','Seven Points','Tool','Kemp','Eustace','Malakoff','Athens','Payne Springs','Trinidad','Enchanted Oaks','Caney City'];
+  var m = document.getElementById('marq'), html='';
+  for (var k=0;k<2;k++) towns.forEach(function(t){ html += '<span>'+t+'</span>'; });
+  m.innerHTML = html;
+
+  /* ---------- lake waves ---------- */
+  var cv = document.getElementById('waves'), ctx = cv.getContext && cv.getContext('2d');
+  if (ctx && !reduce) {
+    var w, hh, dpr = Math.min(2, window.devicePixelRatio || 1), t = 0, running = true;
+    function size(){ w = cv.offsetWidth; hh = cv.offsetHeight; cv.width = w*dpr; cv.height = hh*dpr; ctx.setTransform(dpr,0,0,dpr,0,0); }
+    size(); addEventListener('resize', size);
+    function draw(){
+      if (!running) return;
+      ctx.clearRect(0,0,w,hh);
+      for (var i=0;i<14;i++){
+        var base = hh*0.52 + i*hh*0.04, amp = 6 + i*1.6, a = 0.03 + i*0.008;
+        ctx.beginPath();
+        for (var x=0;x<=w;x+=8){
+          var y = base + Math.sin(x*0.006 + t*0.9 + i*0.6)*amp + Math.sin(x*0.013 - t*0.6 + i)*amp*0.4;
+          x===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+        }
+        ctx.strokeStyle = i%4===0 ? 'rgba(210,154,42,'+(a+0.04)+')' : 'rgba(255,255,255,'+a+')';
+        ctx.lineWidth = 1; ctx.stroke();
+      }
+      t += 0.012; requestAnimationFrame(draw);
+    }
+    if ('IntersectionObserver' in window) new IntersectionObserver(function(e){ var v = e[0].isIntersecting; if (v && !running){ running = true; draw(); } else if (!v) running = false; }).observe(cv);
+    draw();
+  }
+
+  /* ---------- phone demo ---------- */
+  var phoneIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="#E04B3A"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>';
+  var boltIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8F650F" stroke-width="2.4"><path d="M13 2L3 14h9l-1 8 10-12h-9z"/></svg>';
+  var S = {
+    lawn:{chip:'Lawn & Tree',name:'Lakeside Lawn Co.',type:'Example lawn & tree business',av:'L',steps:[
+      ['call','Missed call','(903) ••• ••42 · 2:14 PM'],['sys','Sent automatically · 6 sec later','auto'],
+      ['out',"Hey, this is Lakeside Lawn Co. Sorry we missed you, we're out on a job. What can we help with?"],
+      ['in','Need the yard mowed and the brush cleared by the dock before Saturday'],
+      ['out',"We can do that. Reply with your address and we'll call you with a quote by 4 PM."],
+      ['in','123 Shoreline Dr, Gun Barrel City'],['done','New lead added · Owner notified']]},
+    roof:{chip:'Roofing',name:'Summit Roofing',type:'Example roofer · Storm Alert',av:'S',steps:[
+      ['trig','Storm Alert','Hail reported · ZIP 75156'],['sys','Sent to past customers in that ZIP','auto'],
+      ['out',"Hi Karen, it's Summit Roofing. Hail came through Gun Barrel City last night. Want a free roof check this week?"],
+      ['in','Yes please. I think I saw shingles in the yard'],
+      ['out',"You're set for Thursday at 10 AM. We'll text when we're on the way."],['done','Inspection booked from a storm']]},
+    hvac:{chip:'HVAC',name:'Northshore Heat & Air',type:'Example HVAC company',av:'N',steps:[
+      ['call','Missed call','(903) ••• ••19 · 9:47 PM'],['sys','Sent automatically · after hours','auto'],
+      ['out',"This is Northshore Heat & Air. Sorry we missed you! Is this an emergency, no heat or no AC?"],
+      ['in',"Yes, the heater quit and it's 35 outside"],
+      ['out',"We're paging our on-call tech now. He'll call you within 10 minutes."],['done','Emergency sent to on-call tech']]},
+    auto:{chip:'Auto Shop',name:'Pine Street Auto',type:'Example auto repair shop',av:'P',steps:[
+      ['trig','Service reminder','6 months since last oil change'],['sys','Win-back text · sent automatically','auto'],
+      ['out',"Hi Mike, Pine Street Auto here. Your Silverado is due for an oil change. Want to come in this week?"],
+      ['in','Can you do Friday morning?'],
+      ['out','Friday at 8 AM works. See you then! Reply C to cancel.'],['done','Repeat customer booked']]},
+    salon:{chip:'Salon',name:'Willow Salon',type:'Example hair salon',av:'W',steps:[
+      ['call','Missed call','(430) ••• ••07 · 11:05 AM'],['sys','Sent automatically · 4 sec later','auto'],
+      ['out',"Hi! You've reached Willow Salon. We're with a client right now. Book your next appointment here: willow.salon/book"],
+      ['in','Just booked Tuesday at 2. Thank you!'],
+      ['out',"See you Tuesday! We'll send a reminder the day before."],['done','Appointment booked online']]},
+    rv:{chip:'RV Park',name:'Cypress Cove RV Park',type:'Example RV park · Guest Texts',av:'C',steps:[
+      ['trig','New booking','Site 14 · Fri to Sun'],
+      ['out','Thanks for booking Cypress Cove! Site 14, Friday to Sunday. Check-in is after 2 PM.'],
+      ['sys','Day before arrival','auto'],
+      ['out','See you tomorrow! Gate code is 4821. Wi-Fi: CypressGuest. Text us here with any questions.'],
+      ['in','Can we bring our two dogs?'],
+      ['out','Of course! Leashed pets are welcome. There\'s a dog run by site 20.'],['done','Review request sends after checkout']]},
+    realty:{chip:'Real Estate',name:'Lakefront Realty',type:'Example real estate agent',av:'R',steps:[
+      ['trig','New web lead','2 BR waterfront · 412 Harbor Pt'],['sys','Replied in 9 seconds','auto'],
+      ['out',"Hi Jason, this is Amanda with Lakefront Realty. Thanks for asking about 412 Harbor Pt. Want to see it this weekend?"],
+      ['in','Saturday afternoon works'],
+      ['out',"Saturday at 1 PM is yours. I'll text you the address and my cell."],['done','Showing booked in under a minute']]},
+    food:{chip:'Restaurant',name:'Harbor Grill',type:'Example bar & grill',av:'H',steps:[
+      ['call','Missed call','(903) ••• ••56 · 5:32 PM'],['sys','Sent automatically · dinner rush','auto'],
+      ['out','Thanks for calling Harbor Grill! Tonight: live music at 7 and $5 baskets till close. Want a table?'],
+      ['in','Table for 6 at 7:30?'],
+      ['out',"You're set for 7:30, party of 6. See you tonight!"],['done','Reservation saved during the rush']]}
+  };
+  var order = ['lawn','roof','hvac','auto','salon','rv','realty','food'];
+  var chipsEl = document.getElementById('chips'), thread = document.getElementById('thread');
+  order.forEach(function(k){ var b=document.createElement('button'); b.type='button'; b.className='chip'; b.textContent=S[k].chip; b.dataset.k=k; b.setAttribute('aria-pressed','false'); chipsEl.appendChild(b); });
+  var timers = [], cur = 0, auto = true, resumeT;
+  function clear(){ timers.forEach(clearTimeout); timers = []; }
+  function esc(s){ return s.replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];}); }
+  function node(st){
+    var d = document.createElement('div');
+    if (st[0]==='call'||st[0]==='trig'){ d.className='ev '+st[0]; d.innerHTML='<span class="ic">'+(st[0]==='call'?phoneIcon:boltIcon)+'</span><span><b'+(st[0]==='call'?' style="color:#E04B3A"':'')+'>'+esc(st[1])+'</b>'+esc(st[2])+'</span>'; }
+    else if (st[0]==='sys'){ d.className='sys'+(st[2]?' auto':''); d.textContent=st[1]; }
+    else if (st[0]==='done'){ d.className='done'; d.textContent='✓ '+st[1]; }
+    else { d.className='msg '+st[0]; d.textContent=st[1]; }
+    return d;
+  }
+  function trim(){ while (thread.scrollHeight > thread.clientHeight + 2 && thread.children.length > 1) thread.removeChild(thread.firstChild); }
+  function play(k){
+    clear(); var s = S[k]; cur = order.indexOf(k);
+    document.getElementById('bizName').textContent = s.name;
+    document.getElementById('bizType').textContent = s.type;
+    document.getElementById('av').textContent = s.av;
+    Array.prototype.forEach.call(chipsEl.children, function(c){ c.setAttribute('aria-pressed', c.dataset.k===k ? 'true':'false'); });
+    thread.innerHTML = '';
+    if (reduce){ s.steps.forEach(function(st){ thread.appendChild(node(st)); }); trim(); return; }
+    var tt = 300;
+    s.steps.forEach(function(st){
+      if (st[0]==='out' || st[0]==='in'){
+        (function(at, kind){ timers.push(setTimeout(function(){ var ty=document.createElement('div'); ty.className='typing'+(kind==='in'?' in':''); ty.innerHTML='<i></i><i></i><i></i>'; ty.dataset.typing='1'; thread.appendChild(ty); trim(); }, at)); })(tt, st[0]);
+        tt += st[0]==='in' ? 1300 : 900;
+      }
+      (function(at, step){ timers.push(setTimeout(function(){ var ty = thread.querySelector('[data-typing]'); if (ty) ty.remove(); thread.appendChild(node(step)); trim(); }, at)); })(tt, st);
+      tt += st[0]==='sys' ? 500 : 750;
+    });
+    timers.push(setTimeout(function(){ if (auto) play(order[(cur+1)%order.length]); }, tt + 3200));
+  }
+  function pick(k){ auto = false; clearTimeout(resumeT); play(k); resumeT = setTimeout(function(){ auto = true; }, 20000); }
+  chipsEl.addEventListener('click', function(e){ var b = e.target.closest('.chip'); if (b){ pick(b.dataset.k); b.scrollIntoView({block:'nearest',inline:'center',behavior:reduce?'auto':'smooth'}); } });
+  document.querySelectorAll('[data-show]').forEach(function(b){ b.addEventListener('click', function(){ pick(b.dataset.show); document.getElementById('demo').scrollIntoView({behavior:reduce?'auto':'smooth', block:'center'}); }); });
+  setTimeout(function(){ play('lawn'); }, (reduce||seen) ? 0 : 1700);
+
+  /* ---------- steps line ---------- */
+  var steps = document.getElementById('steps');
+  if ('IntersectionObserver' in window) new IntersectionObserver(function(e,o){ if(e[0].isIntersecting){ steps.classList.add('in'); o.disconnect(); } },{threshold:.3}).observe(steps);
+
+  /* ---------- form ---------- */
+  document.getElementById('lead').addEventListener('submit', function(e){
+    e.preventDefault();
+    var ok = ['f-name','f-biz','f-phone'].every(function(id){ var el=document.getElementById(id); var v=el.value.trim().length>0; el.style.borderColor = v ? '' : '#E04B3A'; return v; });
+    if(!ok) return;
+    var g=function(id){return document.getElementById(id).value.trim();};
+    var body='Name: '+g('f-name')+'\nBusiness: '+g('f-biz')+'\nPhone: '+g('f-phone')+'\nType: '+g('f-type')+'\n\n'+g('f-msg');
+    window.location.href='mailto:info@kingconnecttx.com?subject='+encodeURIComponent('Free missed-call check: '+g('f-biz'))+'&body='+encodeURIComponent(body);
+    document.getElementById('formMsg').style.display='block';
+  });
+})();
 </script>
 </body>
 </html>
