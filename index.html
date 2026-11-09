@@ -995,7 +995,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   function pick(k){ auto = false; clearTimeout(resumeT); play(k); resumeT = setTimeout(function(){ auto = true; }, 20000); }
   chipsEl.addEventListener('click', function(e){ var b = e.target.closest('.chip'); if (b){ pick(b.dataset.k); b.scrollIntoView({block:'nearest',inline:'center',behavior:reduce?'auto':'smooth'}); } });
   document.querySelectorAll('[data-show]').forEach(function(b){ b.addEventListener('click', function(){ pick(b.dataset.show); document.getElementById('demo').scrollIntoView({behavior:reduce?'auto':'smooth', block:'center'}); }); });
-  setTimeout(function(){ play('lawn'); }, (reduce||seen) ? 0 : 1700);
+  var picked=false; chipsEl.addEventListener('click',function(){picked=true;},true); document.querySelectorAll('[data-show]').forEach(function(b){b.addEventListener('click',function(){picked=true;},true);});
+  setTimeout(function(){ if(!picked) play('lawn'); }, 400);
 
   /* ---------- steps line ---------- */
   var steps = document.getElementById('steps');
