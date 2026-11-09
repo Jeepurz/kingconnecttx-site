@@ -590,7 +590,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <div>
       <span class="kicker fade-up d4">For lake-area businesses that stay busy</span>
       <h1 id="h1"><span class="ln"><span>Every missed</span></span><span class="ln"><span>call is a job</span></span><span class="ln"><span>you <em>gave away.</em></span></span></h1>
-      <p class="lead fade-up d1">King Connect texts your callers back in seconds, asks every happy customer for a Google review, and keeps your business profile working while you're up on a roof, under a truck, or out on the water.</p>
+      <p class="lead fade-up d1">King Connect texts your callers back in seconds, asks every happy customer for a Google review, and keeps your business profile working while you're up on a ladder, under a truck, or out on the water.</p>
       <div class="ctas fade-up d2">
         <a class="btn btn-brass" href="#contact">Book a free 15-minute check</a>
         <a class="btn btn-ghost" href="#pricing">See plans from $129/mo</a>
@@ -718,7 +718,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         </ol>
         <p style="margin-top:16px;font-size:13.5px">Tap "RV Park" in the phone demo up top to watch it run.</p>
       </div>
-      <div class="addon reveal"><div class="top"><b>Storm Alert</b><span class="amt">+$149/mo</span></div><p>For roofers. When hail or high wind hits a ZIP code, your past customers there get a text offering a free inspection.</p></div>
+      <div class="addon reveal"><div class="top"><b>Freeze &amp; Heat Alert</b><span class="amt">+$149/mo</span></div><p>For plumbers, HVAC and pool companies. When a hard freeze or a heat wave is in the forecast, your past customers get a text offering a check-up before something breaks.</p></div>
       <div class="addon reveal"><div class="top"><b>Extra location</b><span class="amt">+$79/mo</span></div><p>A second shop, office or phone line on the same plan.</p></div>
       <div class="addon wide reveal"><div class="top"><b>Lake Weekly sponsor</b><span class="amt">+$75/mo</span></div><p>Your spot in our weekly email of events, specials and fishing reports around Cedar Creek Lake.</p></div>
     </div>
@@ -741,8 +741,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <p class="reveal right">Mabank, Gun Barrel City, Seven Points, Tool, Kemp, Eustace, Malakoff and Athens. Tap any card to see it in action.</p>
     </div>
     <div class="who">
-      <button class="reveal" data-show="roof"><b>Roofers &amp; contractors</b><p>Catch every storm-season call and turn finished jobs into reviews.</p><span class="see">See the texts →</span></button>
-      <button class="reveal" data-show="hvac"><b>HVAC &amp; plumbing</b><p>Answer emergencies fast and book tune-ups every season.</p><span class="see">See the texts →</span></button>
+      <button class="reveal" data-show="hvac"><b>HVAC &amp; electrical</b><p>Answer emergencies fast and book tune-ups every season.</p><span class="see">See the texts →</span></button>
+      <button class="reveal" data-show="plumb"><b>Plumbing, septic &amp; pest</b><p>Catch every after-hours call and get ahead of freeze season.</p><span class="see">See the texts →</span></button>
       <button class="reveal" data-show="lawn"><b>Lawn, tree &amp; pools</b><p>Fill the schedule in spring and keep customers coming back.</p><span class="see">See the texts →</span></button>
       <button class="reveal" data-show="auto"><b>Auto &amp; boat repair</b><p>Service reminders that bring cars and boats back to your bay.</p><span class="see">See the texts →</span></button>
       <button class="reveal" data-show="rv"><b>RV parks &amp; marinas</b><p>Guest texts, reviews after every stay, and off-season deals.</p><span class="see">See the texts →</span></button>
@@ -814,7 +814,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         <label for="f-phone">Best phone<input id="f-phone" name="phone" type="tel" autocomplete="tel" required></label>
         <label for="f-type">Type of business
           <select id="f-type" name="type">
-            <option>Roofing / contractor</option><option>HVAC / plumbing / electrical</option><option>Lawn / tree / pool</option><option>Auto / boat repair</option><option>RV park / marina / rental</option><option>Salon / barber</option><option>Real estate</option><option>Bar / restaurant</option><option>Other</option>
+            <option>HVAC / electrical</option><option>Plumbing / septic / pest control</option><option>Lawn / tree / pool</option><option>Auto / boat repair</option><option>RV park / marina / rental</option><option>Salon / barber</option><option>Real estate</option><option>Bar / restaurant</option><option>Other</option>
           </select>
         </label>
       </div>
@@ -920,11 +920,11 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       ['in','Need the yard mowed and the brush cleared by the dock before Saturday'],
       ['out',"We can do that. Reply with your address and we'll call you with a quote by 4 PM."],
       ['in','123 Shoreline Dr, Gun Barrel City'],['done','New lead added · Owner notified']]},
-    roof:{chip:'Roofing',name:'Summit Roofing',type:'Example roofer · Storm Alert',av:'S',steps:[
-      ['trig','Storm Alert','Hail reported · ZIP 75156'],['sys','Sent to past customers in that ZIP','auto'],
-      ['out',"Hi Karen, it's Summit Roofing. Hail came through Gun Barrel City last night. Want a free roof check this week?"],
-      ['in','Yes please. I think I saw shingles in the yard'],
-      ['out',"You're set for Thursday at 10 AM. We'll text when we're on the way."],['done','Inspection booked from a storm']]},
+    plumb:{chip:'Plumbing',name:'Bayside Plumbing',type:'Example plumber · Freeze Alert',av:'B',steps:[
+      ['trig','Freeze Alert','Hard freeze forecast · Thursday night'],['sys','Sent to past customers','auto'],
+      ['out',"Hi Karen, it's Bayside Plumbing. A hard freeze is coming Thursday night. Want us to check and wrap your outside pipes before then?"],
+      ['in','Yes please. The one by the lake house always bursts'],
+      ['out',"You're set for Wednesday at 10 AM. We'll text when we're on the way."],['done','Job booked before the freeze']]},
     hvac:{chip:'HVAC',name:'Northshore Heat & Air',type:'Example HVAC company',av:'N',steps:[
       ['call','Missed call','(903) ••• ••19 · 9:47 PM'],['sys','Sent automatically · after hours','auto'],
       ['out',"This is Northshore Heat & Air. Sorry we missed you! Is this an emergency, no heat or no AC?"],
@@ -958,7 +958,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       ['in','Table for 6 at 7:30?'],
       ['out',"You're set for 7:30, party of 6. See you tonight!"],['done','Reservation saved during the rush']]}
   };
-  var order = ['lawn','roof','hvac','auto','salon','rv','realty','food'];
+  var order = ['lawn','hvac','plumb','auto','salon','rv','realty','food'];
   var chipsEl = document.getElementById('chips'), thread = document.getElementById('thread');
   order.forEach(function(k){ var b=document.createElement('button'); b.type='button'; b.className='chip'; b.textContent=S[k].chip; b.dataset.k=k; b.setAttribute('aria-pressed','false'); chipsEl.appendChild(b); });
   var timers = [], cur = 0, auto = true, resumeT;
