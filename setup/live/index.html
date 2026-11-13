@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>King Connect go-live checks</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="King Connect go-live checks: make sure your missed-call texts, review link and booking all work.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" href="/fonts/big-shoulders-display-latin-900-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/public-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:"Big Shoulders Display";font-weight:800;font-display:swap;src:url(/fonts/big-shoulders-display-latin-800-normal.woff2) format("woff2")}
+@font-face{font-family:"Big Shoulders Display";font-weight:900;font-display:swap;src:url(/fonts/big-shoulders-display-latin-900-normal.woff2) format("woff2")}
+@font-face{font-family:"Public Sans";font-weight:400;font-display:swap;src:url(/fonts/public-sans-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Public Sans";font-weight:600;font-display:swap;src:url(/fonts/public-sans-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:"Public Sans";font-weight:700;font-display:swap;src:url(/fonts/public-sans-latin-700-normal.woff2) format("woff2")}
+:root{--ink:#0E1A22;--ink-2:#15252E;--brass:#D29A2A;--brass-hi:#F0C25E;--brass-deep:#8F650F;--paper:#EEF2F3;--card:#fff;--line:#D5DDE0;--muted:#52626A;--go:#2F9E6E;--signal:#E04B3A;--blue:#1F7AE0;
+--display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;--body:"Public Sans","Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:var(--body);color:var(--ink);background:var(--paper);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased}
+header{background:var(--ink);color:#fff}
+header .wrap{display:flex;align-items:center;gap:12px;padding:14px 18px;max-width:760px;margin:0 auto}
+header svg{width:34px;height:34px;flex:none}
+header b{font-family:var(--display);font-weight:900;font-size:24px;letter-spacing:.5px;text-transform:uppercase;display:block;line-height:1}
+header small{color:#9FB0B8;font-size:13px}
+.bar{height:6px;background:var(--ink-2)}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brass),var(--brass-hi));transition:width .35s ease}
+main{max-width:760px;margin:0 auto;padding:22px 18px 120px}
+.stepno{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--brass-deep);margin:0 0 4px}
+h1{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:40px;line-height:1;margin:0 0 8px;letter-spacing:.3px}
+.lead{color:var(--muted);margin:0 0 22px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;margin:0 0 14px}
+label.f{display:block;font-weight:600;margin:0 0 14px}
+label.f>span.h{display:block;font-weight:400;color:var(--muted);font-size:14px;margin-top:2px}
+input[type=text],input[type=email],input[type=tel],input[type=url],input[type=number],select,textarea{display:block;width:100%;margin-top:6px;padding:12px 13px;font:inherit;font-weight:400;border:1px solid #B9C5CA;border-radius:9px;background:#fff;color:var(--ink)}
+textarea{min-height:92px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:3px solid rgba(210,154,42,.35);border-color:var(--brass)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:560px){.row{grid-template-columns:1fr}h1{font-size:34px}}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.tile{border:2px solid var(--line);background:#fff;border-radius:10px;padding:14px 12px;font:inherit;font-weight:600;text-align:left;cursor:pointer;color:var(--ink)}
+.tile:hover{border-color:var(--brass)}
+.tile[aria-pressed=true]{border-color:var(--brass);background:#FFF7E6;box-shadow:0 0 0 2px var(--brass) inset}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.chip{border:1.5px solid #B9C5CA;background:#fff;border-radius:999px;padding:8px 14px;font:inherit;font-size:15px;cursor:pointer;color:var(--ink)}
+.chip[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:#fff}
+.opt{display:flex;gap:12px;align-items:flex-start;border:2px solid var(--line);border-radius:10px;padding:13px;margin:0 0 9px;cursor:pointer;background:#fff;font-weight:400}
+.opt:has(input:checked){border-color:var(--brass);background:#FFF7E6}
+.opt input{margin-top:4px;accent-color:var(--brass-deep);width:18px;height:18px;flex:none}
+.opt b{display:block}
+.opt small{color:var(--muted);font-size:14px}
+.hours{width:100%;border-collapse:collapse}
+.hours td{padding:6px 4px;vertical-align:middle}
+.hours td:first-child{font-weight:600;width:56px}
+.hours select{margin:0;padding:9px 8px}
+.hours .closed{white-space:nowrap;font-size:15px}
+.note{background:#E8F1FB;border:1px solid #BCD6F2;border-radius:10px;padding:12px 14px;font-size:15px;margin:0 0 14px}
+.note.warn{background:#FFF4E5;border-color:#F2D3A4}
+.phone{max-width:360px;margin:6px auto 16px;background:var(--ink);border-radius:26px;padding:16px 12px 18px}
+.phone .who{color:#9FB0B8;font-size:13px;text-align:center;margin-bottom:10px}
+.bubble{background:#E9E9EB;color:#111;border-radius:18px 18px 18px 5px;padding:10px 13px;font-size:15px;line-height:1.4;max-width:88%}
+.bubble+.bubble{margin-top:8px}
+.sum{width:100%;border-collapse:collapse;font-size:15px}
+.sum td{border-top:1px solid var(--line);padding:8px 6px;vertical-align:top}
+.sum td:first-child{color:var(--muted);width:38%}
+.sum a{color:var(--blue);font-size:14px}
+.err{color:var(--signal);font-weight:600;font-size:15px;margin:0 0 12px;display:none}
+.err.on{display:block}
+.nav{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.96);border-top:1px solid var(--line);backdrop-filter:blur(6px)}
+.nav .wrap{max-width:760px;margin:0 auto;padding:12px 18px;display:flex;gap:10px;align-items:center}
+.btn{font:inherit;font-weight:700;border-radius:10px;padding:13px 20px;border:0;cursor:pointer}
+.btn.go{background:var(--brass);color:var(--ink);margin-left:auto}
+.btn.go:hover{background:var(--brass-hi)}
+.btn.back{background:transparent;color:var(--muted);border:1px solid var(--line)}
+.saved{font-size:13px;color:var(--muted)}
+iframe.kc{width:100%;border:0;min-height:1600px;border-radius:12px;background:#fff}
+.hide{display:none!important}
+code.d{font-family:ui-monospace,Menlo,Consolas,monospace;background:#F3F5F6;border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-size:15px}
+.check{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px;margin:0 0 14px}
+.check h2{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:24px;line-height:1.05;margin:0 0 8px;letter-spacing:.3px;display:flex;gap:10px;align-items:center}
+.check h2 .num{flex:none;width:30px;height:30px;border-radius:50%;background:var(--ink);color:#fff;font-size:17px;display:grid;place-items:center;font-family:var(--body);font-weight:700}
+.check.ok h2 .num{background:var(--go)}
+.check.bad h2 .num{background:var(--signal)}
+.check p{margin:0 0 10px}
+.btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.btn.ok{background:#E3F4EC;color:#16603F;border:1.5px solid #9ED3B9}
+.btn.ok[aria-pressed=true]{background:var(--go);color:#fff;border-color:var(--go)}
+.btn.no{background:#FCEBE9;color:#8C2A1F;border:1.5px solid #F0B6AE}
+.btn.no[aria-pressed=true]{background:var(--signal);color:#fff;border-color:var(--signal)}
+.btn.link{background:var(--ink);color:#fff;text-decoration:none;display:inline-block}
+.btn.go2{background:var(--brass);color:var(--ink);text-decoration:none;display:inline-block}
+.fix{display:none;background:#FFF4E5;border:1px solid #F2D3A4;border-radius:10px;padding:12px 14px;font-size:15px;margin-top:12px}
+.check.bad .fix{display:block}
+.fix ul{margin:6px 0 0;padding-left:20px}
+.done{background:var(--ink);color:#fff;border-radius:12px;padding:20px 18px;margin:0 0 14px}
+.done h2{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:30px;margin:0 0 6px;color:var(--brass-hi)}
+.done p{margin:0 0 12px;color:#D5DFE3}
+.done label.f{color:#fff}
+.done label.f>span.h{color:#9FB0B8}
+.prog{font-size:14px;color:var(--muted);margin:0 0 14px}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M5 30 L8 12 L15 20 L20 8 L25 20 L32 12 L35 30 Z" fill="#D29A2A"/><rect x="5" y="31" width="30" height="4" rx="1" fill="#D29A2A"/><circle cx="20" cy="22" r="3" fill="#0E1A22"/></svg>
+  <div><b>King Connect</b><small>Go-live checks · about 5 minutes</small></div>
+</div></header>
+<div class="bar"><i id="bar"></i></div>
+<main id="main"></main>
+
+<script>
+/* King Connect go-live checks v1.
+   Jordan texts each client a personal link once their number is approved and the automations are on:
+   kingconnecttx.com/setup/live/?b=Business&n=First&ph=9035550100&t=HVAC&r=<review link>&k=<booking link>
+   The client runs each check, then texts or emails the results back. Open with ?make to build a link. */
+const JORDAN_SMS = "+19032515127", JORDAN_EMAIL = "info@kingconnecttx.com";
+const NO_BOOKING = ["Restaurant/bar","Retail store"];
+const TYPES = ["HVAC","Electrical","Plumbing","Septic","Pest control","Lawn/landscape","Tree service","Pool service","Pressure washing","Fencing","Auto repair","Boat repair","Marina","RV park","Salon/barber","Real estate","Restaurant/bar","Retail store","Contractor","Other"];
+const GROUP = t => ({HVAC:"hvac",Electrical:"hvac",Plumbing:"plumb",Septic:"plumb","Pest control":"pest","Lawn/landscape":"lawn","Tree service":"tree","Pool service":"pool","Auto repair":"auto","Boat repair":"auto",Marina:"stay","RV park":"stay","Salon/barber":"salon","Real estate":"re","Restaurant/bar":"food","Retail store":"retail"})[t] || "general";
+const LINE = {
+  hvac:"Is this about heating, AC or electrical? If it's an emergency, reply URGENT and we'll call you right back.",
+  plumb:"Is this about plumbing or your septic? If water's leaking, reply URGENT and we'll call you right back.",
+  pest:"Is this about bugs, termites or another pest? Send your address and we'll get you on the schedule.",
+  lawn:"What can we help with: mowing, landscaping or cleanup? Send your address and we'll get you a quote.",
+  tree:"Need a tree trimmed or removed? Send your address and we'll get you a quote.",
+  pool:"Is this about pool cleaning or a repair? Send your address and we'll get you a quote.",
+  auto:"Is this for a car or a boat, and what's going on with it? Reply here and we'll get you on the schedule.",
+  stay:"Looking to book a site or slip? Send your dates and we'll check what's open.",
+  salon:"Want to book? Reply with the day and service you'd like.",
+  re:"Are you looking to buy, sell or rent at the lake? Reply here and I'll call you back shortly.",
+  food:"Calling about hours, a table or an event? Reply here and we'll answer right away.",
+  retail:"Have a question about an item or our hours? Reply here and we'll get right back to you.",
+  general:"What can we help with? Reply here and we'll get you a quote."
+};
+const esc = s => String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmtPhone = v => { let d=String(v||"").replace(/\D/g,""); if(d.length===11&&d[0]==="1") d=d.slice(1); return d.length===10?`(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}`:String(v||"").trim(); };
+const safeUrl = u => /^https:\/\//i.test(String(u||"").trim()) ? String(u).trim() : "";
+const q = new URLSearchParams(location.search);
+const C = { b:(q.get("b")||"").trim(), ph:fmtPhone(q.get("ph")), t:(q.get("t")||"").trim(), r:safeUrl(q.get("r")), k:safeUrl(q.get("k")), n:(q.get("n")||"").trim(), m:(q.get("m")||"").trim() };
+const biz = () => C.b || "your business";
+const STORE = "kc_live_v1:" + C.b + "|" + C.ph;
+let R = {};
+try{ R = JSON.parse(localStorage.getItem(STORE)||"{}") || {}; }catch(e){ R = {}; }
+const save = () => { try{ localStorage.setItem(STORE, JSON.stringify(R)); }catch(e){} };
+const usesBooking = () => !!C.k && !NO_BOOKING.includes(C.t);
+
+function missedText(){
+  const line = C.m || LINE[GROUP(C.t)];
+  return `Hi, this is ${biz()}. Sorry we missed your call! ${line}` + (usesBooking() ? " You can also book here: [your booking link]" : "") + " Reply STOP to opt out.";
+}
+
+function checks(){
+  const L = [
+    {id:"call", t:"Missed-call text",
+     body:`<p>From a phone that isn't yours or on your account, call <b>${esc(C.ph||"your business number")}</b>. Don't answer. Let it ring out or go to voicemail.</p>
+       <p>Within about a minute, the phone that called should get this text:</p>
+       <div class="phone"><div class="who">${esc(biz())}</div><div class="bubble">${esc(missedText())}</div></div>`,
+     fix:`<b>No text came?</b><ul><li>Wait 2 minutes. The first one can be slow.</li><li>Make sure nobody answered. If you or another phone in the shop picked up, no text is sent.</li><li>If your setup uses call forwarding, check that it's still turned on, then try again.</li><li>Still nothing? Mark it "Didn't work" and send your results. Jordan will fix it, usually the same day.</li></ul>`},
+    {id:"reply", t:"Replies come to you",
+     body:`<p>On the phone that got the text, reply <b>test</b>.</p><p>That reply should show up in your <b>LeadConnector</b> app within a minute, under Conversations. You can answer customers right from there.</p>`,
+     fix:`<b>Don't see it?</b><ul><li>Open the LeadConnector app and pull down on Conversations to refresh.</li><li>Make sure you're logged in with the email Jordan set you up with.</li><li>Turn on notifications for the app so you hear about new texts.</li></ul>`},
+    {id:"review", t:"Your review link",
+     body: C.r ? `<p>Tap the button. It should open your Google listing with the stars and a box to write a review. You don't have to post one.</p><p><a class="btn link" href="${esc(C.r)}" target="_blank" rel="noopener">Open my review link</a></p>`
+               : `<p>Jordan will text you your review link. When it comes, tap it: it should open your Google listing with the stars and a box to write a review.</p>`,
+     fix:`<b>Wrong page or an error?</b><ul><li>If you have more than one Google profile, it may be opening the wrong one. Add that in your note.</li><li>If Google asks you to sign in, that's normal. Customers who are signed in go straight to the stars.</li></ul>`}
+  ];
+  if(usesBooking()) L.push({id:"book", t:"Online booking",
+     body:`<p>Tap the button and book a test appointment at any open time, using your own name. Then check that it shows up on your calendar.</p><p>When you send your results, add "cancel the test" and Jordan will clear it.</p><p><a class="btn link" href="${esc(C.k)}" target="_blank" rel="noopener">Open my booking page</a></p>`,
+     fix:`<b>Didn't show up?</b><ul><li>Give it a minute and refresh your calendar.</li><li>If no times showed as open, your hours may be set wrong. Add that in your note.</li></ul>`});
+  return L;
+}
+
+function resultsText(){
+  const mark = v => v==="ok" ? "worked" : v==="no" ? "DIDN'T WORK" : "not tried";
+  return `King Connect go-live checks for ${biz()}${C.ph?" "+C.ph:""}:\n` + checks().map((c,i)=>`${i+1}. ${c.t}: ${mark(R[c.id])}`).join("\n") + (R.note ? `\nNote: ${R.note}` : "");
+}
+const smsHref = () => `sms:${JORDAN_SMS}?&body=${encodeURIComponent(resultsText())}`;
+const mailHref = () => `mailto:${JORDAN_EMAIL}?subject=${encodeURIComponent("Go-live checks: "+biz())}&body=${encodeURIComponent(resultsText())}`;
+
+function render(){
+  const main = document.getElementById("main"), bar = document.getElementById("bar");
+  if(q.has("make")) return renderMake(main, bar);
+  if(!C.b && !C.ph){
+    bar.style.width = "0%";
+    main.innerHTML = `<p class="stepno">King Connect</p><h1>Go-live checks</h1><p class="lead">This page needs your personal link. Jordan texts it to you once your number is approved and everything is switched on. Don't have it? Text Jordan at (903) 251-5127.</p>`;
+    return;
+  }
+  const L = checks(), answered = L.filter(c=>R[c.id]).length, allOk = L.every(c=>R[c.id]==="ok"), anyNo = L.some(c=>R[c.id]==="no");
+  bar.style.width = Math.round(100*answered/L.length) + "%";
+  const finish = answered < L.length ? "" : `
+    <div class="done" id="done"><h2>${allOk ? "You're live!" : "Almost there"}</h2>
+      <p>${allOk ? "Everything works. From now on, missed callers get a text right away and every finished job gets a review request. You'll get a short results text each month." : "Thanks for checking. Send your results and Jordan will fix what didn't work, usually the same day."}</p>
+      <label class="f">Anything to add? <span class="h">Optional</span><textarea id="note" placeholder="Like: cancel the test booking">${esc(R.note||"")}</textarea></label>
+      <div class="btns"><a class="btn go2" id="sendSms" href="${esc(smsHref())}">Text my results to Jordan</a><a class="btn link" id="sendMail" href="${esc(mailHref())}" style="background:#24384A">Email them instead</a></div>
+    </div>`;
+  main.innerHTML = `<p class="stepno">${C.n ? esc(C.n)+", you're" : "You're"} switched on</p>
+    <h1>Let's make sure it works</h1>
+    <p class="lead">${esc(biz())} is set up. Run these ${L.length} quick checks from your phone, tap Worked or Didn't work on each one, then send the results to Jordan.</p>
+    <p class="prog">${answered} of ${L.length} checked${anyNo ? " · one or more need a look" : ""}</p>
+    ${L.map((c,i)=>`<section class="check ${R[c.id]==="ok"?"ok":R[c.id]==="no"?"bad":""}" id="c-${c.id}">
+      <h2><span class="num">${R[c.id]==="ok" ? "&#10003;" : i+1}</span>${esc(c.t)}</h2>${c.body}
+      <div class="btns"><button type="button" class="btn ok" data-c="${c.id}" data-v="ok" aria-pressed="${R[c.id]==="ok"}">Worked</button><button type="button" class="btn no" data-c="${c.id}" data-v="no" aria-pressed="${R[c.id]==="no"}">Didn't work</button></div>
+      <div class="fix">${c.fix}</div></section>`).join("")}
+    ${finish}`;
+}
+
+function renderMake(main, bar){
+  bar.style.width = "100%";
+  main.innerHTML = `<p class="stepno">For Jordan</p><h1>Make a go-live link</h1><p class="lead">Fill this in from the client's setup, then text them the link once their number is approved and their automations are published.</p>
+  <div class="card">
+    <label class="f">Business name<input type="text" id="mb" value="${esc(C.b)}"></label>
+    <label class="f">Owner's first name<input type="text" id="mn" value="${esc(C.n)}"></label>
+    <label class="f">Business phone <span class="h">The number customers call</span><input type="tel" id="mph" value="${esc(C.ph)}"></label>
+    <label class="f">Business type<select id="mt"><option value="">Choose one</option>${TYPES.map(o=>`<option ${C.t===o?"selected":""}>${esc(o)}</option>`).join("")}</select></label>
+    <label class="f">Custom middle line <span class="h">Only if they changed it in the setup wizard (missed_call_line)</span><input type="text" id="mm" value="${esc(C.m)}"></label>
+    <label class="f">Google review link <span class="h">Starts with https://</span><input type="url" id="mr" value="${esc(C.r)}"></label>
+    <label class="f">Booking link <span class="h">Leave blank if they don't take bookings</span><input type="url" id="mk" value="${esc(C.k)}"></label>
+  </div>
+  <div class="card"><b>Link</b><p><code class="d" id="out" style="word-break:break-all;display:block;padding:8px"></code></p>
+    <b>Text to send</b><p id="msg" style="white-space:pre-wrap;font-size:15px"></p>
+    <div class="btns"><button type="button" class="btn go2" id="copy">Copy text</button><a class="btn link" id="preview" target="_blank" rel="noopener">Preview</a></div></div>`;
+  const upd = () => {
+    const v = id => document.getElementById(id).value.trim(), p = new URLSearchParams();
+    [["b","mb"],["n","mn"],["ph","mph"],["t","mt"],["m","mm"],["r","mr"],["k","mk"]].forEach(([k,id]) => { if(v(id)) p.set(k, k==="ph" ? v(id).replace(/\D/g,"") : v(id)); });
+    const url = location.origin + location.pathname + "?" + p.toString();
+    document.getElementById("out").textContent = url;
+    document.getElementById("preview").href = url;
+    document.getElementById("msg").textContent = `Hi ${v("mn")||"there"}, good news: ${v("mb")||"your business"} is live on King Connect! Take 5 minutes to run these quick checks from your phone, then send me the results: ${url}\n\nJordan, King Connect`;
+  };
+  main.addEventListener("input", upd); main.addEventListener("change", upd); upd();
+  document.getElementById("copy").addEventListener("click", async e => { try{ await navigator.clipboard.writeText(document.getElementById("msg").textContent); e.target.textContent = "Copied"; }catch(_){ e.target.textContent = "Select and copy the text above"; } });
+}
+
+document.addEventListener("click", e => {
+  const t = e.target.closest("[data-c]"); if(!t) return;
+  const id = t.dataset.c, v = t.dataset.v;
+  if(R[id] === v) delete R[id]; else R[id] = v;
+  save(); const y = window.scrollY; render(); window.scrollTo(0, y);
+  if(R[id] === "ok"){ const nx = document.querySelector(".check:not(.ok):not(.bad)") || document.getElementById("done"); if(nx) nx.scrollIntoView({behavior:"smooth", block:"center"}); }
+});
+document.addEventListener("input", e => {
+  if(e.target.id !== "note") return;
+  R.note = e.target.value; save();
+  const sms = document.getElementById("sendSms"), mail = document.getElementById("sendMail");
+  if(sms) sms.href = smsHref();
+  if(mail) mail.href = mailHref();
+});
+render();
+</script>
+</body>
+</html>
