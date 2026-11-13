@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Set up King Connect</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="King Connect setup: about 10 minutes, then your service turns on.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" href="/fonts/big-shoulders-display-latin-900-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/public-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:"Big Shoulders Display";font-weight:800;font-display:swap;src:url(/fonts/big-shoulders-display-latin-800-normal.woff2) format("woff2")}
+@font-face{font-family:"Big Shoulders Display";font-weight:900;font-display:swap;src:url(/fonts/big-shoulders-display-latin-900-normal.woff2) format("woff2")}
+@font-face{font-family:"Public Sans";font-weight:400;font-display:swap;src:url(/fonts/public-sans-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Public Sans";font-weight:600;font-display:swap;src:url(/fonts/public-sans-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:"Public Sans";font-weight:700;font-display:swap;src:url(/fonts/public-sans-latin-700-normal.woff2) format("woff2")}
+:root{--ink:#0E1A22;--ink-2:#15252E;--brass:#D29A2A;--brass-hi:#F0C25E;--brass-deep:#8F650F;--paper:#EEF2F3;--card:#fff;--line:#D5DDE0;--muted:#52626A;--go:#2F9E6E;--signal:#E04B3A;--blue:#1F7AE0;
+--display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;--body:"Public Sans","Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:var(--body);color:var(--ink);background:var(--paper);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased}
+header{background:var(--ink);color:#fff}
+header .wrap{display:flex;align-items:center;gap:12px;padding:14px 18px;max-width:760px;margin:0 auto}
+header svg{width:34px;height:34px;flex:none}
+header b{font-family:var(--display);font-weight:900;font-size:24px;letter-spacing:.5px;text-transform:uppercase;display:block;line-height:1}
+header small{color:#9FB0B8;font-size:13px}
+.bar{height:6px;background:var(--ink-2)}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brass),var(--brass-hi));transition:width .35s ease}
+main{max-width:760px;margin:0 auto;padding:22px 18px 120px}
+.stepno{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--brass-deep);margin:0 0 4px}
+h1{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:40px;line-height:1;margin:0 0 8px;letter-spacing:.3px}
+.lead{color:var(--muted);margin:0 0 22px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;margin:0 0 14px}
+label.f{display:block;font-weight:600;margin:0 0 14px}
+label.f>span.h{display:block;font-weight:400;color:var(--muted);font-size:14px;margin-top:2px}
+input[type=text],input[type=email],input[type=tel],input[type=url],input[type=number],select,textarea{display:block;width:100%;margin-top:6px;padding:12px 13px;font:inherit;font-weight:400;border:1px solid #B9C5CA;border-radius:9px;background:#fff;color:var(--ink)}
+textarea{min-height:92px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:3px solid rgba(210,154,42,.35);border-color:var(--brass)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:560px){.row{grid-template-columns:1fr}h1{font-size:34px}}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.tile{border:2px solid var(--line);background:#fff;border-radius:10px;padding:14px 12px;font:inherit;font-weight:600;text-align:left;cursor:pointer;color:var(--ink)}
+.tile:hover{border-color:var(--brass)}
+.tile[aria-pressed=true]{border-color:var(--brass);background:#FFF7E6;box-shadow:0 0 0 2px var(--brass) inset}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.chip{border:1.5px solid #B9C5CA;background:#fff;border-radius:999px;padding:8px 14px;font:inherit;font-size:15px;cursor:pointer;color:var(--ink)}
+.chip[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:#fff}
+.opt{display:flex;gap:12px;align-items:flex-start;border:2px solid var(--line);border-radius:10px;padding:13px;margin:0 0 9px;cursor:pointer;background:#fff;font-weight:400}
+.opt:has(input:checked){border-color:var(--brass);background:#FFF7E6}
+.opt input{margin-top:4px;accent-color:var(--brass-deep);width:18px;height:18px;flex:none}
+.opt b{display:block}
+.opt small{color:var(--muted);font-size:14px}
+.hours{width:100%;border-collapse:collapse}
+.hours td{padding:6px 4px;vertical-align:middle}
+.hours td:first-child{font-weight:600;width:56px}
+.hours select{margin:0;padding:9px 8px}
+.hours .closed{white-space:nowrap;font-size:15px}
+.note{background:#E8F1FB;border:1px solid #BCD6F2;border-radius:10px;padding:12px 14px;font-size:15px;margin:0 0 14px}
+.note.warn{background:#FFF4E5;border-color:#F2D3A4}
+.phone{max-width:360px;margin:6px auto 16px;background:var(--ink);border-radius:26px;padding:16px 12px 18px}
+.phone .who{color:#9FB0B8;font-size:13px;text-align:center;margin-bottom:10px}
+.bubble{background:#E9E9EB;color:#111;border-radius:18px 18px 18px 5px;padding:10px 13px;font-size:15px;line-height:1.4;max-width:88%}
+.bubble+.bubble{margin-top:8px}
+.sum{width:100%;border-collapse:collapse;font-size:15px}
+.sum td{border-top:1px solid var(--line);padding:8px 6px;vertical-align:top}
+.sum td:first-child{color:var(--muted);width:38%}
+.sum a{color:var(--blue);font-size:14px}
+.err{color:var(--signal);font-weight:600;font-size:15px;margin:0 0 12px;display:none}
+.err.on{display:block}
+.nav{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.96);border-top:1px solid var(--line);backdrop-filter:blur(6px)}
+.nav .wrap{max-width:760px;margin:0 auto;padding:12px 18px;display:flex;gap:10px;align-items:center}
+.btn{font:inherit;font-weight:700;border-radius:10px;padding:13px 20px;border:0;cursor:pointer}
+.btn.go{background:var(--brass);color:var(--ink);margin-left:auto}
+.btn.go:hover{background:var(--brass-hi)}
+.btn.back{background:transparent;color:var(--muted);border:1px solid var(--line)}
+.saved{font-size:13px;color:var(--muted)}
+iframe.kc{width:100%;border:0;min-height:1600px;border-radius:12px;background:#fff}
+.hide{display:none!important}
+code.d{font-family:ui-monospace,Menlo,Consolas,monospace;background:#F3F5F6;border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-size:15px}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M5 30 L8 12 L15 20 L20 8 L25 20 L32 12 L35 30 Z" fill="#D29A2A"/><rect x="5" y="31" width="30" height="4" rx="1" fill="#D29A2A"/><circle cx="20" cy="22" r="3" fill="#0E1A22"/></svg>
+  <div><b>King Connect</b><small>Setup · about 10 minutes</small></div>
+</div></header>
+<div class="bar"><i id="bar"></i></div>
+<main id="main"></main>
+<div class="nav"><div class="wrap">
+  <button class="btn back" id="back" type="button">Back</button>
+  <span class="saved" id="saved"></span>
+  <button class="btn go" id="next" type="button">Next</button>
+</div></div>
+
+<script>
+/* King Connect setup wizard v1.
+   Collects setup answers, then hands them to the GoHighLevel "Client Onboarding" form
+   pre-filled through its query keys. The client taps Submit there (that passes the
+   form's bot check), which fires the existing onboarding workflow. */
+const FORM = "https://api.leadconnectorhq.com/widget/form/F5Khr7FWSQmgT8VQz7de";
+const STORE = "kc_setup_v1";
+
+const TYPES = ["HVAC","Electrical","Plumbing","Septic","Pest control","Lawn/landscape","Tree service","Pool service","Pressure washing","Fencing","Auto repair","Boat repair","Marina","RV park","Salon/barber","Real estate","Restaurant/bar","Retail store","Contractor","Other"];
+const NO_BOOKING = ["Restaurant/bar","Retail store"];
+const EMERGENCY = ["HVAC","Electrical","Plumbing","Septic"];
+const GROUP = t => ({HVAC:"hvac",Electrical:"hvac",Plumbing:"plumb",Septic:"plumb","Pest control":"plumb","Lawn/landscape":"lawn","Tree service":"lawn","Pool service":"lawn","Auto repair":"auto","Boat repair":"auto",Marina:"stay","RV park":"stay","Salon/barber":"salon","Real estate":"re","Restaurant/bar":"food","Retail store":"retail"})[t] || "general";
+const LINE = {
+  hvac:"Is this about heating, AC or electrical? If it's an emergency, reply URGENT and we'll call you right back.",
+  plumb:"Is this plumbing, septic or pest control? If water's leaking, reply URGENT and we'll call you right back.",
+  lawn:"What can we help with: mowing, trees or your pool? Send your address and we'll get you a quote.",
+  auto:"Is this for a car or a boat, and what's going on with it? Reply here and we'll get you on the schedule.",
+  stay:"Looking to book a site or slip? Send your dates and we'll check what's open.",
+  salon:"Want to book? Reply with the day and service you'd like.",
+  re:"Are you looking to buy, sell or rent at the lake? Reply here and I'll call you back shortly.",
+  food:"Calling about hours, a table or an event? Reply here and we'll answer right away.",
+  retail:"Have a question about an item or our hours? Reply here and we'll get right back to you.",
+  general:"What can we help with? Reply here and we'll get you a quote."
+};
+const THANKS = {stay:"stay",salon:"appointment",re:"help",food:"visit",retail:"visit"};
+const SERVICES = {
+  HVAC:["AC repair","Heating repair","New system installs","Maintenance plans","Duct work","Emergency calls"],
+  Electrical:["Repairs","Panel upgrades","Generators","Lighting","New construction","Emergency calls"],
+  Plumbing:["Leaks and repairs","Water heaters","Drain cleaning","Remodels","New construction","Emergency calls"],
+  Septic:["Pumping","Inspections","Repairs","New systems","Aerobic maintenance","Emergency calls"],
+  "Pest control":["General pest","Termites","Mosquitoes","Rodents","Quarterly plans"],
+  "Lawn/landscape":["Mowing","Landscaping","Leaf cleanup","Irrigation","Weed control"],
+  "Tree service":["Tree trimming","Tree removal","Stump grinding","Storm cleanup","Lot clearing"],
+  "Pool service":["Weekly cleaning","Repairs","Openings and closings","Equipment installs"],
+  "Pressure washing":["Houses","Driveways","Decks and fences","Docks","Roofs"],
+  Fencing:["New fences","Repairs","Gates","Pipe fence","Ranch fence"],
+  "Auto repair":["Diagnostics","Brakes","Oil changes","AC repair","Tires","State inspections"],
+  "Boat repair":["Engine repair","Winterizing","Tune-ups","Trailer repair","Detailing"],
+  Marina:["Boat slips","Dry storage","Fuel","Boat rentals","Bait and supplies"],
+  "RV park":["Nightly sites","Monthly sites","Cabins","Storage"],
+  "Salon/barber":["Haircuts","Color","Nails","Waxing","Beard trims"],
+  "Real estate":["Buying","Selling","Rentals","Lake homes","Land"],
+  "Restaurant/bar":["Dine-in","Takeout","Catering","Private events","Live music"],
+  "Retail store":["In-store shopping","Special orders","Gift cards","Delivery"],
+  Contractor:["Remodels","Additions","Decks","Concrete","Repairs"],
+  Other:[]
+};
+const TOWNS = ["Mabank","Gun Barrel City","Seven Points","Tool","Kemp","Eustace","Malakoff","Athens","Payne Springs","Enchanted Oaks","Log Cabin","Trinidad","Kaufman","Corsicana"];
+const DAYS = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+const TIMES = (()=>{const a=[];for(let h=5;h<=23;h++)for(const m of [0,30]){const ap=h<12?"am":"pm",hh=h%12||12;a.push(hh+(m?":30":"")+ap)}return a})();
+const PHONE_SETUP = [
+  ["Office landline or business VoIP line","An office line or business phone system","We can usually make that same number send texts, so customers see your number."],
+  ["My cell phone is the business number","My cell phone is the business number","Your phone still rings first. Calls you miss forward to a local King Connect number that texts back in your business name."],
+  ["A phone system or app that already sends texts","A phone app or system that already texts","Like RingCentral, Grasshopper or OpenPhone. We'll connect to it or forward missed calls."],
+  ["New number, or willing to switch numbers","I'd like a new business number","We'll give you a local 903 number for calls and texts."],
+  ["Not sure","Not sure","No problem. We'll figure it out on a quick call."]
+];
+const CARRIERS = ["Verizon","AT&T","T-Mobile","Google Voice","Spectrum / Charter","Windstream","Other landline company","Business phone system (VoIP)","Not sure"];
+const FWD = {
+  "Verizon":"After setup you'll dial <code class=d>*71</code> plus your King Connect number. To undo it later: <code class=d>*73</code>.",
+  "AT&T":"After setup you'll dial <code class=d>**004*</code> your King Connect number <code class=d>*11#</code>. To undo it later: <code class=d>##004#</code>.",
+  "T-Mobile":"After setup you'll dial <code class=d>**004*1</code> your King Connect number <code class=d>#</code>. To undo it later: <code class=d>##004#</code>.",
+  "Google Voice":"Missed calls get handled in your Google Voice settings. We'll walk you through it."
+};
+const CAL = [
+  ["Google Calendar","Google Calendar"],["Outlook or Office 365","Outlook or Office 365"],["iPhone calendar (iCloud)","iPhone calendar"],
+  ["Several crews or team members","Several crews or team members"],["Paper, whiteboard or memory","Paper, whiteboard or memory"],["I don't keep a calendar","I don't keep a calendar"]
+];
+const REVIEW_TOOLS = ["Nothing, we don't ask for reviews","We ask in person","Jobber","Housecall Pro","Podium","Birdeye","Other software"];
+
+/* state */
+let S = {first:"",last:"",email:"",phone:"",business:"",legal:"",btype:"",ein:"",title:"Owner",website:"",street:"",city:"",zip:"",
+  type:"",services:[],servicesOther:"",towns:[],townsOther:"",avgJob:"",
+  hours:Object.fromEntries(DAYS.map((d,i)=>[d,i<5?{o:"8am",c:"5pm",x:false}:{o:"9am",c:"12pm",x:i===6}])),
+  bizPhone:"",phoneSetup:"",carrier:"",emergencyAfter:"",emergencyPhone:"",
+  cal:"",jobLen:"1 hour",buffer:"30 minutes",notice:"Next day",ahead:"2 weeks",maxDay:"",sameDay:"",alertsTo:"",
+  gbp:"",noGbp:false,reviewTool:"",missedEdit:"",notes:"",step:0};
+try{ const s=JSON.parse(localStorage.getItem(STORE)||"null"); if(s) S=Object.assign(S,s); }catch(e){}
+const q=new URLSearchParams(location.search);
+[["first_name","first"],["last_name","last"],["email","email"],["phone","phone"],["business","business"],["organization","business"]].forEach(([k,f])=>{ if(q.get(k)&&!S[f]) S[f]=q.get(k); });
+
+const usesBooking = () => S.type && !NO_BOOKING.includes(S.type);
+const isEmergency = () => EMERGENCY.includes(S.type);
+const esc = s => String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const bizName = () => S.business.trim() || "your business";
+
+function save(){ try{ localStorage.setItem(STORE, JSON.stringify(S)); document.getElementById("saved").textContent="Saved on this device"; }catch(e){} }
+
+/* helpers to build field UI */
+const inp = (f,label,type="text",help="",ph="") => `<label class="f">${label}${help?`<span class="h">${help}</span>`:""}<input type="${type}" data-f="${f}" value="${esc(S[f])}" placeholder="${esc(ph)}" ${type==="tel"?'inputmode="tel" autocomplete="tel"':""}${type==="email"?' autocomplete="email"':""}></label>`;
+const area = (f,label,help="",ph="") => `<label class="f">${label}${help?`<span class="h">${help}</span>`:""}<textarea data-f="${f}" placeholder="${esc(ph)}">${esc(S[f])}</textarea></label>`;
+const sel = (f,label,opts,help="") => `<label class="f">${label}${help?`<span class="h">${help}</span>`:""}<select data-f="${f}"><option value="">Choose one</option>${opts.map(o=>`<option ${S[f]===o?"selected":""}>${esc(o)}</option>`).join("")}</select></label>`;
+const radios = (f,opts) => opts.map(([v,t,h])=>`<label class="opt"><input type="radio" name="${f}" data-f="${f}" value="${esc(v)}" ${S[f]===v?"checked":""}><span><b>${esc(t)}</b>${h?`<small>${esc(h)}</small>`:""}</span></label>`).join("");
+const chips = (f,opts) => `<div class="chips">${opts.map(o=>`<button type="button" class="chip" data-chip="${f}" data-v="${esc(o)}" aria-pressed="${S[f].includes(o)}">${esc(o)}</button>`).join("")}</div>`;
+
+function hoursText(){
+  const fmt = d => S.hours[d].x ? "closed" : `${S.hours[d].o}-${S.hours[d].c}`;
+  const out=[]; let i=0;
+  while(i<7){ let j=i; while(j+1<7 && fmt(DAYS[j+1])===fmt(DAYS[i])) j++; out.push((i===j?DAYS[i]:DAYS[i]+"-"+DAYS[j])+" "+fmt(DAYS[i])); i=j+1; }
+  return out.join(", ");
+}
+function missedText(){
+  const line = S.missedEdit.trim() || LINE[GROUP(S.type)];
+  return `Hi, this is ${bizName()}. Sorry we missed your call! ${line}` + (usesBooking() ? " You can also book here: [your booking link]" : "") + " Reply STOP to opt out.";
+}
+function reviewText(){
+  return `Thank you for choosing ${bizName()}! We hope you enjoyed your ${THANKS[GROUP(S.type)]||"service"}. Would you take 30 seconds to leave us a quick review? [your Google review link] Reply STOP to opt out.`;
+}
+function townsList(){ return [...S.towns, ...S.townsOther.split(",").map(s=>s.trim()).filter(Boolean)]; }
+function servicesList(){ return [...S.services, ...S.servicesOther.split(",").map(s=>s.trim()).filter(Boolean)]; }
+function bookingRules(){
+  if(!usesBooking()) return "";
+  return [`Job or estimate length: ${S.jobLen}`,`Time between jobs: ${S.buffer}`,`Notice needed: ${S.notice}`,`Book up to: ${S.ahead} ahead`,
+    S.maxDay?`Max per day: ${S.maxDay}`:"", S.alertsTo?`Booking alerts go to: ${S.alertsTo}`:""].filter(Boolean).join("\n");
+}
+
+/* steps: each has title, lead, render(), check() returns error text or "" , when() */
+const STEPS = [
+ {k:"you", t:"Welcome", lead:"A few questions and your King Connect service turns on. Your answers save on this device as you go.",
+  r:()=>`<div class="card"><div class="row">${inp("first","First name")}${inp("last","Last name")}</div>
+    <div class="row">${inp("email","Email","email")}${inp("phone","Your cell","tel","For setup texts from Jordan")}</div>
+    ${inp("business","Business name","text","Exactly how customers know you. It goes on every text.","Smith Lawn Care")}</div>`,
+  c:()=>!S.first.trim()?"Add your first name.":!/^\S+@\S+\.\S+$/.test(S.email)?"Add a working email.":S.phone.replace(/\D/g,"").length<10?"Add your cell number.":!S.business.trim()?"Add your business name.":""},
+ {k:"kind", t:"What kind of business?", lead:"This picks the texts and setup that fit your work.",
+  r:()=>`<div class="tiles">${TYPES.map(t=>`<button type="button" class="tile" data-type="${esc(t)}" aria-pressed="${S.type===t}">${esc(t)}</button>`).join("")}</div>`,
+  c:()=>S.type?"":"Pick the closest one."},
+ {k:"work", t:"Your work", lead:"What you do and where you go.",
+  r:()=>`<div class="card"><b>Services</b> <span class="saved">tap all that apply</span>${chips("services",SERVICES[S.type]||[])}
+    <label class="f" style="margin-top:12px">Anything else you offer?<span class="h">Separate with commas</span><input type="text" data-f="servicesOther" value="${esc(S.servicesOther)}"></label></div>
+    <div class="card"><b>Towns you serve</b>${chips("towns",TOWNS)}
+    <label class="f" style="margin-top:12px">Other towns<span class="h">Separate with commas. If someone books from a town not on your list, we'll text you a heads-up.</span><input type="text" data-f="townsOther" value="${esc(S.townsOther)}"></label></div>
+    <div class="card">${inp("avgJob",NO_BOOKING.includes(S.type)?"About how much does a typical customer spend? ($)":"About how much is a typical job? ($)","number","Used only to show you what the texts earn you each month.","250")}</div>`,
+  c:()=>servicesList().length?"":"Pick at least one service, or type one in."},
+ {k:"hours", t:"Your hours", lead:"Calls outside these hours get an after-hours text.",
+  r:()=>`<div class="card"><table class="hours">${DAYS.map(d=>{const h=S.hours[d];return `<tr><td>${d}</td>
+    <td><select data-h="${d}" data-p="o" ${h.x?"disabled":""}>${TIMES.map(t=>`<option ${h.o===t?"selected":""}>${t}</option>`).join("")}</select></td>
+    <td><select data-h="${d}" data-p="c" ${h.x?"disabled":""}>${TIMES.map(t=>`<option ${h.c===t?"selected":""}>${t}</option>`).join("")}</select></td>
+    <td class="closed"><label><input type="checkbox" data-h="${d}" data-p="x" ${h.x?"checked":""}> Closed</label></td></tr>`}).join("")}</table>
+    <p class="saved" style="margin:10px 0 0">${esc(hoursText())}</p></div>
+    ${isEmergency()?`<div class="card"><b>After-hours emergencies</b>${radios("emergencyAfter",[["Yes","Yes, we take emergency calls after hours","Customers who reply URGENT get passed to your on-call phone."],["No","No, emergencies wait for business hours",""]])}
+    ${S.emergencyAfter==="Yes"?inp("emergencyPhone","On-call phone","tel","Who should get the URGENT alerts?"):""}</div>`:""}`,
+  c:()=>isEmergency()&&!S.emergencyAfter?"Tell us how you handle after-hours emergencies.":isEmergency()&&S.emergencyAfter==="Yes"&&S.emergencyPhone.replace(/\D/g,"").length<10?"Add the on-call phone number.":""},
+ {k:"phone", t:"Your phone", lead:"Your number stays the same. Customers keep calling it like always.",
+  r:()=>`<div class="card">${inp("bizPhone","Business number customers call","tel","","(903) 555-0123")}</div>
+    <div class="card"><b>How does that phone work?</b><div style="margin-top:10px">${radios("phoneSetup",PHONE_SETUP)}</div></div>
+    <div class="card">${sel("carrier","Who's the phone company for that number?",CARRIERS)}
+    ${FWD[S.carrier]&&S.phoneSetup==="My cell phone is the business number"?`<div class="note">${FWD[S.carrier]} Your phone still rings first. Only calls you miss get forwarded.</div>`:""}</div>`,
+  c:()=>S.bizPhone.replace(/\D/g,"").length<10?"Add the business number customers call.":!S.phoneSetup?"Pick how your phone works.":""},
+ {k:"book", t:"Booking", lead:"Customers can book from the missed-call text. Set the rules once.", w:()=>usesBooking(),
+  r:()=>`<div class="card"><b>Where do you keep your schedule?</b><div style="margin-top:10px">${radios("cal",CAL)}</div></div>
+    <div class="card"><div class="row">${sel("jobLen","How long is a job or estimate?",["30 minutes","1 hour","2 hours","Half day","Full day","It varies"])}${sel("buffer","Time between jobs",["None","15 minutes","30 minutes","1 hour"])}</div>
+    <div class="row">${sel("notice","Notice you need",["Same day is fine","2 hours","Next day","2 days"])}${sel("ahead","How far ahead can people book?",["1 week","2 weeks","1 month","3 months"])}</div>
+    <div class="row">${inp("maxDay","Most bookings per day","number","Leave blank for no limit")}${inp("alertsTo","Who gets booking alerts?","text","Name and cell")}</div></div>`,
+  c:()=>S.cal?"":"Pick where you keep your schedule."},
+ {k:"reviews", t:"Google reviews", lead:"After each job, happy customers get one text with your review link.",
+  r:()=>`<div class="card">${inp("gbp","Link to your Google Business Profile","url","On your phone: search your business on Google, tap Share, then Copy link.","https://g.page/...")}
+    <label class="opt"><input type="checkbox" data-f="noGbp" ${S.noGbp?"checked":""}><span><b>I don't have a Google profile yet</b><small>We'll help you set one up.</small></span></label></div>
+    <div class="card">${sel("reviewTool","How do you ask for reviews now?",REVIEW_TOOLS,"So customers never get asked twice.")}</div>`,
+  c:()=>!S.gbp.trim()&&!S.noGbp?"Paste your Google profile link, or check the box if you don't have one.":""},
+ {k:"texts", t:"Your texts", lead:"This is what your customers will get, signed with your business name.",
+  r:()=>`<div class="phone"><div class="who">After a missed call</div><div class="bubble">${esc(missedText())}</div></div>
+    <div class="card">${area("missedEdit","Want to change the middle part?","Optional. Leave blank to use ours.",LINE[GROUP(S.type)])}</div>
+    <div class="phone"><div class="who">After a job</div><div class="bubble">${esc(reviewText())}</div></div>`,
+  c:()=>""},
+ {k:"legal", t:"For texting approval", lead:"Phone carriers have to approve every business that sends texts. They check this against your state or IRS records, so match your paperwork exactly.",
+  r:()=>`<div class="card">${sel("btype","Business type",["Sole proprietor (no EIN)","LLC","Corporation","Partnership","Nonprofit or other"])}
+    ${inp("legal","Legal business name","text","Exactly as on your IRS or state paperwork")}
+    ${S.btype&&S.btype!=="Sole proprietor (no EIN)"?inp("ein","EIN (Tax ID)","text","9 digits, like 12-3456789"):""}
+    <div class="row">${inp("title","Your title","text","","Owner")}${inp("website","Website (if you have one)","url")}</div>
+    ${inp("street","Business street address")}<div class="row">${inp("city","City")}${inp("zip","ZIP","text")}</div></div>
+    ${area("notes","Anything else we should know?","Busy seasons, jobs you don't take, how you like customers to reach you")}`,
+  c:()=>!S.btype?"Pick your business type.":!S.legal.trim()?"Add your legal business name.":S.btype!=="Sole proprietor (no EIN)"&&S.ein.replace(/\D/g,"").length!==9?"Add your 9-digit EIN.":!S.street.trim()||!S.city.trim()||!/^\d{5}$/.test(S.zip.trim())?"Add your street, city and 5-digit ZIP.":""},
+ {k:"check", t:"Look it over", lead:"Tap Edit to fix anything. When it looks right, tap Send.",
+  r:()=>{const rows=[["Business",`${S.business} (${S.type})`,"you"],["You",`${S.first} ${S.last} · ${S.email} · ${S.phone}`,"you"],["Services",servicesList().join(", "),"work"],["Towns",townsList().join(", ")||"Not set","work"],
+    ["Hours",hoursText(),"hours"],["Business phone",`${S.bizPhone} · ${S.phoneSetup}${S.carrier?" · "+S.carrier:""}`,"phone"]];
+    if(isEmergency()) rows.push(["After-hours",S.emergencyAfter==="Yes"?`Yes, alerts to ${S.emergencyPhone}`:"No","hours"]);
+    if(usesBooking()) rows.push(["Booking",`${S.cal} · ${S.jobLen} jobs · ${S.notice} notice`,"book"]);
+    rows.push(["Google profile",S.noGbp?"Doesn't have one yet":S.gbp,"reviews"],["Legal name",`${S.legal} · ${S.btype}`,"legal"]);
+    return `<div class="card"><table class="sum">${rows.map(([a,b,k])=>`<tr><td>${a}</td><td>${esc(b)} <a href="#" data-go="${k}">Edit</a></td></tr>`).join("")}</table></div>`},
+  c:()=>""},
+ {k:"send", t:"Last step: tap Submit", lead:"Your answers are filled in below. Scroll to the bottom of the form and tap Submit. Jordan gets them right away.",
+  r:()=>`<div class="note">If the form doesn't show, <a href="${esc(formUrl())}" target="_blank" rel="noopener">open it here</a>. Everything will already be filled in.</div>
+    <iframe class="kc" id="inline-F5Khr7FWSQmgT8VQz7de" src="${esc(formUrl())}" data-layout="{'id':'INLINE'}" data-trigger-type="alwaysShow" data-trigger-value="" data-activation-type="alwaysActivated" data-activation-value="" data-deactivation-type="neverDeactivate" data-deactivation-value="" data-form-name="Client Onboarding" data-layout-iframe-id="inline-F5Khr7FWSQmgT8VQz7de" data-form-id="F5Khr7FWSQmgT8VQz7de" title="King Connect onboarding form"></iframe>`,
+  c:()=>""}
+];
+
+function setupBlock(){
+  const L = [
+    "--- King Connect setup wizard v1 ---",
+    "industry: "+S.type,
+    "towns: "+townsList().join(", "),
+    "avg_job_value: "+(S.avgJob||""),
+    "hours: "+hoursText(),
+    "missed_call_line: "+(S.missedEdit.trim()||LINE[GROUP(S.type)]),
+    "thank_you_word: "+(THANKS[GROUP(S.type)]||"service"),
+    "review_tool: "+S.reviewTool,
+    "no_google_profile: "+(S.noGbp?"yes":"no")
+  ];
+  if(isEmergency()) L.push("after_hours_emergency: "+(S.emergencyAfter||""), "emergency_phone: "+(S.emergencyPhone||""));
+  return (S.notes.trim()?S.notes.trim()+"\n\n":"") + L.join("\n");
+}
+function formUrl(){
+  const p = new URLSearchParams();
+  const put = (k,v) => { if(v!==undefined && v!==null && String(v).trim()!=="") p.set(k,String(v).trim()); };
+  put("first_name",S.first); put("last_name",S.last); put("email",S.email); put("phone",S.phone);
+  put("organization",S.business); put("legal_business_name",S.legal); put("business_type",S.btype);
+  if(S.btype!=="Sole proprietor (no EIN)") put("ein_(tax_id)",S.ein);
+  put("job_title",S.title); put("website",S.website);
+  put("address",S.street); put("city",S.city); put("state","TX"); put("postal_code",S.zip);
+  put("single_line_11yxn",S.noGbp?"":S.gbp);           // Google Business Profile link
+  put("single_line_109o2",S.bizPhone);                 // business phone customers call
+  put("multi_line_2dtq",hoursText());                  // business hours
+  put("phone_setup",S.phoneSetup);
+  if(usesBooking()){ put("calendar_type",S.cal); put("booking_rules",bookingRules()); }
+  put("single_line_9ddy",S.carrier);                   // phone company
+  put("multi_line_3k59","Services: "+servicesList().join(", ")+"\nTowns served: "+townsList().join(", "));
+  put("multi_line_40du",setupBlock());                 // anything else + wizard block
+  return FORM+"?"+p.toString();
+}
+
+/* rendering */
+const visible = () => STEPS.filter(s=>!s.w||s.w());
+function render(){
+  const vs=visible(); if(S.step>=vs.length) S.step=vs.length-1; if(S.step<0) S.step=0;
+  const st=vs[S.step];
+  document.getElementById("main").innerHTML = `<p class="stepno">Step ${S.step+1} of ${vs.length}</p><h1>${esc(st.t)}</h1><p class="lead">${esc(st.lead)}</p><p class="err" id="err"></p>${st.r()}`;
+  document.getElementById("bar").style.width = Math.round(S.step/(vs.length-1)*100)+"%";
+  document.getElementById("back").classList.toggle("hide", S.step===0);
+  const nx=document.getElementById("next");
+  nx.classList.toggle("hide", st.k==="send");
+  nx.textContent = st.k==="check" ? "Send to King Connect" : "Next";
+  if(st.k==="send"){ try{ const s=document.createElement("script"); s.src="https://link.msgsndr.com/js/form_embed.js"; document.body.appendChild(s);}catch(e){} }
+}
+function rerender(keepFocus){
+  const a=document.activeElement, f=a&&a.dataset?a.dataset.f:null, pos=a&&a.selectionStart;
+  render();
+  if(keepFocus&&f){ const n=document.querySelector(`[data-f="${f}"]`); if(n){ n.focus(); try{ if(pos!=null) n.setSelectionRange(pos,pos);}catch(e){} } }
+}
+document.addEventListener("input", e=>{
+  const t=e.target, f=t.dataset.f;
+  if(f){ S[f] = t.type==="checkbox" ? t.checked : t.value; save();
+    if(["missedEdit","business"].includes(f)) return; // no rerender while typing
+    if(t.tagName==="SELECT"||t.type==="radio"||t.type==="checkbox") rerender(false);
+  }
+  if(t.dataset.h){ const d=t.dataset.h,p=t.dataset.p; S.hours[d][p] = p==="x"?t.checked:t.value; save(); rerender(false); }
+});
+document.addEventListener("change", e=>{ const t=e.target; if(t.dataset.f==="missedEdit"){ rerender(false);} });
+document.addEventListener("click", e=>{
+  const t=e.target.closest("[data-type],[data-chip],[data-go]"); if(!t) return;
+  if(t.dataset.type){ if(S.type!==t.dataset.type){ S.type=t.dataset.type; S.services=[]; S.missedEdit=""; } save(); rerender(false); }
+  else if(t.dataset.chip){ const f=t.dataset.chip,v=t.dataset.v,a=S[f]; const i=a.indexOf(v); i<0?a.push(v):a.splice(i,1); save(); t.setAttribute("aria-pressed", i<0); }
+  else if(t.dataset.go){ e.preventDefault(); S.step=visible().findIndex(s=>s.k===t.dataset.go); save(); render(); scrollTo(0,0); }
+});
+document.getElementById("next").onclick = ()=>{
+  const st=visible()[S.step], msg=st.c();
+  const er=document.getElementById("err");
+  if(msg){ er.textContent=msg; er.classList.add("on"); scrollTo({top:0,behavior:"smooth"}); return; }
+  S.step++; save(); render(); scrollTo(0,0);
+};
+document.getElementById("back").onclick = ()=>{ S.step--; save(); render(); scrollTo(0,0); };
+render();
+</script>
+</body>
+</html>
