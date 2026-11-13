@@ -173,7 +173,11 @@ let S = {first:"",last:"",email:"",phone:"",business:"",legal:"",btype:"",ein:""
   gbp:"",noGbp:false,reviewTool:"",missedEdit:"",notes:"",step:0};
 try{ const s=JSON.parse(localStorage.getItem(STORE)||"null"); if(s) S=Object.assign(S,s); }catch(e){}
 const q=new URLSearchParams(location.search);
-[["first_name","first"],["last_name","last"],["email","email"],["phone","phone"],["business","business"],["organization","business"]].forEach(([k,f])=>{ if(q.get(k)&&!S[f]) S[f]=q.get(k); });
+const fmtPhone = v => { let d=String(v||"").replace(/\D/g,""); if(d.length===11&&d[0]==="1") d=d.slice(1); return d.length===10?`(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}`:String(v||"").trim(); };
+[["first_name","first"],["last_name","last"],["email","email"],["phone","phone"],["business","business"],["organization","business"]].forEach(([k,f])=>{
+  let v=(q.get(k)||"").trim(); if(!v||/^\{\{.*\}\}$/.test(v)||S[f]) return;
+  if(f==="phone") v=fmtPhone(v); if(f==="email") v=v.replace(/ /g,"+");
+  S[f]=v; });
 
 const usesBooking = () => S.type && !NO_BOOKING.includes(S.type);
 const isEmergency = () => EMERGENCY.includes(S.type);
