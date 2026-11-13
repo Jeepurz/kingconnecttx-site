@@ -105,11 +105,13 @@ const STORE = "kc_setup_v1";
 const TYPES = ["HVAC","Electrical","Plumbing","Septic","Pest control","Lawn/landscape","Tree service","Pool service","Pressure washing","Fencing","Auto repair","Boat repair","Marina","RV park","Salon/barber","Real estate","Restaurant/bar","Retail store","Contractor","Other"];
 const NO_BOOKING = ["Restaurant/bar","Retail store"];
 const EMERGENCY = ["HVAC","Electrical","Plumbing","Septic"];
-const GROUP = t => ({HVAC:"hvac",Electrical:"hvac",Plumbing:"plumb",Septic:"plumb","Pest control":"plumb","Lawn/landscape":"lawn","Tree service":"lawn","Pool service":"lawn","Auto repair":"auto","Boat repair":"auto",Marina:"stay","RV park":"stay","Salon/barber":"salon","Real estate":"re","Restaurant/bar":"food","Retail store":"retail"})[t] || "general";
+const GROUP = t => ({HVAC:"hvac",Electrical:"hvac",Plumbing:"plumb",Septic:"plumb","Pest control":"plumb","Lawn/landscape":"lawn","Tree service":"tree","Pool service":"pool","Auto repair":"auto","Boat repair":"auto",Marina:"stay","RV park":"stay","Salon/barber":"salon","Real estate":"re","Restaurant/bar":"food","Retail store":"retail"})[t] || "general";
 const LINE = {
   hvac:"Is this about heating, AC or electrical? If it's an emergency, reply URGENT and we'll call you right back.",
   plumb:"Is this plumbing, septic or pest control? If water's leaking, reply URGENT and we'll call you right back.",
-  lawn:"What can we help with: mowing, trees or your pool? Send your address and we'll get you a quote.",
+  lawn:"What can we help with: mowing, landscaping or cleanup? Send your address and we'll get you a quote.",
+  tree:"Need a tree trimmed or removed? Send your address and we'll get you a quote.",
+  pool:"Is this about pool cleaning or a repair? Send your address and we'll get you a quote.",
   auto:"Is this for a car or a boat, and what's going on with it? Reply here and we'll get you on the schedule.",
   stay:"Looking to book a site or slip? Send your dates and we'll check what's open.",
   salon:"Want to book? Reply with the day and service you'd like.",
