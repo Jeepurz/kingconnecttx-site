@@ -11,7 +11,7 @@ const FORM = 'https://docs.google.com/forms/d/e/1FAIpQLSflsGEiWSVmy1LbIP4eh5lEyn
 const PLANS = {
   Knight: {price: 129, setup: 199, line: 'Missed-call text back, a review request after every job, replies written for your Google reviews, and service reminder texts.'},
   Crown: {price: 229, setup: 299, line: 'Everything in Knight, plus Google profile care, instant replies to website and Facebook leads, and an online booking link.'},
-  Kingdom: {price: 399, setup: 499, line: 'Everything in Crown, plus 12 Facebook and Instagram posts a month, 4 win-back campaigns a year, website chat that books jobs, and a quarterly planning sit-down.'}
+  Kingdom: {price: 399, setup: 499, line: 'Everything in Crown, plus 12 Facebook and Instagram posts a month, 4 win-back campaigns a year, a chat button for your website that texts visitors back, and a quarterly planning sit-down.'}
 };
 const PAY = {
   founding: {Knight: 'https://link.fastpaydirect.com/payment-link/6af14afd03c375ed645fe30a', Crown: 'https://link.fastpaydirect.com/payment-link/6af14b2f03c375ed645fe30c', Kingdom: 'https://link.fastpaydirect.com/payment-link/6af14b55d4cfb789aef226af'},
@@ -300,7 +300,7 @@ const FAQ = [
   ['hi', /^(hi|hey|hello|yo|howdy|good (morning|afternoon|evening))\b/i]
 ];
 const ANS = {
-  price: () => 'Three monthly plans:\n• Knight $129/mo: missed-call text back, review requests, review replies, service reminders\n• Crown $229/mo: Knight plus Google profile care, instant lead replies and online booking\n• Kingdom $399/mo: Crown plus social posts, win-back campaigns and website chat\n\nSetup is $199 / $299 / $499, billed after your 10-minute setup. ' + (spotsLeft() ? 'Right now the Founding Ten (' + spotsLeft() + ' spots left) pay no setup fee and lock their price for 12 months.' : '') + ' Normal texting is included.',
+  price: () => 'Three monthly plans:\n• Knight $129/mo: missed-call text back, review requests, review replies, service reminders\n• Crown $229/mo: Knight plus Google profile care, instant lead replies and online booking\n• Kingdom $399/mo: Crown plus social posts, win-back campaigns and a website chat button\n\nSetup is $199 / $299 / $499, billed after your 10-minute setup. ' + (spotsLeft() ? 'Right now the Founding Ten (' + spotsLeft() + ' spots left) pay no setup fee and lock their price for 12 months.' : '') + ' Normal texting is included.',
   contract: () => 'No contract. Plans are month to month and you can cancel any time; service runs through the month you’ve paid for. If it isn’t working for you in your first month, you get that month back. (The setup fee isn’t refundable.)',
   number: () => 'You keep your number. Customers call it like always. Unanswered calls forward through King Connect so the text-back goes out in your business name. Office lines can usually text from that same number; if your business number is your cell, texts come from a local number signed with your business name.',
   time: () => 'Setup takes about 10 minutes on your phone after you sign up. Phone carriers have to approve every business that sends texts, so texting goes live in about 1–2 weeks. King Connect handles that registration and covers its fees.',
@@ -310,7 +310,7 @@ const ANS = {
   spam: () => 'It only texts people who just called you, or customers you just finished a job for. Every text says how to reply STOP, and it honors that right away. Marketing texts to past customers only go to people who agreed to get texts.',
   texting: () => 'Normal texting for a local business is included in every plan. If you’d send thousands a month, Jordan will talk it through with you first.',
   area: () => 'King Connect is based at Cedar Creek Lake: Mabank, Gun Barrel City, Seven Points, Tool, Kemp, Eustace, Malakoff and Athens. Everything runs on your phone, so other Texas businesses can sign up too. Texas only for now.',
-  addons: () => 'Add-ons for any plan:\n• Guest Texts +$99/mo for RV parks, marinas and rentals (booking, arrival and checkout texts)\n• Freeze & Heat Alert +$149/mo for plumbers, HVAC and pool companies\n• Extra location +$79/mo\n• Lake Weekly sponsor +$75/mo',
+  addons: () => 'Add-ons for any plan:\n• Guest Texts +$99/mo for RV parks, marinas and rentals (booking, arrival and checkout texts)\n• Freeze & Heat Alert +$149/mo for plumbers, HVAC and pool companies\n• Extra location +$79/mo',
   who: () => 'King Connect is run by Jordan King: a U.S. Army veteran, FAA commercial pilot and Malakoff High grad who lives in the Mabank area and has helped run his family’s local businesses for years. No call center. You can call or text him at ' + PHONE + '.',
   referral: () => 'Know a business that could use this? When someone you refer signs up, you get a $50 Amazon gift card and they get their first month free. Ask Jordan for your personal referral link, or have them mention your name.',
   roof: () => 'Right now King Connect isn’t taking on roofing companies.',
