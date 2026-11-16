@@ -130,7 +130,7 @@ function fitTown() {
   if (S.type === 'Roofing') { track('chat_fit_no', {reason: 'roofing'}); return bot('Thanks for checking. Right now King Connect isn’t taking on roofing companies, so I’d rather be upfront than waste your time.', [{t: 'Back to the menu', fn: () => menu()}]); }
   bot('Which town is your business based in?', TOWNS.map((t) => ({t, fn: () => { S.town = t; fitReach(); }})).concat([
     {t: 'Somewhere else in Texas', fn: () => { S.town = 'Elsewhere in Texas'; fitReach(); }},
-    {t: 'Outside Texas', fn: () => { S.town = 'Outside Texas'; track('chat_fit_no', {reason: 'outside_tx'}); bot('King Connect is Texas-only for now, starting around Cedar Creek Lake. If you’d like a heads-up when that changes, leave your info and Jordan will reach out.', [{t: 'Leave my info', fn: talk}, {t: 'Back to the menu', fn: () => menu()}]); }}
+    {t: 'Outside Texas', fn: () => { S.town = 'Outside Texas'; track('chat_fit_no', {reason: 'outside_tx'}); bot('King Connect is Texas-only for now, starting around Cedar Creek Lake. If you’d like a heads-up when that changes, leave your info and Jordan will reach out.', [{t: 'Leave my info', go: true, fn: leaveInfo}, {t: 'Back to the menu', fn: () => menu()}]); }}
   ]));
 }
 function fitReach() {
@@ -213,10 +213,15 @@ function startPlan(plan) {
 function talk() {
   mode = 'talk';
   bot('Happy to. You can call or text Jordan now at <a href="tel:' + PHONE_TEL + '">' + PHONE + '</a>, book a time, or leave your info and he’ll call you within one business day.', [
-    {t: 'Leave my info', go: true, fn: () => collect(['name', 'business', 'phone', 'textOk'], () => { send('Asked Jordan to call them (website chat)'); bot('Got it, thanks ' + esc(first(S.name)) + '! Jordan will call you within one business day. Need him sooner? Call or text ' + PHONE + '.', [{t: 'Back to the menu', fn: () => menu()}]); })},
+    {t: 'Leave my info', go: true, fn: leaveInfo},
     {t: 'Book a 15-min call', href: BOOK, ev: 'booking_click', p: {from: 'chat'}},
     {t: 'Call now', href: 'tel:' + PHONE_TEL, ev: 'call_click', p: {from: 'chat'}}
   ]);
+}
+
+function leaveInfo() {
+  mode = 'talk';
+  collect(['name', 'business', 'phone', 'textOk'], () => { send(S.town === 'Outside Texas' ? 'Outside Texas: wants a heads-up when King Connect expands (website chat)' : 'Asked Jordan to call them (website chat)'); bot('Got it, thanks ' + esc(first(S.name)) + '! ' + (S.town === 'Outside Texas' ? 'Jordan will reach out when King Connect comes your way.' : 'Jordan will call you within one business day. Need him sooner? Call or text ' + PHONE + '.'), [{t: 'Back to the menu', fn: () => menu()}]); });
 }
 
 /* ---------- collect typed answers ---------- */
@@ -314,9 +319,14 @@ const ANS = {
 function answer(text) {
   const hit = FAQ.find(([, re]) => re.test(text));
   if (!hit) { track('chat_unknown'); return bot('Good question. I’m a simple helper, so let me get you to Jordan for that one. He usually answers the same day.', [{t: 'Have Jordan call me', go: true, fn: talk}, {t: 'Call or text now', href: 'tel:' + PHONE_TEL, ev: 'call_click', p: {from: 'chat'}}, {t: 'Back to the menu', fn: () => menu()}]); }
-  const k = hit[0]; track('chat_faq', {topic: k});
+  const k = hit[0];
   if (k === 'start') return S.plan ? startPlan(S.plan) : bot('Let’s make sure it’s a fit first. It takes six taps.', [{t: 'Check if it fits', go: true, fn: fit}, {t: 'Talk to Jordan', fn: talk}]);
   if (k === 'human') return talk();
+  faq(k);
+}
+function faq(k) {
+  if (!ANS[k]) return menu();
+  track('chat_faq', {topic: k});
   const next = k === 'roof' ? [{t: 'Back to the menu', fn: () => menu()}] : [
     S.plan ? {t: 'Start ' + S.plan, go: true, fn: () => startPlan(S.plan)} : {t: 'See if it fits my business', go: true, fn: fit},
     {t: 'Another question', quiet: true, fn: () => { input.focus(); }},
