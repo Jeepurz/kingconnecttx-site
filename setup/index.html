@@ -174,7 +174,14 @@ let S = {first:"",last:"",email:"",phone:"",business:"",legal:"",btype:"",ein:""
   bizPhone:"",phoneSetup:"",carrier:"",emergencyAfter:"",emergencyPhone:"",
   cal:"",jobLen:"1 hour",buffer:"30 minutes",notice:"Next day",ahead:"2 weeks",maxDay:"",sameDay:"",alertsTo:"",
   gbp:"",noGbp:false,reviewTool:"",missedEdit:"",notes:"",step:0};
-try{ const s=JSON.parse(localStorage.getItem(STORE)||"null"); if(s) S=Object.assign(S,s); }catch(e){}
+const KEEP_DAYS = 30;
+try{
+  const s=JSON.parse(localStorage.getItem(STORE)||"null");
+  if(s && typeof s==="object"){
+    if(s.savedAt && Date.now()-s.savedAt > KEEP_DAYS*864e5){ localStorage.removeItem(STORE); }
+    else Object.keys(S).forEach(k=>{ if(k!=="ein" && Object.prototype.hasOwnProperty.call(s,k) && typeof s[k]===typeof S[k]) S[k]=s[k]; });
+  }
+}catch(e){}
 const q=new URLSearchParams(location.search);
 const fmtPhone = v => { let d=String(v||"").replace(/\D/g,""); if(d.length===11&&d[0]==="1") d=d.slice(1); return d.length===10?`(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}`:String(v||"").trim(); };
 [["first_name","first"],["last_name","last"],["email","email"],["phone","phone"],["business","business"],["organization","business"]].forEach(([k,f])=>{
@@ -182,12 +189,13 @@ const fmtPhone = v => { let d=String(v||"").replace(/\D/g,""); if(d.length===11&
   if(f==="phone") v=fmtPhone(v); if(f==="email") v=v.replace(/ /g,"+");
   S[f]=v; });
 
+try{ if(location.search) history.replaceState(null,"",location.pathname+location.hash); }catch(e){}
 const usesBooking = () => S.type && !NO_BOOKING.includes(S.type);
 const isEmergency = () => EMERGENCY.includes(S.type);
 const esc = s => String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const bizName = () => S.business.trim() || "your business";
 
-function save(){ try{ localStorage.setItem(STORE, JSON.stringify(S)); document.getElementById("saved").textContent="Saved on this device"; }catch(e){} }
+function save(){ try{ const keep=Object.assign({},S,{savedAt:Date.now()}); delete keep.ein; localStorage.setItem(STORE, JSON.stringify(keep)); document.getElementById("saved").textContent="Saved on this device"; }catch(e){} }
 
 /* helpers to build field UI */
 const inp = (f,label,type="text",help="",ph="") => `<label class="f">${label}${help?`<span class="h">${help}</span>`:""}<input type="${type}" data-f="${f}" value="${esc(S[f])}" placeholder="${esc(ph)}" ${type==="tel"?'inputmode="tel" autocomplete="tel"':""}${type==="email"?' autocomplete="email"':""}></label>`;
@@ -282,7 +290,8 @@ const STEPS = [
     return `<div class="card"><table class="sum">${rows.map(([a,b,k])=>`<tr><td>${a}</td><td>${esc(b)} <a href="#" data-go="${k}">Edit</a></td></tr>`).join("")}</table></div>`},
   c:()=>""},
  {k:"send", t:"Last step: tap Submit", lead:"Your answers are filled in below. Scroll to the bottom of the form and tap Submit. Jordan gets them right away.",
-  r:()=>`<div class="note">If the form doesn't show, <a href="${esc(formUrl())}" target="_blank" rel="noopener">open it here</a>. Everything will already be filled in.</div>
+  r:()=>`<div class="note">After you tap Submit, you can <a href="#" id="forget">clear your answers from this device</a>.</div>
+    <div class="note">If the form doesn't show, <a href="${esc(formUrl())}" target="_blank" rel="noopener">open it here</a>. Everything will already be filled in.</div>
     <iframe class="kc" id="inline-F5Khr7FWSQmgT8VQz7de" src="${esc(formUrl())}" data-layout="{'id':'INLINE'}" data-trigger-type="alwaysShow" data-trigger-value="" data-activation-type="alwaysActivated" data-activation-value="" data-deactivation-type="neverDeactivate" data-deactivation-value="" data-form-name="Client Onboarding" data-layout-iframe-id="inline-F5Khr7FWSQmgT8VQz7de" data-form-id="F5Khr7FWSQmgT8VQz7de" title="King Connect onboarding form"></iframe>`,
   c:()=>""}
 ];
@@ -360,6 +369,7 @@ document.getElementById("next").onclick = ()=>{
   if(msg){ er.textContent=msg; er.classList.add("on"); scrollTo({top:0,behavior:"smooth"}); return; }
   S.step++; save(); render(); scrollTo(0,0);
 };
+document.addEventListener("click", e=>{ if(e.target.id!=="forget") return; e.preventDefault(); try{ localStorage.removeItem(STORE); }catch(_){} e.target.replaceWith(document.createTextNode("cleared your answers from this device")); });
 document.getElementById("back").onclick = ()=>{ S.step--; save(); render(); scrollTo(0,0); };
 render();
 </script>
