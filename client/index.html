@@ -118,7 +118,9 @@ code.link{display:block;background:var(--paper);border-radius:8px;padding:10px 1
 <script>
 (function(){
   var q = new URLSearchParams(location.search);
-  var biz = (q.get('b') || '').slice(0, 80), code = (q.get('r') || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 16);
+  // Ignore merge fields that weren't filled in (GoHighLevel leaves {{...}} or the placeholder "none")
+  var raw = function(k){ var v = (q.get(k) || '').trim(); return (/[{}]/.test(v) || /^(none|n\/a|setme)$/i.test(v)) ? '' : v; };
+  var biz = raw('b').slice(0, 80), code = raw('r').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 16);
   var $ = function(id){ return document.getElementById(id); };
   if (biz) { $('cr-biz').value = biz; $('hello').textContent = 'For ' + biz + ' · King Connect client help'; }
   function track(n,p){ try { if (window.gtag) gtag('event', n, p||{}); } catch(e){} }
