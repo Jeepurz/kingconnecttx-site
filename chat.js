@@ -11,7 +11,7 @@ const FORM = 'https://docs.google.com/forms/d/e/1FAIpQLSflsGEiWSVmy1LbIP4eh5lEyn
 const PLANS = {
   Knight: {price: 129, setup: 199, line: 'Missed-call text back, a review request after every job, replies written for your Google reviews, and service reminder texts.'},
   Crown: {price: 229, setup: 299, line: 'Everything in Knight, plus Google profile care, instant replies to website and Facebook leads, and an online booking link.'},
-  Kingdom: {price: 399, setup: 499, line: 'Everything in Crown, plus 12 Facebook and Instagram posts a month, 4 win-back campaigns a year, a chat button for your website that texts visitors back, and a quarterly planning sit-down.'}
+  Kingdom: {price: 399, setup: 499, line: 'Everything in Crown, plus 8 Facebook and Instagram posts a month, 4 win-back campaigns a year, a chat button for your website that texts visitors back, and a quarterly planning sit-down.'}
 };
 const PAY = {
   founding: {Knight: 'https://link.fastpaydirect.com/payment-link/6af14afd03c375ed645fe30a', Crown: 'https://link.fastpaydirect.com/payment-link/6af14b2f03c375ed645fe30c', Kingdom: 'https://link.fastpaydirect.com/payment-link/6af14b55d4cfb789aef226af'},
@@ -308,7 +308,7 @@ const ANS = {
   reviews: () => 'After each job, every customer gets the same friendly text with your Google review link (we never screen out unhappy customers; Google doesn’t allow it). Replies get written for every review in your voice. Nobody honest can delete bad reviews, but more happy ones means one bad review doesn’t define you.',
   tech: () => 'Nothing new to learn. It runs in the background. There’s a simple phone app if you want to read and answer texts, but you don’t have to use it.',
   spam: () => 'It only texts people who just called you, or customers you just finished a job for. Every text says how to reply STOP, and it honors that right away. Marketing texts to past customers only go to people who agreed to get texts.',
-  texting: () => 'Normal texting for a local business is included in every plan. If you’d send thousands a month, Jordan will talk it through with you first.',
+  texting: () => 'Up to 1,000 texts a month are included in every plan, far more than a typical local business sends. If you ever need more, Jordan will talk it through with you first, and nothing is charged without your OK.',
   area: () => 'King Connect is based at Cedar Creek Lake: Mabank, Gun Barrel City, Seven Points, Tool, Kemp, Eustace, Malakoff and Athens. Everything runs on your phone, so other Texas businesses can sign up too. Texas only for now.',
   addons: () => 'Add-ons for any plan:\n• Guest Texts +$99/mo for RV parks, marinas and rentals (booking, arrival and checkout texts)\n• Freeze & Heat Alert +$149/mo for plumbers, HVAC and pool companies\n• Extra location +$79/mo',
   who: () => 'King Connect is run by Jordan King: a U.S. Army veteran, FAA commercial pilot and Malakoff High grad who lives in the Mabank area and has helped run his family’s local businesses for years. No call center. You can call or text him at ' + PHONE + '.',
