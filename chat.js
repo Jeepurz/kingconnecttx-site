@@ -32,6 +32,7 @@ const STAY = ['Marina', 'RV park'];
 
 const spotsLeft = () => { const n = document.querySelector('[data-spots-left]'); const v = n ? parseInt(n.getAttribute('data-spots-left'), 10) : 10; return isFinite(v) ? Math.max(0, v) : 10; };
 const track = (name, p) => { try { if (window.gtag) gtag('event', name, p || {}); } catch (e) {} };
+const ref = () => { try { return window.KC_REF ? window.KC_REF() : ''; } catch (e) { return ''; } };
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'})[c]);
 
 /* ---------- state ---------- */
@@ -202,7 +203,7 @@ function startPlan(plan) {
   collect(['name', 'business', 'phone', 'email'], () => {
     save(); send('Started ' + plan + ' checkout from the website chat');
     const left = spotsLeft(); const url = PAY[left ? 'founding' : 'standard'][plan];
-    bot('You’re all set, ' + esc(first(S.name)) + '. Tap below to pay securely (card or bank). Right after, you’ll get a welcome email with your 10-minute setup, and I’ve saved your answers so it opens already filled in on this phone or computer.', [
+    bot('You’re all set, ' + esc(first(S.name)) + '. Tap below to pay securely (card or bank). ' + (ref() ? 'A friend referred you, so enter code <b>REFERRAL</b> at checkout for your first month free. ' : '') + 'Right after, you’ll get a welcome email with your 10-minute setup, and I’ve saved your answers so it opens already filled in on this phone or computer.', [
       {t: 'Pay for ' + plan + (left ? ' (founding rate)' : ''), href: url, go: true, ev: 'chat_checkout', p: {plan}},
       {t: 'I have a question first', fn: () => menu('Sure. What would you like to know?')}
     ]);
@@ -269,8 +270,8 @@ function send(what) {
   d.append('entry.1599790933', FORM_TYPE(S.type));
   d.append('entry.1637722511', S.phone ? fmtPhone(S.phone) : '');
   if (S.email) d.append('entry.420473111', S.email.trim());
-  d.append('entry.835965389', 'Website chat');
-  const summary = [what + '.', S.type && 'Type: ' + S.type, S.town && 'Town: ' + S.town, S.reach && 'Customers reach them by: ' + S.reach, S.missed && 'Missed calls: ' + S.missed, S.phoneSetup && 'Phone: ' + S.phoneSetup, S.google && 'Google profile: ' + S.google, S.plan && 'Plan: ' + S.plan].filter(Boolean).join('\n');
+  d.append('entry.835965389', ref() ? 'Referral from a friend or business' : 'Website chat');
+  const summary = [what + '.', S.type && 'Type: ' + S.type, S.town && 'Town: ' + S.town, S.reach && 'Customers reach them by: ' + S.reach, S.missed && 'Missed calls: ' + S.missed, S.phoneSetup && 'Phone: ' + S.phoneSetup, S.google && 'Google profile: ' + S.google, S.plan && 'Plan: ' + S.plan, ref() && 'Referral code: ' + ref()].filter(Boolean).join('\n');
   d.append('entry.986106593', summary);
   d.append('entry.1010973906', S.textOk ? 'Yes - agreed to texts' : 'No');
   try { fetch(FORM, {method: 'POST', mode: 'no-cors', body: d}).catch(() => {}); } catch (e) {}
@@ -311,7 +312,7 @@ const ANS = {
   area: () => 'King Connect is based at Cedar Creek Lake: Mabank, Gun Barrel City, Seven Points, Tool, Kemp, Eustace, Malakoff and Athens. Everything runs on your phone, so other Texas businesses can sign up too. Texas only for now.',
   addons: () => 'Add-ons for any plan:\n• Guest Texts +$99/mo for RV parks, marinas and rentals (booking, arrival and checkout texts)\n• Freeze & Heat Alert +$149/mo for plumbers, HVAC and pool companies\n• Extra location +$79/mo\n• Lake Weekly sponsor +$75/mo',
   who: () => 'King Connect is run by Jordan King: a U.S. Army veteran, FAA commercial pilot and Malakoff High grad who lives in the Mabank area and has helped run his family’s local businesses for years. No call center. You can call or text him at ' + PHONE + '.',
-  referral: () => 'Know a business that could use this? When someone you refer signs up, you get a $50 Amazon gift card and they get their first month free. Just have them mention your name.',
+  referral: () => 'Know a business that could use this? When someone you refer signs up, you get a $50 Amazon gift card and they get their first month free. Ask Jordan for your personal referral link, or have them mention your name.',
   roof: () => 'Right now King Connect isn’t taking on roofing companies.',
   emergency: () => 'For HVAC, plumbing, septic and electrical, the missed-call text asks if it’s an emergency. If the caller says yes, you (or your on-call person) get an alert right away so you can call back. After-hours calls get an after-hours text.',
   hi: () => 'Hey there! I can check if King Connect fits your business, answer questions, or get you to Jordan.'

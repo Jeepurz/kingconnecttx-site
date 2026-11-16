@@ -1021,8 +1021,11 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     data.append('entry.1599790933', g('f-type'));
     data.append('entry.1637722511', g('f-phone'));
     if (g('f-email')) data.append('entry.420473111', g('f-email'));
-    if (g('f-heard')) data.append('entry.835965389', g('f-heard'));
-    if (g('f-msg'))   data.append('entry.986106593', g('f-msg'));
+    var ref = window.KC_REF ? window.KC_REF() : '';
+    var heard = g('f-heard') || (ref ? 'Referral from a friend or business' : '');
+    if (heard) data.append('entry.835965389', heard);
+    var note = [g('f-msg'), ref ? 'Referral code: ' + ref : ''].filter(Boolean).join('\n');
+    if (note) data.append('entry.986106593', note);
     data.append('entry.1010973906', document.getElementById('f-sms').checked ? 'Yes - agreed to texts' : 'No');
     btn.disabled=true; btn.textContent='Sending…';
     fetch('https://docs.google.com/forms/d/e/1FAIpQLSflsGEiWSVmy1LbIP4eh5lEyn9Xe1w2TGnu1OSzyEdap4BCLw/formResponse',{method:'POST',mode:'no-cors',body:data})
@@ -1031,6 +1034,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   });
 })();
 </script>
-<script src="/chat.js?v=3" defer></script>
+<script src="/ref.js?v=1"></script>
+<script src="/chat.js?v=4" defer></script>
 </body>
 </html>
