@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (Google Analytics) -->
+<script async src="https://www.googletagmanager.com/gtm.js?id=GTM-MNT4RX6F"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Missed-Call Cost Calculator | What Are Missed Calls Costing You? | King Connect</title>
+<meta name="description" content="Find out in 30 seconds how much money your missed calls cost your business every month and every year. Free calculator from King Connect.">
+<link rel="canonical" href="https://kingconnecttx.com/calculator/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="King Connect">
+<meta property="og:url" content="https://kingconnecttx.com/calculator/">
+<meta property="og:title" content="What are missed calls costing your business?">
+<meta property="og:description" content="Three quick numbers. See what missed calls cost you every month and every year.">
+<meta property="og:image" content="https://kingconnecttx.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="/fonts/big-shoulders-display-latin-900-normal.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:"Big Shoulders Display";font-weight:800;font-display:swap;src:url(/fonts/big-shoulders-display-latin-800-normal.woff2) format("woff2")}
+@font-face{font-family:"Big Shoulders Display";font-weight:900;font-display:swap;src:url(/fonts/big-shoulders-display-latin-900-normal.woff2) format("woff2")}
+@font-face{font-family:"Public Sans";font-weight:400;font-display:swap;src:url(/fonts/public-sans-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Public Sans";font-weight:600;font-display:swap;src:url(/fonts/public-sans-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:"Public Sans";font-weight:700;font-display:swap;src:url(/fonts/public-sans-latin-700-normal.woff2) format("woff2")}
+:root{--ink:#0E1A22;--ink-2:#15252E;--ink-3:#1C303B;--paper:#EEF2F3;--card:#fff;--brass:#D29A2A;--brass-hi:#F0C25E;--brass-deep:#8F650F;--signal:#E04B3A;--go:#2F9E6E;--muted:#5B6B75;--line:#D7DEE2}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:"Public Sans",system-ui,sans-serif;color:var(--ink);background:var(--paper);line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.top{background:var(--ink);color:#fff}
+.wrap{max-width:1040px;margin:0 auto;padding:0 22px}
+.bar{display:flex;align-items:center;justify-content:space-between;height:68px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:"Big Shoulders Display";font-weight:900;font-size:26px;letter-spacing:.5px;text-transform:uppercase}
+.bar .call{font-weight:700;text-decoration:none;color:var(--brass-hi);font-size:15px}
+.hero{padding-top:34px;padding-bottom:120px}
+.eyebrow{color:var(--brass-hi);font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:13px}
+h1{font-family:"Big Shoulders Display";font-weight:900;text-transform:uppercase;font-size:clamp(46px,8vw,84px);line-height:.92;margin:10px 0 14px}
+h1 em{font-style:normal;color:var(--signal)}
+.lede{color:#C9D5DC;font-size:18px;max-width:620px;margin:0}
+.grid{display:grid;grid-template-columns:1.05fr .95fr;gap:22px;margin-top:-90px;padding-bottom:40px}
+@media (max-width:860px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border-radius:20px;padding:28px;box-shadow:0 20px 50px rgba(14,26,34,.12)}
+.q{margin-bottom:26px}
+.q label{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-weight:700;font-size:16px}
+.q .val{font-family:"Big Shoulders Display";font-weight:900;font-size:34px;color:var(--ink);white-space:nowrap}
+.q small{display:block;color:var(--muted);font-size:13.5px;margin-top:2px;font-weight:400}
+input[type=range]{width:100%;margin-top:12px;accent-color:var(--brass);height:28px}
+.num{display:flex;align-items:center;gap:8px;margin-top:10px}
+.num input{width:140px;font:inherit;font-weight:700;font-size:18px;padding:10px 12px;border:1.5px solid var(--line);border-radius:10px}
+.result{background:var(--ink);color:#fff;position:relative;overflow:hidden}
+.result .lbl{color:#9FB2BE;font-weight:600;font-size:14px;text-transform:uppercase;letter-spacing:.08em}
+.big{font-family:"Big Shoulders Display";font-weight:900;font-size:clamp(64px,11vw,104px);line-height:.95;color:var(--signal);margin:6px 0 2px}
+.row{display:flex;gap:14px;margin:18px 0}
+.pill{flex:1;background:var(--ink-3);border-radius:14px;padding:14px 16px}
+.pill b{display:block;font-family:"Big Shoulders Display";font-weight:900;font-size:34px;color:#fff}
+.pill span{color:#9FB2BE;font-size:13px}
+.payback{background:rgba(210,154,42,.14);border:1px solid rgba(210,154,42,.4);border-radius:14px;padding:14px 16px;color:#F5DDA6;font-size:15.5px}
+.payback b{color:var(--brass-hi)}
+.fine{color:#7F95A2;font-size:12.5px;margin-top:14px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:inherit;font-weight:700;font-size:16px;border:0;border-radius:999px;padding:15px 26px;cursor:pointer;text-decoration:none}
+.btn-brass{background:var(--brass);color:var(--ink)}
+.btn-brass:hover{background:var(--brass-hi)}
+.btn-ghost{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.35)}
+.ctas{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.lead h2{font-family:"Big Shoulders Display";font-weight:900;text-transform:uppercase;font-size:38px;line-height:1;margin:0 0 6px}
+.lead p{margin:0 0 18px;color:var(--muted)}
+.lead form{display:grid;gap:12px}
+.lead .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:520px){.lead .two{grid-template-columns:1fr}}
+.lead label{font-weight:700;font-size:14px;display:grid;gap:6px}
+.lead input,.lead select{font:inherit;font-size:16px;padding:12px;border:1.5px solid var(--line);border-radius:10px;background:#fff;width:100%}
+.consent{display:flex!important;grid-template-columns:none!important;gap:10px!important;font-weight:400!important;font-size:12.5px!important;color:var(--muted)}
+.consent input{width:18px;height:18px;margin-top:2px;flex:0 0 auto}
+#msg{display:none;background:#E7F5EE;color:#1D6B4A;border-radius:10px;padding:12px 14px;font-weight:600}
+.how{padding:10px 0 60px}
+.how h3{font-family:"Big Shoulders Display";font-weight:900;text-transform:uppercase;font-size:34px;margin:0 0 12px}
+.how ol{margin:0;padding-left:20px;color:#2C3C46}
+.how li{margin-bottom:8px}
+footer{background:var(--ink);color:#9FB2BE;font-size:13.5px;padding:22px 0}
+footer .wrap{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap bar">
+    <a class="brand" href="/"><svg width="30" height="28" viewBox="7 9 26 24" aria-hidden="true"><path d="M7 28 L9.5 13 L15.5 20 L20 9 L24.5 20 L30.5 13 L33 28 Z" fill="#D29A2A"/><rect x="7" y="29.5" width="26" height="3.5" rx="1" fill="#D29A2A"/><circle cx="20" cy="22" r="2.6" fill="#0E1A22"/></svg>King Connect</a>
+    <a class="call" href="tel:+19032515127">(903) 251-5127</a>
+  </div>
+  <div class="wrap hero">
+    <div class="eyebrow">Free missed-call calculator</div>
+    <h1>What are missed calls <em>costing you?</em></h1>
+    <p class="lede">Move the three sliders. You'll see what the calls you don't answer are worth every month and every year.</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="grid">
+    <section class="card" aria-label="Your numbers">
+      <div class="q">
+        <label for="calls">Missed calls a week<span class="val" id="callsV">6</span></label>
+        <small>Calls you didn't pick up: on a job, after hours, on another line.</small>
+        <input id="calls" type="range" min="1" max="50" value="6">
+      </div>
+      <div class="q">
+        <label for="close">New callers who usually hire you<span class="val" id="closeV">4 in 10</span></label>
+        <small>Out of every 10 new customers who call, how many end up booking.</small>
+        <input id="close" type="range" min="1" max="10" value="4">
+      </div>
+      <div class="q" style="margin-bottom:6px">
+        <label for="job">Average job or sale<span class="val" id="jobV">$350</span></label>
+        <small>A typical ticket. Type it in if it's bigger than the slider.</small>
+        <input id="job" type="range" min="25" max="5000" step="25" value="350">
+        <div class="num"><span>$</span><input id="jobN" type="number" min="1" step="1" value="350" inputmode="numeric" aria-label="Average job amount in dollars"></div>
+      </div>
+    </section>
+
+    <section class="card result" aria-live="polite">
+      <div class="lbl">Missed calls could be costing you</div>
+      <div class="big" id="year">$43,680</div>
+      <div class="lbl" style="color:#C9D5DC">every year</div>
+      <div class="row">
+        <div class="pill"><b id="month">$3,640</b><span>a month</span></div>
+        <div class="pill"><b id="jobs">10</b><span>jobs a month</span></div>
+      </div>
+      <div class="payback" id="payback">King Connect starts at <b>$129 a month</b>. Saving just <b>1 job a month</b> pays for it.</div>
+      <div class="ctas">
+        <a class="btn btn-brass" href="#lead" data-ev="calc_get_fixed">Fix my missed calls</a>
+        <a class="btn btn-ghost" href="/#pricing">See plans</a>
+      </div>
+      <p class="fine">An estimate, not a promise. It assumes the callers you miss go elsewhere instead of calling back, which many do.</p>
+    </section>
+  </div>
+
+  <div class="grid" style="margin-top:0">
+    <section class="card lead" id="lead">
+      <h2>Stop losing these jobs</h2>
+      <p>Leave your info and we'll send you your number, plus how King Connect texts every missed caller back within seconds so the job stays yours.</p>
+      <form id="f" novalidate>
+        <div class="two">
+          <label>Your name<input id="n" autocomplete="name" required></label>
+          <label>Business name<input id="b" required></label>
+        </div>
+        <div class="two">
+          <label>Best phone<input id="p" type="tel" autocomplete="tel" required></label>
+          <label>Email (optional)<input id="e" type="email" autocomplete="email"></label>
+        </div>
+        <label>Type of business
+          <select id="t"><option>HVAC / electrical</option><option>Plumbing / septic / pest control</option><option>Lawn / tree / pool</option><option>Auto / boat repair</option><option>RV park / marina / rental</option><option>Salon / barber</option><option>Real estate</option><option>Bar / restaurant</option><option>Other</option></select>
+        </label>
+        <label class="consent"><input id="s" type="checkbox"><span>I agree to receive text messages from King Connect about my request and services at the number provided. Msg frequency varies. Msg &amp; data rates may apply. Reply HELP for help, STOP to opt out. Consent is not a condition of purchase. <a href="/privacy.html" target="_blank" rel="noopener">Privacy Policy</a> · <a href="/terms.html" target="_blank" rel="noopener">Terms</a></span></label>
+        <button class="btn btn-brass" type="submit" id="go">Send me my results</button>
+        <div id="msg" role="status"></div>
+      </form>
+    </section>
+    <section class="how">
+      <h3>How King Connect fixes it</h3>
+      <ol>
+        <li><b>You miss a call.</b> You're on a roof, under a sink, or closed for the night.</li>
+        <li><b>We text them back in seconds</b> from your business number: "Sorry we missed you, how can we help?"</li>
+        <li><b>They text back</b> instead of calling the next company. You get the lead on your phone.</li>
+        <li><b>After the job,</b> they get a Google review request, so the next caller trusts you faster.</li>
+      </ol>
+      <p style="margin-top:14px"><a href="/#demo" style="font-weight:700;color:var(--brass-deep)">See it work →</a></p>
+    </section>
+  </div>
+</main>
+
+<footer><div class="wrap"><span>© 2026 King Connect · (903) 251-5127 · info@kingconnecttx.com</span><span><a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a></span></div></footer>
+
+<script>
+(function(){
+  var $=function(id){return document.getElementById(id);};
+  var calls=$('calls'), close=$('close'), job=$('job'), jobN=$('jobN');
+  var fmt=function(n){return '$'+Math.round(n).toLocaleString('en-US');};
+  var used=false, last={};
+  function track(n,p){try{if(window.gtag)gtag('event',n,p||{});}catch(e){}}
+  function calc(){
+    var c=+calls.value, r=+close.value/10, j=Math.max(1,+jobN.value||+job.value);
+    var weekJobs=c*r, monthJobs=weekJobs*52/12, month=monthJobs*j, year=weekJobs*52*j;
+    $('callsV').textContent=c; $('closeV').textContent=close.value+' in 10'; $('jobV').textContent=fmt(j);
+    $('year').textContent=fmt(year); $('month').textContent=fmt(month); $('jobs').textContent=monthJobs<10?monthJobs.toFixed(1).replace(/\.0$/,''):Math.round(monthJobs);
+    var need=Math.max(1,Math.ceil(129/j));
+    $('payback').innerHTML='King Connect starts at <b>$129 a month</b>. Saving just <b>'+need+' job'+(need>1?'s':'')+' a month</b> pays for it.';
+    last={calls:c,close:close.value,job:j,month:Math.round(month),year:Math.round(year)};
+  }
+  function touch(){ if(!used){used=true;track('calc_used');} calc(); }
+  calls.addEventListener('input',touch); close.addEventListener('input',touch);
+  job.addEventListener('input',function(){jobN.value=job.value;touch();});
+  jobN.addEventListener('input',function(){var v=+jobN.value||0; if(v>=25&&v<=5000) job.value=v; touch();});
+  calc();
+  document.addEventListener('click',function(e){var a=e.target.closest('[data-ev]'); if(a) track(a.dataset.ev);});
+
+  $('f').addEventListener('submit',function(e){
+    e.preventDefault();
+    var ok=['n','b','p'].every(function(id){var el=$(id),v=el.value.trim().length>0; el.style.borderColor=v?'':'#E04B3A'; return v;});
+    if(!ok) return;
+    var g=function(id){return $(id).value.trim();}, btn=$('go'), msg=$('msg');
+    var note='Missed-call calculator: '+last.calls+' missed calls/week, '+last.close+' in 10 hire, $'+last.job+' avg job = $'+last.month.toLocaleString('en-US')+'/month, $'+last.year.toLocaleString('en-US')+'/year';
+    var ref=window.KC_REF?window.KC_REF():''; if(ref) note+='\nReferral code: '+ref;
+    var d=new URLSearchParams();
+    d.append('entry.1634613612',g('n')); d.append('entry.740076565',g('b')); d.append('entry.1599790933',$('t').value);
+    d.append('entry.1637722511',g('p')); if(g('e')) d.append('entry.420473111',g('e'));
+    d.append('entry.835965389','Cost calculator'); d.append('entry.986106593',note);
+    d.append('entry.1010973906',$('s').checked?'Yes - agreed to texts':'No');
+    btn.disabled=true; btn.textContent='Sending…';
+    fetch('https://docs.google.com/forms/d/e/1FAIpQLSflsGEiWSVmy1LbIP4eh5lEyn9Xe1w2TGnu1OSzyEdap4BCLw/formResponse',{method:'POST',mode:'no-cors',body:d})
+      .then(function(){track('generate_lead',{form:'calculator'}); msg.textContent="Got it! We'll be in touch within one business day. Need us sooner? Call or text (903) 251-5127."; msg.style.display='block'; btn.textContent='Sent ✓';})
+      .catch(function(){msg.textContent="That didn't go through. Please call or text (903) 251-5127."; msg.style.display='block'; btn.disabled=false; btn.textContent='Send me my results';});
+  });
+})();
+</script>
+<script src="/ref.js?v=1"></script>
+<script src="/chat.js?v=7" defer></script>
+</body>
+</html>
