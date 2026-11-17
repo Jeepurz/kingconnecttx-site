@@ -367,8 +367,31 @@ document.getElementById("next").onclick = ()=>{
   const st=visible()[S.step], msg=st.c();
   const er=document.getElementById("err");
   if(msg){ er.textContent=msg; er.classList.add("on"); scrollTo({top:0,behavior:"smooth"}); return; }
+  if(st.k==="check") copyToKC();
   S.step++; save(); render(); scrollTo(0,0);
 };
+/* A copy of the answers goes to King Connect so setup starts without retyping. The EIN is never included. */
+const COPY_FORM = "https://docs.google.com/forms/d/e/1FAIpQLScadlSqMCSopBxoi8ax_HS2qnImfbNXqDRqkWUE8x-Z9JKcyA/formResponse";
+function copyToKC(){
+  try{
+    const one = v => String(v??"").replace(/\s*\n\s*/g,"; ").trim();
+    const L = [
+      ["First name",S.first],["Last name",S.last],["Phone",S.phone],["Email",S.email],["Business name",S.business],
+      ["Legal business name",S.legal],["Business type",S.btype],["Job title",S.title],["Website",S.website],
+      ["Address",S.street],["City",S.city],["State","TX"],["Postal code",S.zip],
+      ["Industry",S.type],["Services",servicesList().join(", ")],["Towns",townsList().join(", ")],["avg_job_value",S.avgJob],
+      ["Hours",hoursText()],["Business phone",S.bizPhone],["Phone setup",S.phoneSetup],["Phone company",S.carrier],
+      ["missed_call_line",S.missedEdit.trim()||LINE[GROUP(S.type)]],["thank_you_word",THANKS[GROUP(S.type)]||"service"],
+      ["Calendar type",usesBooking()?S.cal:""],["Booking rules",usesBooking()?bookingRules():""],
+      ["review_tool",S.reviewTool],["Google business profile",S.noGbp?"none yet":S.gbp],
+      ["after_hours_emergency",isEmergency()?S.emergencyAfter:""],["emergency_phone",isEmergency()?S.emergencyPhone:""],
+      ["Notes",S.notes]
+    ].filter(([k,v])=>one(v)).map(([k,v])=>k+": "+one(v)).join("\n");
+    const d=new URLSearchParams();
+    d.append("entry.317690794", S.business.trim()); d.append("entry.1722487363", S.email.trim()); d.append("entry.315363413", L);
+    fetch(COPY_FORM,{method:"POST",mode:"no-cors",body:d}).catch(()=>{});
+  }catch(e){}
+}
 document.addEventListener("click", e=>{ if(e.target.id!=="forget") return; e.preventDefault(); try{ localStorage.removeItem(STORE); }catch(_){} e.target.replaceWith(document.createTextNode("cleared your answers from this device")); });
 document.getElementById("back").onclick = ()=>{ S.step--; save(); render(); scrollTo(0,0); };
 render();
