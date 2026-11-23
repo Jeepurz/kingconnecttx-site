@@ -56,7 +56,7 @@ const css = `
 .kcc-hd b{display:block;font:800 16px/1.1 "Big Shoulders Display","Arial Narrow",sans-serif;letter-spacing:.04em;text-transform:uppercase}
 .kcc-hd small{display:block;font-size:12px;color:#B9C7CC}
 .kcc-x{margin-left:auto;background:none;border:0;color:#fff;font-size:26px;line-height:1;cursor:pointer;padding:2px 6px;border-radius:6px}
-.kcc-log{flex:1;overflow-y:auto;padding:14px 12px 6px;display:flex;flex-direction:column;gap:8px;-webkit-overflow-scrolling:touch}
+.kcc-log{flex:1;overflow-y:auto;overscroll-behavior:contain;padding:14px 12px 6px;display:flex;flex-direction:column;gap:8px;-webkit-overflow-scrolling:touch}
 .kcc-m{max-width:86%;padding:9px 12px;border-radius:14px;white-space:pre-line;word-wrap:break-word}
 .kcc-m.bot{background:#fff;border:1px solid #D5DDE0;border-bottom-left-radius:4px;align-self:flex-start}
 .kcc-m.me{background:#0E1A22;color:#fff;border-bottom-right-radius:4px;align-self:flex-end}
@@ -81,7 +81,14 @@ a.kcc-chip{text-decoration:none;display:inline-block}
 .kcc :focus-visible,.kcc-btn:focus-visible{outline:3px solid #D29A2A;outline-offset:2px}
 .kcc-typing{align-self:flex-start;color:#52626A;font-size:13px}
 @media (max-width:520px){.kcc{right:0;bottom:0;width:100vw;height:100dvh;border-radius:0}.kcc-btn{right:14px;padding:12px 16px 12px 12px}}
-@media (prefers-reduced-motion:reduce){.kcc-btn{transition:none}}
+.kcc:not([hidden]){transform-origin:bottom right;animation:kccIn .22s cubic-bezier(.23,1,.32,1)}
+@keyframes kccIn{from{opacity:0;transform:scale(.96) translateY(8px)}}
+@media (max-width:520px){.kcc:not([hidden]){animation:kccUp .3s cubic-bezier(.32,.72,0,1)}}
+@keyframes kccUp{from{opacity:0;transform:translateY(32px)}}
+.kcc-m,.kcc-chips{animation:kccMsg .16s cubic-bezier(.23,1,.32,1)}
+@keyframes kccMsg{from{opacity:0;transform:translateY(4px)}}
+@media (prefers-reduced-motion:reduce){.kcc-btn{transition:none}.kcc:not([hidden]){animation:kccFade .15s ease}.kcc-m,.kcc-chips{animation:none}}
+@keyframes kccFade{from{opacity:0}}
 `;
 const crown = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7l4.5 4L12 4l4.5 7L21 7l-2 11H5L3 7z"/></svg>';
 document.head.insertAdjacentHTML('beforeend', '<style id="kcc-css">' + css + '</style>');

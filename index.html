@@ -9,7 +9,7 @@
   gtag('js', new Date());
 </script>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, interactive-widget=resizes-content">
 <title>Missed-Call Text Back &amp; Google Reviews | Cedar Creek Lake, TX | King Connect</title>
 <link rel="canonical" href="https://kingconnecttx.com/">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -212,6 +212,10 @@
 <link rel="preload" href="/fonts/big-shoulders-display-latin-900-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/public-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <style>
+html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+a,button,summary,label,select,input[type=range],input[type=checkbox],[role=button]{touch-action:manipulation}
+button,summary,.btn,.chip,.qbtn,.kcc-chip,[role=button]{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+
 @font-face{font-family:"Big Shoulders Display";font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/big-shoulders-display-latin-600-normal.woff2) format("woff2")}
 @font-face{font-family:"Big Shoulders Display";font-style:normal;font-weight:800;font-display:swap;src:url(/fonts/big-shoulders-display-latin-800-normal.woff2) format("woff2")}
 @font-face{font-family:"Big Shoulders Display";font-style:normal;font-weight:900;font-display:swap;src:url(/fonts/big-shoulders-display-latin-900-normal.woff2) format("woff2")}
@@ -219,6 +223,17 @@
 @font-face{font-family:"Public Sans";font-style:normal;font-weight:500;font-display:swap;src:url(/fonts/public-sans-latin-500-normal.woff2) format("woff2")}
 @font-face{font-family:"Public Sans";font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/public-sans-latin-600-normal.woff2) format("woff2")}
 @font-face{font-family:"Public Sans";font-style:normal;font-weight:700;font-display:swap;src:url(/fonts/public-sans-latin-700-normal.woff2) format("woff2")}
+.qbtn:active,.reach a:active span.i{transform:scale(.94)}
+.qbtn,.reach a span.i{transition:transform .14s cubic-bezier(.23,1,.32,1),background .25s,border-color .25s}
+.chips{overscroll-behavior-x:contain}
+@supports selector(::details-content){:root{interpolate-size:allow-keywords}
+.faq details::details-content{block-size:0;overflow:hidden;transition:block-size .22s cubic-bezier(.23,1,.32,1),content-visibility .22s allow-discrete}
+.faq details[open]::details-content{block-size:auto}}
+.hmenu[open]>.hmenu-panel{transform-origin:top right;animation:menuIn .18s cubic-bezier(.23,1,.32,1)}
+@keyframes menuIn{from{opacity:0;transform:scale(.96) translateY(-4px)}}
+#formMsg{animation:msgIn .3s cubic-bezier(.23,1,.32,1)}
+@keyframes msgIn{from{opacity:0;transform:translateY(6px)}}
+@media (prefers-reduced-motion:reduce){.faq details::details-content{transition:none}.menu[open]>.menu-panel,.hmenu[open]>.hmenu-panel{animation:none}#msg,#formMsg{animation:none}}
 </style>
 <style>
 :root{
@@ -282,7 +297,7 @@ html:not(.js) #intro{display:none}
 .navact{display:flex;align-items:center;gap:10px}
 .qbtn{width:46px;height:46px;border-radius:50%;display:none;place-items:center;border:1.5px solid rgba(255,255,255,.28);color:#fff;transition:background .25s,border-color .25s}
 .qbtn svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:2}
-.qbtn:hover{background:var(--brass);border-color:var(--brass);color:var(--ink)}
+@media (hover:hover) and (pointer:fine){.qbtn:hover{background:var(--brass);border-color:var(--brass);color:var(--ink)}}
 @media (max-width:900px){.qbtn{display:grid}}
 @media (max-width:400px){.navact{gap:7px}.qbtn{width:44px;height:44px}.brand b{font-size:19px}}
 .nav ul{list-style:none;display:flex;gap:22px;margin:0;padding:0;font-weight:600;font-size:15px;white-space:nowrap}
@@ -292,14 +307,13 @@ html:not(.js) #intro{display:none}
 .hmenu summary svg{width:22px;height:22px;fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round}
 .hmenu-panel{position:absolute;right:0;top:calc(100% + 10px);background:#fff;color:var(--ink);border-radius:16px;box-shadow:0 20px 50px rgba(14,26,34,.3);padding:8px;min-width:240px;display:flex;flex-direction:column;z-index:60}
 .hmenu-panel a{padding:12px 14px;border-radius:10px;text-decoration:none;font-weight:600;color:var(--ink)}
-.hmenu-panel a:hover{background:#EEF2F3}
+@media (hover:hover) and (pointer:fine){.hmenu-panel a:hover{background:#EEF2F3}}
 @media (max-width:1180px){.nav ul{display:none}.hmenu{display:block}}
 @media (max-width:520px){.navact .qbtn[href^="sms"]{display:none}.hmenu summary{width:44px;height:44px}}
 @media (max-width:380px){.navact .qbtn{display:none}}
 .nav ul a{text-decoration:none;opacity:.82;position:relative;padding:4px 0}
 .nav ul a::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;background:var(--brass);transform:scaleX(0);transform-origin:left;transition:transform .3s var(--ease)}
-.nav ul a:hover{opacity:1}
-.nav ul a:hover::after{transform:scaleX(1)}
+@media (hover:hover) and (pointer:fine){.nav ul a:hover{opacity:1}.nav ul a:hover::after{transform:scaleX(1)}}
 
 @media (max-width:520px){.nav .btn{padding:11px 14px;font-size:14px}.brand small{display:none}.brand b{font-size:22px}}
 
@@ -307,13 +321,13 @@ html:not(.js) #intro{display:none}
 .btn:active{transform:scale(.97);transition-duration:.12s}
 @media (hover:hover) and (pointer:fine){.btn:hover{transform:translateY(-2px)}}
 .btn-brass{background:var(--brass);color:var(--ink);box-shadow:0 10px 30px rgba(210,154,42,.25)}
-.btn-brass:hover{background:var(--brass-hi);box-shadow:0 14px 34px rgba(210,154,42,.35)}
-.btn-brass::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);animation:shine 4.5s ease-in-out 3s 2}
-@keyframes shine{0%,70%{left:-60%}100%{left:130%}}
+@media (hover:hover) and (pointer:fine){.btn-brass:hover{background:var(--brass-hi);box-shadow:0 14px 34px rgba(210,154,42,.35)}}
+.btn-brass::after{content:"";position:absolute;top:0;left:0;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:translateX(-150%) skewX(-20deg);animation:shine 4.5s ease-in-out 3s 2}
+@keyframes shine{0%,70%{transform:translateX(-150%) skewX(-20deg)}100%{transform:translateX(330%) skewX(-20deg)}}
 .btn-ghost{border-color:rgba(255,255,255,.3);color:#fff}
-.btn-ghost:hover{border-color:#fff}
+@media (hover:hover) and (pointer:fine){.btn-ghost:hover{border-color:#fff}}
 .btn-dark{background:var(--ink);color:#fff}
-.btn-dark:hover{background:var(--ink-3)}
+@media (hover:hover) and (pointer:fine){.btn-dark:hover{background:var(--ink-3)}}
 
 /* ---------- HERO ---------- */
 .hero{position:relative;background:var(--ink);color:#fff;overflow:hidden;padding-top:96px}
@@ -328,24 +342,29 @@ html:not(.js) #intro{display:none}
 .hero h1 .ln{display:block;overflow:hidden;padding-bottom:.04em}
 .hero h1 .ln > span{display:inline-block}
 .js .hero h1 .ln > span{transform:translateY(105%)}
-body.loaded .hero h1 .ln > span{transform:none;transition:transform 1s var(--ease)}
-body.loaded .hero h1 .ln:nth-child(2) > span{transition-delay:.08s}
-body.loaded .hero h1 .ln:nth-child(3) > span{transition-delay:.16s}
-body.loaded .hero h1 .ln:nth-child(4) > span{transition-delay:.24s}
+body.loaded .hero h1 .ln > span{transform:none;transition:transform .8s cubic-bezier(.23,1,.32,1)}
+body.loaded .hero h1 .ln:nth-child(2) > span{transition-delay:.07s}
+body.loaded .hero h1 .ln:nth-child(3) > span{transition-delay:.12s}
+body.loaded .hero h1 .ln:nth-child(4) > span{transition-delay:.16s}
 .hero h1 em{font-style:normal;color:var(--signal);background:linear-gradient(var(--signal),var(--signal)) no-repeat 0 54%/0% .085em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
-body.loaded .hero h1 em{background-size:100% .085em;transition:background-size .9s var(--ease) 1.1s}
+body.loaded .hero h1 em{background-size:100% .085em;transition:background-size .55s cubic-bezier(.77,0,.175,1) .85s}
 .hero p.lead{font-size:clamp(17px,1.6vw,20px);line-height:1.55;color:#C9D5DA;max-width:34em;margin:26px 0 32px}
 .hero .ctas{display:flex;gap:14px;flex-wrap:wrap}
 .hero .calc-line{margin:14px 0 0;font-weight:700;font-size:15px}.hero .calc-line a{color:var(--brass-hi,#F0C25E);text-decoration:underline;text-underline-offset:3px}
 @media (max-width:520px){.hero .ctas .btn{flex:1 1 100%}}
 .proof{display:flex;gap:34px;flex-wrap:wrap;margin-top:42px;padding-top:26px;border-top:1px solid rgba(255,255,255,.12);font-size:14px;color:#AFC0C7}
 .proof b{display:block;font:800 32px/1 var(--display);color:#fff;letter-spacing:.02em;margin-bottom:4px}
-.js .hero .fade-up{opacity:0;transform:translateY(18px)}
-body.loaded .hero .fade-up{opacity:1;transform:none;transition:opacity .8s ease, transform .9s var(--ease)}
-body.loaded .hero .d1{transition-delay:.35s}
-body.loaded .hero .d2{transition-delay:.5s}
-body.loaded .hero .d3{transition-delay:.65s}
-body.loaded .hero .d4{transition-delay:.45s}
+/* hero entrance: headline leads; copy and buttons follow in a short wave; decoration only fades */
+.js .hero .fade-up{opacity:0;transform:translateY(10px)}
+.js .hero .kicker.fade-up,.js .hero .proof.fade-up{transform:none}
+.js .hero .demo.fade-up{transform:translateY(16px)}
+body.loaded .hero .fade-up{opacity:1;transform:none;transition:opacity .6s ease, transform .7s cubic-bezier(.23,1,.32,1)}
+body.loaded .hero .kicker.fade-up{transition-delay:0s}
+body.loaded .hero .demo.fade-up{transition-delay:.15s}
+body.loaded .hero p.lead.fade-up{transition-delay:.2s}
+body.loaded .hero .ctas.fade-up{transition-delay:.28s}
+body.loaded .hero .calc-line.fade-up{transition-delay:.34s}
+body.loaded .hero .proof.fade-up{transition-delay:.42s}
 
 /* ---------- PHONE DEMO ---------- */
 .demo{display:flex;flex-direction:column;align-items:center;gap:18px;min-width:0}
@@ -552,9 +571,9 @@ html,body{overflow-x:hidden}
 .reach{display:flex;flex-direction:column;gap:12px;margin-top:26px}
 .reach a{display:inline-flex;align-items:center;gap:12px;text-decoration:none;font-weight:700;font-size:18px;color:#fff;width:fit-content}
 .reach a span.i{width:42px;height:42px;border-radius:50%;background:rgba(210,154,42,.15);display:grid;place-items:center;transition:background .3s}
-.reach a:hover span.i{background:var(--brass)}
+@media (hover:hover) and (pointer:fine){.reach a:hover span.i{background:var(--brass)}}
 .reach svg{width:18px;height:18px;stroke:var(--brass);fill:none;stroke-width:2}
-.reach a:hover svg{stroke:var(--ink)}
+@media (hover:hover) and (pointer:fine){.reach a:hover svg{stroke:var(--ink)}}
 form{background:var(--ink-2);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:28px;display:grid;gap:16px}
 label{font-size:14px;font-weight:600;color:#C9D5DA;display:grid;gap:6px}
 input,select,textarea{font:inherit;font-size:16px;padding:13px 14px;border-radius:8px;border:1px solid #33464F;background:#0B151B;color:#fff;width:100%;transition:border-color .2s, box-shadow .2s}
@@ -833,7 +852,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <form id="lead" class="reveal right" novalidate>
       <div class="row2">
         <label for="f-name">Your name<input id="f-name" name="name" autocomplete="name" required></label>
-        <label for="f-biz">Business name<input id="f-biz" name="business" required></label>
+        <label for="f-biz">Business name<input id="f-biz" name="business" autocomplete="organization" required></label>
       </div>
       <div class="row2">
         <label for="f-phone">Best phone<input id="f-phone" name="phone" type="tel" autocomplete="tel" required></label>
@@ -844,7 +863,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         </label>
       </div>
       <div class="row2">
-        <label for="f-email">Email (optional)<input id="f-email" name="email" type="email" autocomplete="email"></label>
+        <label for="f-email">Email (optional)<input id="f-email" name="email" type="email" autocomplete="email" autocapitalize="none" autocorrect="off" spellcheck="false"></label>
         <label for="f-heard">How did you hear about us?
           <select id="f-heard" name="heard">
             <option value="">Choose one (optional)</option><option>Facebook</option><option>Google search</option><option>Referral from a friend or business</option><option>Flyer or card</option><option>Other</option>
@@ -914,10 +933,14 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   var cv = document.getElementById('waves'), ctx = cv.getContext && cv.getContext('2d');
   if (ctx && !reduce) {
     var w, hh, dpr = Math.min(2, window.devicePixelRatio || 1), t = 0, running = true;
-    function size(){ w = cv.offsetWidth; hh = cv.offsetHeight; cv.width = w*dpr; cv.height = hh*dpr; ctx.setTransform(dpr,0,0,dpr,0,0); }
+    var last = 0, step = matchMedia('(pointer:coarse)').matches ? 33 : 0;
+    function size(){ var nw = cv.offsetWidth, nh = cv.offsetHeight; if (nw === w && nh === hh) return; w = nw; hh = nh; cv.width = w*dpr; cv.height = hh*dpr; ctx.setTransform(dpr,0,0,dpr,0,0); }
     size(); addEventListener('resize', size);
-    function draw(){
+    function draw(now){
       if (!running) return;
+      now = now || performance.now();
+      if (step && now - last < step){ requestAnimationFrame(draw); return; }
+      var dt = last ? Math.min(100, now - last) : 16.7; last = now;
       ctx.clearRect(0,0,w,hh);
       for (var i=0;i<14;i++){
         var base = hh*0.52 + i*hh*0.04, amp = 6 + i*1.6, a = 0.03 + i*0.008;
@@ -929,9 +952,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         ctx.strokeStyle = i%4===0 ? 'rgba(210,154,42,'+(a+0.04)+')' : 'rgba(255,255,255,'+a+')';
         ctx.lineWidth = 1; ctx.stroke();
       }
-      t += 0.012; requestAnimationFrame(draw);
+      t += 0.012 * dt / 16.7; requestAnimationFrame(draw);
     }
-    if ('IntersectionObserver' in window) new IntersectionObserver(function(e){ var v = e[0].isIntersecting; if (v && !running){ running = true; draw(); } else if (!v) running = false; }).observe(cv);
+    if ('IntersectionObserver' in window) new IntersectionObserver(function(e){ var v = e[0].isIntersecting; if (v && !running){ running = true; last = 0; requestAnimationFrame(draw); } else if (!v) running = false; }).observe(cv);
     draw();
   }
 

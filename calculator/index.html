@@ -9,7 +9,8 @@
   gtag('js', new Date());
 </script>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, interactive-widget=resizes-content">
+<meta name="theme-color" content="#0E1A22">
 <title>Missed-Call Cost Calculator | What Are Missed Calls Costing You? | King Connect</title>
 <meta name="description" content="Find out in 30 seconds how much money your missed calls cost your business every month and every year. Free calculator from King Connect.">
 <link rel="canonical" href="https://kingconnecttx.com/calculator/">
@@ -24,6 +25,10 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preload" href="/fonts/big-shoulders-display-latin-900-normal.woff2" as="font" type="font/woff2" crossorigin>
 <style>
+html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+a,button,summary,label,select,input[type=range],input[type=checkbox],[role=button]{touch-action:manipulation}
+button,summary,.btn,.chip,.qbtn,.kcc-chip,[role=button]{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+
 @font-face{font-family:"Big Shoulders Display";font-weight:800;font-display:swap;src:url(/fonts/big-shoulders-display-latin-800-normal.woff2) format("woff2")}
 @font-face{font-family:"Big Shoulders Display";font-weight:900;font-display:swap;src:url(/fonts/big-shoulders-display-latin-900-normal.woff2) format("woff2")}
 @font-face{font-family:"Public Sans";font-weight:400;font-display:swap;src:url(/fonts/public-sans-latin-400-normal.woff2) format("woff2")}
@@ -44,8 +49,8 @@ a{color:inherit}
 h1{font-family:"Big Shoulders Display";font-weight:900;text-transform:uppercase;font-size:clamp(46px,8vw,84px);line-height:.92;margin:10px 0 14px}
 h1 em{font-style:normal;color:var(--signal)}
 .lede{color:#C9D5DC;font-size:18px;max-width:620px;margin:0}
-.grid{display:grid;grid-template-columns:1.05fr .95fr;gap:22px;margin-top:-90px;padding-bottom:40px}
-@media (max-width:860px){.grid{grid-template-columns:1fr}}
+.grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:22px;margin-top:-90px;padding-bottom:40px}
+@media (max-width:860px){.grid{grid-template-columns:minmax(0,1fr)}}
 .card{background:var(--card);border-radius:20px;padding:28px;box-shadow:0 20px 50px rgba(14,26,34,.12)}
 .q{margin-bottom:26px}
 .q label{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-weight:700;font-size:16px}
@@ -66,7 +71,7 @@ input[type=range]{width:100%;margin-top:8px;accent-color:var(--brass);height:44p
 .fine{color:#7F95A2;font-size:12.5px;margin-top:14px}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:inherit;font-weight:700;font-size:16px;border:0;border-radius:999px;padding:15px 26px;cursor:pointer;text-decoration:none}
 .btn-brass{background:var(--brass);color:var(--ink)}
-.btn-brass:hover{background:var(--brass-hi)}
+@media (hover:hover) and (pointer:fine){.btn-brass:hover{background:var(--brass-hi)}}
 .btn{transition:transform .16s cubic-bezier(.23,1,.32,1),background .2s ease}
 .btn:active{transform:scale(.97)}
 @media (hover:hover) and (pointer:fine){.btn:hover{transform:translateY(-2px)}}
@@ -91,18 +96,28 @@ a:focus-visible,summary:focus-visible,button:focus-visible,input:focus-visible,s
 .how li{margin-bottom:8px}
 .links{display:flex;align-items:center;gap:22px;font-weight:600;font-size:15px}
 .links a{text-decoration:none;color:#DCE5EA}
-.links a:hover{color:#fff;text-decoration:underline;text-underline-offset:4px}
+@media (hover:hover) and (pointer:fine){.links a:hover{color:#fff;text-decoration:underline;text-underline-offset:4px}}
 .links .call{color:var(--brass-hi)}
 .menu{display:none;position:relative}
 .menu summary{list-style:none;cursor:pointer;font-weight:700;font-size:15px;border:1.5px solid rgba(255,255,255,.35);border-radius:999px;padding:9px 16px}
 .menu summary::-webkit-details-marker{display:none}
 .menu-panel{position:absolute;right:0;top:calc(100% + 10px);background:#fff;color:var(--ink);border-radius:16px;box-shadow:0 20px 50px rgba(14,26,34,.3);padding:8px;min-width:230px;z-index:30;display:flex;flex-direction:column}
 .menu-panel a{padding:12px 14px;border-radius:10px;text-decoration:none;font-weight:600}
-.menu-panel a:hover{background:var(--paper)}
+@media (hover:hover) and (pointer:fine){.menu-panel a:hover{background:var(--paper)}}
 @media (max-width:760px){.links{display:none}.menu{display:block}}
 
 footer{background:var(--ink);color:#9FB2BE;font-size:13.5px;padding:22px 0}
 footer .wrap{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between}
+.menu[open]>.menu-panel{transform-origin:top right;animation:menuIn .18s cubic-bezier(.23,1,.32,1)}
+@keyframes menuIn{from{opacity:0;transform:scale(.96) translateY(-4px)}}
+#msg{animation:msgIn .3s cubic-bezier(.23,1,.32,1)}
+@keyframes msgIn{from{opacity:0;transform:translateY(6px)}}
+@media (prefers-reduced-motion:reduce){.faq details::details-content{transition:none}.menu[open]>.menu-panel,.hmenu[open]>.hmenu-panel{animation:none}#msg,#formMsg{animation:none}}
+.result{min-width:0}
+.result .row{flex-wrap:wrap}
+.result .pill{flex:1 1 130px;min-width:0}
+.result .pill b{font-variant-numeric:tabular-nums;display:block;white-space:nowrap;overflow:visible}
+.big{font-variant-numeric:tabular-nums;white-space:nowrap}
 </style>
 </head>
 <body>
@@ -164,11 +179,11 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between}
       <form id="f" novalidate>
         <div class="two">
           <label>Your name<input id="n" autocomplete="name" required></label>
-          <label>Business name<input id="b" required></label>
+          <label>Business name<input id="b" autocomplete="organization" required></label>
         </div>
         <div class="two">
           <label>Best phone<input id="p" type="tel" autocomplete="tel" required></label>
-          <label>Email (optional)<input id="e" type="email" autocomplete="email"></label>
+          <label>Email (optional)<input id="e" type="email" autocomplete="email" autocapitalize="none" autocorrect="off" spellcheck="false"></label>
         </div>
         <label>Type of business
           <select id="t"><option>HVAC / electrical</option><option>Plumbing / septic / pest control</option><option>Lawn / tree / pool</option><option>Auto / boat repair</option><option>RV park / marina / rental</option><option>Salon / barber</option><option>Real estate</option><option>Bar / restaurant</option><option>Other</option></select>
@@ -200,11 +215,17 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between}
   var fmt=function(n){return '$'+Math.round(n).toLocaleString('en-US');};
   var used=false, last={};
   function track(n,p){try{if(window.gtag)gtag('event',n,p||{});}catch(e){}}
+  function fit(el){ /* long totals shrink to fit their box; numbers are never cut off */
+    el.style.fontSize=''; var w=el.clientWidth, sw=el.scrollWidth;
+    if (w && sw > w) el.style.fontSize = (parseFloat(getComputedStyle(el).fontSize) * w / sw * 0.97) + 'px';
+  }
+  addEventListener('resize', function(){ fit($('year')); fit($('month')); });
   function calc(){
     var c=+calls.value, r=+close.value/10, j=Math.max(1,+jobN.value||+job.value);
     var weekJobs=c*r, monthJobs=weekJobs*52/12, month=monthJobs*j, year=weekJobs*52*j;
     $('callsV').textContent=c; $('closeV').textContent=close.value+' in 10'; $('jobV').textContent=fmt(j);
-    $('year').textContent=fmt(year); $('month').textContent=fmt(month); $('jobs').textContent=monthJobs<10?monthJobs.toFixed(1).replace(/\.0$/,''):Math.round(monthJobs);
+    $('year').textContent=fmt(year); $('month').textContent=fmt(month);
+    fit($('year')); fit($('month')); $('jobs').textContent=monthJobs<10?monthJobs.toFixed(1).replace(/\.0$/,''):Math.round(monthJobs);
     var need=Math.max(1,Math.ceil(129/j));
     $('payback').innerHTML='King Connect starts at <b>$129 a month</b>. Saving just <b>'+need+' job'+(need>1?'s':'')+' a month</b> pays for it.';
     last={calls:c,close:close.value,job:j,month:Math.round(month),year:Math.round(year)};
