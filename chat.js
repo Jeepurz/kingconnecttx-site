@@ -42,7 +42,10 @@ let mode = 'menu', ask = null; // ask = {key, check, next} while waiting for typ
 /* ---------- styles + DOM ---------- */
 const css = `
 .kcc-btn{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:70;display:flex;align-items:center;gap:10px;padding:13px 18px 13px 14px;border:0;border-radius:999px;background:#0E1A22;color:#fff;font:700 15px/1 "Public Sans",system-ui,sans-serif;box-shadow:0 12px 30px rgba(14,26,34,.35);cursor:pointer;transition:transform .2s ease}
-.kcc-btn:hover{transform:translateY(-2px)}.kcc-btn svg{width:22px;height:22px;fill:#F0C25E}
+.kcc-btn{transition:transform .2s cubic-bezier(.23,1,.32,1),opacity .2s ease,visibility 0s}
+.kcc-btn.away{opacity:0;transform:translateY(16px);visibility:hidden;pointer-events:none;transition:transform .2s cubic-bezier(.23,1,.32,1),opacity .15s ease,visibility 0s .2s}
+@media (hover:hover) and (pointer:fine){.kcc-btn:hover{transform:translateY(-2px)}}
+.kcc-btn:active{transform:scale(.97)}.kcc-btn svg{width:22px;height:22px;fill:#F0C25E}
 .kcc-btn .dot{width:9px;height:9px;border-radius:50%;background:#2F9E6E;box-shadow:0 0 0 3px rgba(47,158,110,.25)}
 .kcc-btn[hidden]{display:none}
 .kcc{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:71;width:min(380px,calc(100vw - 24px));height:min(600px,calc(100dvh - 110px));display:flex;flex-direction:column;background:#F6F8F9;border-radius:16px;overflow:hidden;box-shadow:0 24px 60px rgba(14,26,34,.4);font:400 15px/1.5 "Public Sans",system-ui,sans-serif;color:#0E1A22}
@@ -59,10 +62,12 @@ const css = `
 .kcc-m.me{background:#0E1A22;color:#fff;border-bottom-right-radius:4px;align-self:flex-end}
 .kcc-m a{color:#8F650F;font-weight:700}
 .kcc-chips{display:flex;flex-wrap:wrap;gap:6px;padding:2px 0 4px}
-.kcc-chip{border:1.5px solid #0E1A22;background:#fff;color:#0E1A22;border-radius:999px;padding:7px 12px;font:600 14px/1.2 "Public Sans",system-ui,sans-serif;cursor:pointer}
-.kcc-chip:hover{background:#0E1A22;color:#fff}
+.kcc-chip{border:1.5px solid #0E1A22;background:#fff;color:#0E1A22;border-radius:999px;padding:10px 14px;min-height:44px;font:600 14px/1.2 "Public Sans",system-ui,sans-serif;cursor:pointer}
+.kcc-chip{transition:transform .16s cubic-bezier(.23,1,.32,1),background .15s ease,color .15s ease}
+.kcc-chip:active{transform:scale(.97)}
+@media (hover:hover){.kcc-chip:hover{background:#0E1A22;color:#fff}}
 .kcc-chip.go{background:#D29A2A;border-color:#D29A2A;color:#0E1A22}
-.kcc-chip.go:hover{background:#8F650F;border-color:#8F650F;color:#fff}
+@media (hover:hover){.kcc-chip.go:hover{background:#8F650F;border-color:#8F650F;color:#fff}}
 a.kcc-chip{text-decoration:none;display:inline-block}
 .kcc-card{background:#fff;border:1.5px solid #D29A2A;border-radius:12px;padding:12px;align-self:stretch}
 .kcc-card b{font:900 22px/1 "Big Shoulders Display","Arial Narrow",sans-serif;letter-spacing:.02em}
@@ -91,7 +96,21 @@ box.innerHTML = '<div class="kcc-hd"><span class="av">' + crown + '</span><div><
   '<div class="kcc-note">Automated helper. For anything else, call or text ' + PHONE + '.</div>';
 document.body.append(btn, box);
 const log = box.querySelector('.kcc-log'), input = box.querySelector('input'), form = box.querySelector('form');
-if (window.matchMedia('(max-width:520px)').matches) btn.querySelector('span').textContent = 'Questions? Chat';
+const phone = window.matchMedia('(max-width:520px)');
+if (phone.matches) btn.querySelector('span').textContent = 'Questions? Chat';
+/* Step aside so the button never covers the hero's main button on a phone or the footer's links. */
+let footSeen = false;
+const under = () => { /* a keyboard focus the button would cover */
+  const el = document.activeElement;
+  if (!el || el === document.body || el === btn || box.contains(el) || !el.matches(':focus-visible')) return false;
+  const r = el.getBoundingClientRect(), b = btn.getBoundingClientRect();
+  return r.right > b.left && r.left < b.right && r.bottom > b.top - 16 && r.top < b.bottom;
+};
+const place = () => { btn.classList.toggle('away', footSeen || under() || (phone.matches && window.scrollY < window.innerHeight * 0.55)); };
+const foot = document.querySelector('footer');
+if (foot && 'IntersectionObserver' in window) new IntersectionObserver(es => { footSeen = es[0].isIntersecting; place(); }).observe(foot);
+document.addEventListener('focusin', () => requestAnimationFrame(place));
+window.addEventListener('scroll', place, {passive: true}); window.addEventListener('resize', place); place();
 
 /* ---------- rendering ---------- */
 const scroll = () => { log.scrollTop = log.scrollHeight; };
