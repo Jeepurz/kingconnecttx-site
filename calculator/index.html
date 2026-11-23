@@ -190,6 +190,13 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between}
     $('payback').innerHTML='King Connect starts at <b>$129 a month</b>. Saving just <b>'+need+' job'+(need>1?'s':'')+' a month</b> pays for it.';
     last={calls:c,close:close.value,job:j,month:Math.round(month),year:Math.round(year)};
   }
+  try{
+    var q=new URLSearchParams(location.search), n;
+    n=parseInt(q.get('calls'),10); if(n>=1&&n<=50) calls.value=n;
+    n=parseInt(q.get('close'),10); if(n>=1&&n<=10) close.value=n;
+    n=parseInt(q.get('job'),10); if(n>=1&&n<=1000000){ jobN.value=n; if(n>=25&&n<=5000) job.value=n; else if(n>5000) job.value=5000; }
+    var ty=q.get('type'); if(ty){ var sel=$('t'); for(var i=0;i<sel.options.length;i++) if(sel.options[i].text===ty) sel.selectedIndex=i; }
+  }catch(e){}
   function touch(){ if(!used){used=true;track('calc_used');} calc(); }
   calls.addEventListener('input',touch); close.addEventListener('input',touch);
   job.addEventListener('input',function(){jobN.value=job.value;touch();});
