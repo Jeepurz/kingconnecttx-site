@@ -118,6 +118,8 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between}
 .result .pill{flex:1 1 130px;min-width:0}
 .result .pill b{font-variant-numeric:tabular-nums;display:block;white-space:nowrap;overflow:visible}
 .big{font-variant-numeric:tabular-nums;white-space:nowrap}
+.hint{margin:10px 0 0;padding:10px 12px;border-radius:10px;background:#FFF4DC;border:1px solid #E9C77A;color:#5C4207;font-size:14px;line-height:1.45;animation:msgIn .25s cubic-bezier(.23,1,.32,1)}
+.hint[hidden]{display:none}
 </style>
 </head>
 <body>
@@ -152,6 +154,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between}
         <small>A typical ticket. Type it in if it's bigger than the slider.</small>
         <input id="job" type="range" min="25" max="5000" step="25" value="350">
         <div class="num"><span>$</span><input id="jobN" type="number" min="1" step="1" value="350" inputmode="numeric" aria-label="Average job amount in dollars"></div>
+        <p class="hint" id="bigHint" role="status" hidden>Selling homes or land? Use what you earn per sale (your commission), not the sale price.</p>
       </div>
     </section>
 
@@ -225,7 +228,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between}
     var weekJobs=c*r, monthJobs=weekJobs*52/12, month=monthJobs*j, year=weekJobs*52*j;
     $('callsV').textContent=c; $('closeV').textContent=close.value+' in 10'; $('jobV').textContent=fmt(j);
     $('year').textContent=fmt(year); $('month').textContent=fmt(month);
-    fit($('year')); fit($('month')); $('jobs').textContent=monthJobs<10?monthJobs.toFixed(1).replace(/\.0$/,''):Math.round(monthJobs);
+    $('bigHint').hidden = j < 50000; fit($('year')); fit($('month')); $('jobs').textContent=monthJobs<10?monthJobs.toFixed(1).replace(/\.0$/,''):Math.round(monthJobs);
     var need=Math.max(1,Math.ceil(129/j));
     $('payback').innerHTML='King Connect starts at <b>$129 a month</b>. Saving just <b>'+need+' job'+(need>1?'s':'')+' a month</b> pays for it.';
     last={calls:c,close:close.value,job:j,month:Math.round(month),year:Math.round(year)};
@@ -264,6 +267,6 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between}
 })();
 </script>
 <script src="/ref.js?v=1"></script>
-<script src="/chat.js?v=7" defer></script>
+<script src="/chat.js?v=8" defer></script>
 </body>
 </html>

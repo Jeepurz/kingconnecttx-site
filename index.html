@@ -263,7 +263,7 @@ h1,h2,h3{font-family:var(--display);text-transform:uppercase;letter-spacing:.01e
 p{text-wrap:pretty}
 a{color:inherit}
 :focus-visible{outline:3px solid var(--ink);outline-offset:3px;border-radius:4px}
-.nav :focus-visible,.hero :focus-visible,.dark :focus-visible,.tier.pop :focus-visible,#contact :focus-visible,footer :focus-visible,.marquee :focus-visible{outline-color:var(--brass-hi)}
+.nav :focus-visible,.hero :focus-visible,.dark :focus-visible,.tier.pop :focus-visible,#contact :focus-visible,footer :focus-visible{outline-color:var(--brass-hi)}
 .js .reveal:focus-within{opacity:1;transform:none;transition:none}
 .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
 @media (max-width:520px){.wrap{padding:0 18px}}
@@ -408,12 +408,6 @@ body.loaded .hero .proof.fade-up{transition-delay:.42s}
 .demo-cap{font-size:12.5px;color:#8FA3AB;text-align:center;margin:0}
 
 /* ---------- MARQUEE ---------- */
-.marquee{background:var(--brass);color:var(--ink);overflow:hidden;white-space:nowrap;border-top:1px solid rgba(0,0,0,.08)}
-.marquee .track{display:inline-flex;gap:0;animation:marq 38s linear infinite;padding:14px 0}
-.marquee:hover .track{animation-play-state:paused}
-.marquee span{font:800 22px/1 var(--display);letter-spacing:.08em;text-transform:uppercase;padding:0 22px;display:inline-flex;align-items:center;gap:22px}
-.marquee span::after{content:"";width:8px;height:8px;background:var(--ink);transform:rotate(45deg)}
-@keyframes marq{to{transform:translateX(-50%)}}
 
 /* ---------- SECTIONS ---------- */
 section{padding:110px 0;scroll-margin-top:72px}
@@ -436,6 +430,29 @@ html,body{overflow-x:hidden}
 @supports (overflow:clip){html,body{overflow-x:clip}}
 .js .reveal.zoom{transform:scale(.97)}
 .js .reveal.zoom.in{transform:none}
+
+/* HERO FITS ONE SCREEN on two-column layouts */
+@media (min-width:961px){
+  .hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding-top:84px}
+  .hero .wrap{width:100%;padding-top:16px;padding-bottom:32px}
+  .hero h1{font-size:clamp(52px,min(7.2vw,9.6svh),100px)}
+  .hero p.lead{margin:18px 0 22px;font-size:clamp(17px,min(1.6vw,2.2svh),20px)}
+  .hero .kicker{margin-bottom:16px}
+  .proof{margin-top:24px;padding-top:16px}
+  .screen{height:clamp(400px,calc(100svh - 360px),560px)}
+}
+/* TOWNS */
+.towns{background:var(--brass);color:var(--ink)}
+.towns .wrap{display:flex;align-items:center;gap:10px 28px;padding-top:14px;padding-bottom:14px;flex-wrap:wrap}
+.towns-lbl{font:700 12.5px/1 var(--body);letter-spacing:.18em;text-transform:uppercase}
+.towns ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:0 4px;align-items:center}
+.towns li{display:flex;align-items:center}
+.towns li+li::before{content:"";width:6px;height:6px;background:var(--ink);transform:rotate(45deg);margin:0 10px;opacity:.55}
+.towns a{font:800 20px/1 var(--display);letter-spacing:.06em;text-transform:uppercase;text-decoration:none;color:var(--ink);display:inline-flex;align-items:center;min-height:44px;background:linear-gradient(currentColor,currentColor) no-repeat 0 calc(50% + 13px)/0 2px;transition:background-size .2s cubic-bezier(.23,1,.32,1)}
+.towns a:focus-visible{outline-color:var(--ink)}
+@media (hover:hover) and (pointer:fine){.towns a:hover{background-size:100% 2px}}
+.towns a.all{font:700 15px/1 var(--body);letter-spacing:0;text-transform:none}
+@media (max-width:620px){.towns .wrap{gap:4px}.towns a{font-size:17px}.towns li+li::before{margin:0 7px}}
 
 /* SERVICES */
 .svc{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
@@ -656,8 +673,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <p class="demo-cap">Tap a business type to see how King Connect works for it.</p>
     </div>
   </div>
-  <div class="marquee" aria-hidden="true"><div class="track" id="marq"></div></div>
 </section>
+<nav class="towns" aria-label="Towns we serve"><div class="wrap"><span class="towns-lbl">Serving Cedar Creek Lake</span><ul><li><a href="/areas/mabank/">Mabank</a></li><li><a href="/areas/gun-barrel-city/">Gun Barrel City</a></li><li><a href="/areas/seven-points/">Seven Points</a></li><li><a href="/areas/tool/">Tool</a></li><li><a href="/areas/kemp/">Kemp</a></li><li><a href="/areas/eustace/">Eustace</a></li><li><a href="/areas/malakoff/">Malakoff</a></li><li><a href="/areas/athens/">Athens</a></li><li><a class="all" href="/areas/">All areas →</a></li></ul></div></nav>
 
 <section id="services" aria-labelledby="svc-h">
   <div class="wrap">
@@ -745,9 +762,22 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       </div>
     </div>
 
-    <div class="addons-head reveal">
-      <h3>Add-ons for your trade</h3>
-      <p>Bolt any of these onto a plan.</p>
+    <div class="founder reveal">
+      <div>
+        <h3>Founding Ten offer <span class="spots" data-spots-left="10">10 of 10 spots open</span></h3>
+        <p>The first ten lake-area businesses to sign up pay no setup fee and keep their monthly price locked for 12 months.</p>
+      </div>
+      <a class="btn btn-dark" href="#contact" data-open-chat>Claim a founding spot</a>
+    </div>
+    <div class="terms reveal"><span>Month to month</span><span>Keep your phone number</span><span>First month back if it isn't working for you</span><span>Texting costs included</span></div>
+  </div>
+</section>
+
+<section id="addons" aria-labelledby="addons-h" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="reveal left"><span class="label">Add-ons</span><h2 id="addons-h">Extras for your trade.</h2></div>
+      <p class="reveal right">Bolt any of these onto a plan. Each one is set up for you, like everything else.</p>
     </div>
     <div class="addons">
       <div class="addon feature reveal zoom">
@@ -764,15 +794,6 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <div class="addon wide reveal"><div class="top"><b>Freeze &amp; Heat Alert</b><span class="amt">+$149/mo</span></div><p>For plumbers, HVAC and pool companies. When a hard freeze or a heat wave is in the forecast, your past customers get a text offering a check-up before something breaks.</p></div>
       <div class="addon wide reveal"><div class="top"><b>Extra location</b><span class="amt">+$79/mo</span></div><p>A second shop, office or phone line on the same plan.</p></div>
     </div>
-
-    <div class="founder reveal">
-      <div>
-        <h3>Founding Ten offer <span class="spots" data-spots-left="10">10 of 10 spots open</span></h3>
-        <p>The first ten lake-area businesses to sign up pay no setup fee and keep their monthly price locked for 12 months.</p>
-      </div>
-      <a class="btn btn-dark" href="#contact" data-open-chat>Claim a founding spot</a>
-    </div>
-    <div class="terms reveal"><span>Month to month</span><span>Keep your phone number</span><span>First month back if it isn't working for you</span><span>Texting costs included</span></div>
   </div>
 </section>
 
@@ -922,12 +943,6 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     }, {threshold:0.12, rootMargin:'0px 0px -6% 0px'});
     items.forEach(function(el){ io.observe(el); });
   } else { items.forEach(function(el){ el.classList.add('in'); }); }
-
-  /* ---------- marquee ---------- */
-  var towns = ['Mabank','Gun Barrel City','Seven Points','Tool','Kemp','Eustace','Malakoff','Athens','Payne Springs','Trinidad','Enchanted Oaks','Caney City'];
-  var m = document.getElementById('marq'), html='';
-  for (var k=0;k<2;k++) towns.forEach(function(t){ html += '<span>'+t+'</span>'; });
-  m.innerHTML = html;
 
   /* ---------- lake waves ---------- */
   var cv = document.getElementById('waves'), ctx = cv.getContext && cv.getContext('2d');
@@ -1082,7 +1097,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 })();
 </script>
 <script src="/ref.js?v=1"></script>
-<script src="/chat.js?v=7" defer></script>
+<script src="/chat.js?v=8" defer></script>
 <script>document.querySelectorAll(".hmenu-panel a").forEach(function(a){a.addEventListener("click",function(){var d=a.closest("details");if(d)d.open=false;});});</script>
 </body>
 </html>

@@ -1,0 +1,11 @@
+{
+  "name": "kingconnect-site-check",
+  "private": true,
+  "description": "Automatic checks for kingconnecttx.com: every page loads, nothing spills off a phone screen, links work, calculator math and forms behave.",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.65.1"
+  }
+}

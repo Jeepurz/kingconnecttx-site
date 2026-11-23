@@ -113,7 +113,7 @@ const under = () => { /* a keyboard focus the button would cover */
   const r = el.getBoundingClientRect(), b = btn.getBoundingClientRect();
   return r.right > b.left && r.left < b.right && r.bottom > b.top - 16 && r.top < b.bottom;
 };
-const place = () => { btn.classList.toggle('away', footSeen || under() || (phone.matches && window.scrollY < window.innerHeight * 0.55)); };
+const place = () => { btn.classList.toggle('away', footSeen || under() || (document.querySelector('.hero') && window.scrollY < (phone.matches ? window.innerHeight * 0.55 : 120))); };
 const foot = document.querySelector('footer');
 if (foot && 'IntersectionObserver' in window) new IntersectionObserver(es => { footSeen = es[0].isIntersecting; place(); }).observe(foot);
 document.addEventListener('focusin', () => requestAnimationFrame(place));
