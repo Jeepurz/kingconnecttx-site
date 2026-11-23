@@ -5,7 +5,7 @@
 (() => {
 if (window.__kcChat) return; window.__kcChat = true;
 
-const PHONE = '(903) 251-5127', PHONE_TEL = '+19032515127', EMAIL = 'info@kingconnecttx.com';
+const PHONE = '(214) 736-4881', PHONE_TEL = '+12147364881', EMAIL = 'info@kingconnecttx.com';
 const BOOK = 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ04JgXvoi_nWQXMO7y2FA0Kwp8Sy0B48Qn2iZJQ1pR2KAC16AKZragNxgWoIrN8H_p3XaC2axWh';
 const FORM = 'https://docs.google.com/forms/d/e/1FAIpQLSflsGEiWSVmy1LbIP4eh5lEyn9Xe1w2TGnu1OSzyEdap4BCLw/formResponse';
 const PLANS = {
