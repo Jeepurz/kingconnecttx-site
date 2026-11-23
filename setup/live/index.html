@@ -116,7 +116,7 @@ code.d{font-family:ui-monospace,Menlo,Consolas,monospace;background:#F3F5F6;bord
    Jordan texts each client a personal link once their number is approved and the automations are on:
    kingconnecttx.com/setup/live/?b=Business&n=First&ph=9035550100&t=HVAC&r=<review link>&k=<booking link>
    The client runs each check, then texts or emails the results back. Open with ?make to build a link. */
-const JORDAN_SMS = "+12147364881", JORDAN_EMAIL = "info@kingconnecttx.com";
+const JORDAN_SMS = "+19032515127", JORDAN_EMAIL = "info@kingconnecttx.com";
 const NO_BOOKING = ["Restaurant/bar","Retail store"];
 const TYPES = ["HVAC","Electrical","Plumbing","Septic","Pest control","Lawn/landscape","Tree service","Pool service","Pressure washing","Fencing","Auto repair","Boat repair","Marina","RV park","Salon/barber","Real estate","Restaurant/bar","Retail store","Contractor","Other"];
 const GROUP = t => ({HVAC:"hvac",Electrical:"hvac",Plumbing:"plumb",Septic:"plumb","Pest control":"pest","Lawn/landscape":"lawn","Tree service":"tree","Pool service":"pool","Auto repair":"auto","Boat repair":"auto",Marina:"stay","RV park":"stay","Salon/barber":"salon","Real estate":"re","Restaurant/bar":"food","Retail store":"retail"})[t] || "general";
@@ -185,7 +185,7 @@ function render(){
   if(q.has("make")) return renderMake(main, bar);
   if(!C.b && !C.ph){
     bar.style.width = "0%";
-    main.innerHTML = `<p class="stepno">King Connect</p><h1>Go-live checks</h1><p class="lead">This page needs your personal link. Jordan texts it to you once your number is approved and everything is switched on. Don't have it? Text Jordan at (214) 736-4881.</p>`;
+    main.innerHTML = `<p class="stepno">King Connect</p><h1>Go-live checks</h1><p class="lead">This page needs your personal link. Jordan texts it to you once your number is approved and everything is switched on. Don't have it? Text Jordan at (903) 251-5127.</p>`;
     return;
   }
   const L = checks(), answered = L.filter(c=>R[c.id]).length, allOk = L.every(c=>R[c.id]==="ok"), anyNo = L.some(c=>R[c.id]==="no");
