@@ -212,7 +212,7 @@ const INTERVALS = [["Every month",30],["Every 3 months",90],["Every 6 months",18
 const DEF_INTERVAL = {HVAC:"Every 6 months",Electrical:"Once a year",Plumbing:"Once a year",Septic:"Every 2 to 3 years","Pest control":"Every 3 months","Lawn/landscape":"Once a year","Tree service":"Once a year","Pool service":"Once a year","Pressure washing":"Once a year","Auto repair":"Every 3 months","Boat repair":"Once a year",Marina:"Once a year","RV park":"Once a year","Salon/barber":"Every month",Fencing:"No set schedule",Contractor:"No set schedule",Other:"No set schedule"};
 const intervalDays = () => { const i=INTERVALS.find(x=>x[0]===(S.interval||DEF_INTERVAL[S.type])); return i&&i[1]?String(i[1]):""; };
 const WINBACK_PH = {hvac:"$25 off a spring AC tune-up",plumb:"$25 off a water heater flush",pest:"A free re-treat with any quarterly plan",lawn:"First mow of the season 10% off",tree:"Free estimate and 10% off this month",pool:"$50 off a spring pool opening",auto:"$10 off your next oil change",stay:"10% off a weeknight stay",salon:"$10 off your next color",general:"10% off your next job"};
-const listMail = () => "mailto:jordan@kingconnecttx.com?subject="+encodeURIComponent("Customer list - "+bizName())+"&body="+encodeURIComponent("Hi Jordan,\n\nHere's our customer list for King Connect (attached).\n\n"+bizName());
+const listMail = () => "mailto:info@kingconnecttx.com?subject="+encodeURIComponent("Customer list - "+bizName())+"&body="+encodeURIComponent("Hi King Connect team,\n\nHere's our customer list for King Connect (attached).\n\n"+bizName());
 const alertTypes = () => ({Both:"Freeze & Heat",Freeze:"Freeze only",Heat:"Heat only"})[S.alertKinds]||"";
 const arrivalInfo = () => [S.checkin?"Check-in "+S.checkin+(S.checkout?", check-out "+S.checkout:"")+".":"", S.directions.trim()?"Directions: "+S.directions.trim():"", S.gate.trim()?"Gate code: "+S.gate.trim():"", S.wifi.trim()?"Wi-Fi: "+S.wifi.trim():"", S.rules.trim()?"Rules: "+S.rules.trim():""].filter(Boolean).map(x=>/[.!?]$/.test(x)?x:x+".").join(" ");
 
@@ -250,7 +250,7 @@ function bookingRules(){
 const STEPS = [
  {k:"you", t:"Welcome", lead:"A few questions and your King Connect service turns on. Your answers save on this device as you go.",
   r:()=>`<div class="card"><div class="row">${inp("first","First name")}${inp("last","Last name")}</div>
-    <div class="row">${inp("email","Email","email")}${inp("phone","Your cell","tel","For setup texts from Jordan")}</div>
+    <div class="row">${inp("email","Email","email")}${inp("phone","Your cell","tel","For setup texts from our team")}</div>
     ${inp("business","Business name","text","Exactly how customers know you. It goes on every text.","Smith Lawn Care")}</div>`,
   c:()=>!S.first.trim()?"Add your first name.":!/^\S+@\S+\.\S+$/.test(S.email)?"Add a working email.":S.phone.replace(/\D/g,"").length<10?"Add your cell number.":!S.business.trim()?"Add your business name.":""},
  {k:"plan", t:"What did you sign up for?", lead:"Pick the plan you paid for, and any add-ons. We'll only ask what that needs.",
@@ -298,8 +298,8 @@ const STEPS = [
     <div class="card">${sel("reviewTool","How do you ask for reviews now?",REVIEW_TOOLS,"So customers never get asked twice.")}</div>`,
   c:()=>!S.gbp.trim()&&!S.noGbp?"Paste your Google profile link, or check the box if you don't have one.":""},
  {k:"customers", t:"Your past customers", lead:"Past customers are who get service reminders and come-back texts. We only ever text people who agreed to hear from you.",
-  r:()=>{ if(!S.interval && DEF_INTERVAL[S.type]) S.interval=DEF_INTERVAL[S.type]; return `<div class="card"><b>How can we get your customer list?</b><div style="margin-top:10px">${radios("listHow",[["Email","I'll email it to Jordan","A spreadsheet, or an export from Jobber, Housecall Pro, QuickBooks or your phone contacts. Name and cell number are enough."],["Software","Help me export it from my software","Tell us the software in the notes and we'll send you the steps."],["None","I don't have a list","No problem. Review requests start with your next customers."]])}</div>
-    ${S.listHow==="Email"?`<a class="btn go" style="display:inline-block;margin-top:10px;text-decoration:none" href="${esc(listMail())}">Email my list to Jordan</a><p class="saved" style="margin:8px 0 0">Or send it any time to jordan@kingconnecttx.com.</p>`:""}</div>
+  r:()=>{ if(!S.interval && DEF_INTERVAL[S.type]) S.interval=DEF_INTERVAL[S.type]; return `<div class="card"><b>How can we get your customer list?</b><div style="margin-top:10px">${radios("listHow",[["Email","I'll email it to the team","A spreadsheet, or an export from Jobber, Housecall Pro, QuickBooks or your phone contacts. Name and cell number are enough."],["Software","Help me export it from my software","Tell us the software in the notes and we'll send you the steps."],["None","I don't have a list","No problem. Review requests start with your next customers."]])}</div>
+    ${S.listHow==="Email"?`<a class="btn go" style="display:inline-block;margin-top:10px;text-decoration:none" href="${esc(listMail())}">Email my list to the team</a><p class="saved" style="margin:8px 0 0">Or send it any time to info@kingconnecttx.com.</p>`:""}</div>
     ${S.listHow&&S.listHow!=="None"?`<div class="card">${inp("pastCount","About how many customers are on it?","number","A rough guess is fine.","200")}
     <b>Did they agree to get texts from you?</b><div style="margin-top:10px">${radios("consent",[["Yes","Yes, they gave us their cell for texts or job updates",""],["Some","Some did. I'll mark which ones",""],["Not sure","Not sure","We'll go over it before anyone gets a text."]])}</div></div>`:""}
     ${NO_REPEAT.includes(S.type)?"":`<div class="card">${sel("interval","About how often does a customer need you again?",INTERVALS.map(x=>x[0]),"We text a friendly reminder a week before they're due.")}</div>`}`},
@@ -348,7 +348,7 @@ const STEPS = [
     rows.push(["Google profile",S.noGbp?"Doesn't have one yet":S.gbp+(S.gbpInvite?" · manager invite sent":""),"reviews"]);
     if(S.fbPage.trim()) rows.push(["Facebook page",S.fbPage,"reviews"]);
     rows.unshift(["Plan",S.plan+(S.addons.length?" + "+S.addons.join(", "):""),"plan"]);
-    rows.push(["Customer list",({Email:"Emailing it to Jordan",Software:"Needs help exporting it",None:"No list yet"})[S.listHow]+(S.pastCount?` · about ${S.pastCount}`:"")+(S.consent?` · agreed to texts: ${S.consent}`:""),"customers"]);
+    rows.push(["Customer list",({Email:"Emailing it to the team",Software:"Needs help exporting it",None:"No list yet"})[S.listHow]+(S.pastCount?` · about ${S.pastCount}`:"")+(S.consent?` · agreed to texts: ${S.consent}`:""),"customers"]);
     if(!NO_REPEAT.includes(S.type)) rows.push(["Service reminders",S.interval||DEF_INTERVAL[S.type]||"No set schedule","customers"]);
     if(isKingdom()) rows.push(["Instagram",S.ig||"None","social"]);
     if(has("Guest Texts")) rows.push(["Guest Texts",`Check-in ${S.checkin}${S.checkout?", out "+S.checkout:""} · ${S.resSoftware}`,"guest"]);
@@ -357,7 +357,7 @@ const STEPS = [
     rows.push(["Legal name",`${S.legal} · ${S.btype}`,"legal"]);
     return `<div class="card"><table class="sum">${rows.map(([a,b,k])=>`<tr><td>${a}</td><td>${esc(b)} <a href="#" data-go="${k}">Edit</a></td></tr>`).join("")}</table></div>`},
   c:()=>""},
- {k:"send", t:"Last step: tap Submit", lead:"Your answers are filled in below. Scroll to the bottom of the form and tap Submit. Jordan gets them right away.",
+ {k:"send", t:"Last step: tap Submit", lead:"Your answers are filled in below. Scroll to the bottom of the form and tap Submit. The team will get it right away.",
   r:()=>`<div class="note">After you tap Submit, you can <a href="#" id="forget">clear your answers from this device</a>.</div>
     <div class="note">If the form doesn't show, <a href="${esc(formUrl())}" target="_blank" rel="noopener">open it here</a>. Everything will already be filled in.</div>
     <iframe class="kc" id="inline-F5Khr7FWSQmgT8VQz7de" src="${esc(formUrl())}" data-layout="{'id':'INLINE'}" data-trigger-type="alwaysShow" data-trigger-value="" data-activation-type="alwaysActivated" data-activation-value="" data-deactivation-type="neverDeactivate" data-deactivation-value="" data-form-name="Client Onboarding" data-layout-iframe-id="inline-F5Khr7FWSQmgT8VQz7de" data-form-id="F5Khr7FWSQmgT8VQz7de" title="King Connect onboarding form"></iframe>`,
@@ -366,7 +366,7 @@ const STEPS = [
 
 function extraLines(){
   const L=[["plan",S.plan],["addons",S.addons.join(", ")||"None"],
-    ["customer_list",({Email:"emailing it to jordan@",Software:"needs help exporting from their software",None:"no list"})[S.listHow]||""],
+    ["customer_list",({Email:"emailing it to info@",Software:"needs help exporting from their software",None:"no list"})[S.listHow]||""],
     ["past_customers",S.listHow==="None"?"0":S.pastCount],["text_consent_confirmed",S.listHow==="None"?"":S.consent],
     ["service_interval_days",NO_REPEAT.includes(S.type)?"":intervalDays()]];
   if(isKingdom()) L.push(["instagram",S.ig],["winback_deal",S.winbackDeal]);
