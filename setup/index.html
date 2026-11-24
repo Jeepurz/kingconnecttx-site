@@ -95,7 +95,7 @@ code.d{font-family:ui-monospace,Menlo,Consolas,monospace;background:#F3F5F6;bord
 </div></div>
 
 <script>
-/* King Connect setup wizard v1.
+/* King Connect setup wizard v2 (asks only what the plan and add-ons they bought need).
    Collects setup answers, then hands them to the GoHighLevel "Client Onboarding" form
    pre-filled through its query keys. The client taps Submit there (that passes the
    form's bot check), which fires the existing onboarding workflow. */
@@ -173,7 +173,13 @@ let S = {first:"",last:"",email:"",phone:"",business:"",legal:"",btype:"",ein:""
   hours:Object.fromEntries(DAYS.map((d,i)=>[d,i<5?{o:"8am",c:"5pm",x:false}:{o:"9am",c:"12pm",x:i===6}])),
   bizPhone:"",phoneSetup:"",carrier:"",emergencyAfter:"",emergencyPhone:"",
   cal:"",jobLen:"1 hour",buffer:"30 minutes",notice:"Next day",ahead:"2 weeks",maxDay:"",sameDay:"",alertsTo:"",
-  gbp:"",noGbp:false,gbpInvite:false,fbPage:"",reviewTool:"",missedEdit:"",notes:"",step:0};
+  gbp:"",noGbp:false,gbpInvite:false,fbPage:"",reviewTool:"",missedEdit:"",notes:"",
+  plan:"",addons:[],listHow:"",pastCount:"",consent:"",interval:"",
+  ig:"",winbackDeal:"",
+  checkin:"",checkout:"",directions:"",gate:"",wifi:"",rules:"",offseasonDeal:"",resSoftware:"",
+  alertKinds:"",alertOffer:"",
+  loc2Name:"",loc2Addr:"",loc2Phone:"",loc2Carrier:"",loc2Gbp:"",
+  step:0};
 const KEEP_DAYS = 30;
 try{
   const s=JSON.parse(localStorage.getItem(STORE)||"null");
@@ -189,11 +195,26 @@ const fmtPhone = v => { let d=String(v||"").replace(/\D/g,""); if(d.length===11&
   if(f==="phone") v=fmtPhone(v); if(f==="email") v=v.replace(/ /g,"+");
   S[f]=v; });
 
+{ const pl=(q.get("plan")||"").trim().toLowerCase(); const PL={knight:"Knight",crown:"Crown",kingdom:"Kingdom"}; if(PL[pl]) S.plan=PL[pl];
+  const ad=(q.get("addons")||"").toLowerCase().split(/[\s,]+/).filter(Boolean); const AD={guest:"Guest Texts",storm:"Freeze & Heat Alert",extra:"Extra location"};
+  ad.forEach(k=>{ if(AD[k] && !S.addons.includes(AD[k])) S.addons.push(AD[k]); }); }
 try{ if(location.search) history.replaceState(null,"",location.pathname+location.hash); }catch(e){}
 const usesBooking = () => S.type && !NO_BOOKING.includes(S.type);
 const isEmergency = () => EMERGENCY.includes(S.type);
 const esc = s => String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const bizName = () => S.business.trim() || "your business";
+const PLANS = [["Knight","Knight","$129/mo: missed-call text back, review requests, review replies, service reminders"],["Crown","Crown","$229/mo: everything in Knight, plus Google profile care, instant lead replies and online booking"],["Kingdom","Kingdom","$399/mo: everything in Crown, plus Facebook and Instagram posts, win-back texts and a website chat button"]];
+const ADDONS = ["Guest Texts","Freeze & Heat Alert","Extra location"];
+const has = a => S.addons.includes(a);
+const isKingdom = () => S.plan==="Kingdom";
+const NO_REPEAT = ["Real estate","Restaurant/bar","Retail store"];
+const INTERVALS = [["Every month",30],["Every 3 months",90],["Every 6 months",180],["Once a year",365],["Every 2 to 3 years",900],["No set schedule",0]];
+const DEF_INTERVAL = {HVAC:"Every 6 months",Electrical:"Once a year",Plumbing:"Once a year",Septic:"Every 2 to 3 years","Pest control":"Every 3 months","Lawn/landscape":"Once a year","Tree service":"Once a year","Pool service":"Once a year","Pressure washing":"Once a year","Auto repair":"Every 3 months","Boat repair":"Once a year",Marina:"Once a year","RV park":"Once a year","Salon/barber":"Every month",Fencing:"No set schedule",Contractor:"No set schedule",Other:"No set schedule"};
+const intervalDays = () => { const i=INTERVALS.find(x=>x[0]===(S.interval||DEF_INTERVAL[S.type])); return i&&i[1]?String(i[1]):""; };
+const WINBACK_PH = {hvac:"$25 off a spring AC tune-up",plumb:"$25 off a water heater flush",pest:"A free re-treat with any quarterly plan",lawn:"First mow of the season 10% off",tree:"Free estimate and 10% off this month",pool:"$50 off a spring pool opening",auto:"$10 off your next oil change",stay:"10% off a weeknight stay",salon:"$10 off your next color",general:"10% off your next job"};
+const listMail = () => "mailto:jordan@kingconnecttx.com?subject="+encodeURIComponent("Customer list - "+bizName())+"&body="+encodeURIComponent("Hi Jordan,\n\nHere's our customer list for King Connect (attached).\n\n"+bizName());
+const alertTypes = () => ({Both:"Freeze & Heat",Freeze:"Freeze only",Heat:"Heat only"})[S.alertKinds]||"";
+const arrivalInfo = () => [S.checkin?"Check-in "+S.checkin+(S.checkout?", check-out "+S.checkout:"")+".":"", S.directions.trim()?"Directions: "+S.directions.trim():"", S.gate.trim()?"Gate code: "+S.gate.trim():"", S.wifi.trim()?"Wi-Fi: "+S.wifi.trim():"", S.rules.trim()?"Rules: "+S.rules.trim():""].filter(Boolean).map(x=>/[.!?]$/.test(x)?x:x+".").join(" ");
 
 function save(){ try{ const keep=Object.assign({},S,{savedAt:Date.now()}); delete keep.ein; localStorage.setItem(STORE, JSON.stringify(keep)); document.getElementById("saved").textContent="Saved on this device"; }catch(e){} }
 
@@ -232,6 +253,10 @@ const STEPS = [
     <div class="row">${inp("email","Email","email")}${inp("phone","Your cell","tel","For setup texts from Jordan")}</div>
     ${inp("business","Business name","text","Exactly how customers know you. It goes on every text.","Smith Lawn Care")}</div>`,
   c:()=>!S.first.trim()?"Add your first name.":!/^\S+@\S+\.\S+$/.test(S.email)?"Add a working email.":S.phone.replace(/\D/g,"").length<10?"Add your cell number.":!S.business.trim()?"Add your business name.":""},
+ {k:"plan", t:"What did you sign up for?", lead:"Pick the plan you paid for, and any add-ons. We'll only ask what that needs.",
+  r:()=>`<div class="card"><b>Your plan</b><div style="margin-top:10px">${radios("plan",PLANS)}</div></div>
+    <div class="card"><b>Add-ons</b> <span class="saved">tap any you added</span>${chips("addons",ADDONS)}</div>`,
+  c:()=>S.plan?"":"Pick your plan."},
  {k:"kind", t:"What kind of business?", lead:"This picks the texts and setup that fit your work.",
   r:()=>`<div class="tiles">${TYPES.map(t=>`<button type="button" class="tile" data-type="${esc(t)}" aria-pressed="${S.type===t}">${esc(t)}</button>`).join("")}</div>`,
   c:()=>S.type?"":"Pick the closest one."},
@@ -272,6 +297,36 @@ const STEPS = [
     <div class="card">${inp("fbPage","Your Facebook business page (if you have one)","url","Optional. We'll send a request to it from King Connect. Tap Approve when Facebook asks.","https://facebook.com/...")}</div>
     <div class="card">${sel("reviewTool","How do you ask for reviews now?",REVIEW_TOOLS,"So customers never get asked twice.")}</div>`,
   c:()=>!S.gbp.trim()&&!S.noGbp?"Paste your Google profile link, or check the box if you don't have one.":""},
+ {k:"customers", t:"Your past customers", lead:"Past customers are who get service reminders and come-back texts. We only ever text people who agreed to hear from you.",
+  r:()=>{ if(!S.interval && DEF_INTERVAL[S.type]) S.interval=DEF_INTERVAL[S.type]; return `<div class="card"><b>How can we get your customer list?</b><div style="margin-top:10px">${radios("listHow",[["Email","I'll email it to Jordan","A spreadsheet, or an export from Jobber, Housecall Pro, QuickBooks or your phone contacts. Name and cell number are enough."],["Software","Help me export it from my software","Tell us the software in the notes and we'll send you the steps."],["None","I don't have a list","No problem. Review requests start with your next customers."]])}</div>
+    ${S.listHow==="Email"?`<a class="btn go" style="display:inline-block;margin-top:10px;text-decoration:none" href="${esc(listMail())}">Email my list to Jordan</a><p class="saved" style="margin:8px 0 0">Or send it any time to jordan@kingconnecttx.com.</p>`:""}</div>
+    ${S.listHow&&S.listHow!=="None"?`<div class="card">${inp("pastCount","About how many customers are on it?","number","A rough guess is fine.","200")}
+    <b>Did they agree to get texts from you?</b><div style="margin-top:10px">${radios("consent",[["Yes","Yes, they gave us their cell for texts or job updates",""],["Some","Some did. I'll mark which ones",""],["Not sure","Not sure","We'll go over it before anyone gets a text."]])}</div></div>`:""}
+    ${NO_REPEAT.includes(S.type)?"":`<div class="card">${sel("interval","About how often does a customer need you again?",INTERVALS.map(x=>x[0]),"We text a friendly reminder a week before they're due.")}</div>`}`},
+  c:()=>!S.listHow?"Tell us how we can get your customer list.":S.listHow!=="None"&&!S.consent?"Tell us whether your customers agreed to texts.":""},
+ {k:"social", t:"Facebook, Instagram and win-back", lead:"Your Kingdom plan includes 8 posts a month and 4 come-back texts a year to past customers.", w:()=>isKingdom(),
+  r:()=>`<div class="card">${S.fbPage.trim()?`<p class="saved" style="margin:0 0 10px">Facebook page: ${esc(S.fbPage)}</p>`:inp("fbPage","Your Facebook business page","url","We'll send a request to it. Tap Approve when Facebook asks.","https://facebook.com/...")}
+    ${inp("ig","Instagram account (if you have one)","text","Your @name. It must be a business or creator account linked to your Facebook page.","@yourbusiness")}</div>
+    <div class="card">${area("winbackDeal","A deal you'd offer past customers to come back","Optional. It goes in the seasonal come-back texts.",WINBACK_PH[GROUP(S.type)]||WINBACK_PH.general)}</div>`,
+  c:()=>""},
+ {k:"guest", t:"Guest Texts", lead:"Your guests get these automatically: a booking confirmation, arrival info the day before, a thank-you with your review link, and an off-season deal.", w:()=>has("Guest Texts"),
+  r:()=>`<div class="card"><div class="row">${inp("checkin","Check-in time","text","","3 PM")}${inp("checkout","Check-out time","text","","11 AM")}</div>
+    ${area("directions","Directions and where to go when they arrive","Shared only with booked guests.","Turn left at the big oak past the bait shop. Office is the first building.")}
+    <div class="row">${inp("gate","Gate code (if you have one)","text","Leave blank if there's no gate.")}${inp("wifi","Wi-Fi name and password","text","","LakeGuest / fishon2024")}</div>
+    ${area("rules","Rules that matter most, or a link to them","Two or three lines is plenty.","Quiet hours 10 PM-7 AM. Dogs on a leash. 5 mph in the park.")}</div>
+    <div class="card">${inp("offseasonDeal","Your off-season deal","text","Sent about 4 months after checkout to guests who haven't rebooked.","10% off a weeknight stay in January")}
+    ${sel("resSoftware","What do you take bookings with?",["Campspot","Firefly","RoverPass","Newbook","ResNexus","Dockwa","Molo","Phone, paper or spreadsheet","Other"],"If it can connect, bookings flow in on their own. If not, we'll give you a simple booking form.")}</div>`,
+  c:()=>!S.checkin.trim()?"Add your check-in time.":!S.directions.trim()?"Add directions for arriving guests.":!S.resSoftware?"Tell us what you take bookings with.":""},
+ {k:"storm", t:"Freeze & Heat Alerts", lead:"When a hard freeze or a heat wave is in the forecast for your area, your past customers get a heads-up text from you.", w:()=>has("Freeze & Heat Alert"),
+  r:()=>`<div class="card"><b>Which alerts?</b><div style="margin-top:10px">${radios("alertKinds",[["Both","Freeze and heat alerts",""],["Freeze","Freeze alerts only","Hard freezes (32° or colder)"],["Heat","Heat alerts only","Triple-digit heat"]])}</div></div>
+    <div class="card">${inp("alertOffer","What can you offer when one's coming?","text","Optional. It goes at the end of the alert text. Your phone number is added automatically.","A pipe check before the freeze")}
+    <p class="saved" style="margin:8px 0 0">You'll get a heads-up text first and can reply NO to stop any alert.</p></div>`,
+  c:()=>S.alertKinds?"":"Pick which alerts you want."},
+ {k:"extra", t:"Your second location", lead:"It gets its own King Connect number, so texts say which location they came from.", w:()=>has("Extra location"),
+  r:()=>`<div class="card">${inp("loc2Name","What do customers call it?","text","","our Mabank shop")}${inp("loc2Addr","Its street address and town")}
+    <div class="row">${inp("loc2Phone","Its phone number","tel","","(903) 555-0199")}${sel("loc2Carrier","Phone company for it",CARRIERS)}</div>
+    ${inp("loc2Gbp","Its Google profile link (if it has its own)","url","","https://g.page/...")}</div>`,
+  c:()=>!S.loc2Name.trim()?"Add a name for the second location.":S.loc2Phone.replace(/\D/g,"").length<10?"Add the second location's phone number.":""},
  {k:"texts", t:"Your texts", lead:"This is what your customers will get, signed with your business name.",
   r:()=>`<div class="phone"><div class="who">After a missed call</div><div class="bubble">${esc(missedText())}</div></div>
     <div class="card">${area("missedEdit","Want to change the middle part?","Optional. Leave blank to use ours.",LINE[GROUP(S.type)])}</div>
@@ -292,6 +347,13 @@ const STEPS = [
     if(usesBooking()) rows.push(["Booking",`${S.cal} · ${S.jobLen} jobs · ${S.notice} notice`,"book"]);
     rows.push(["Google profile",S.noGbp?"Doesn't have one yet":S.gbp+(S.gbpInvite?" · manager invite sent":""),"reviews"]);
     if(S.fbPage.trim()) rows.push(["Facebook page",S.fbPage,"reviews"]);
+    rows.unshift(["Plan",S.plan+(S.addons.length?" + "+S.addons.join(", "):""),"plan"]);
+    rows.push(["Customer list",({Email:"Emailing it to Jordan",Software:"Needs help exporting it",None:"No list yet"})[S.listHow]+(S.pastCount?` · about ${S.pastCount}`:"")+(S.consent?` · agreed to texts: ${S.consent}`:""),"customers"]);
+    if(!NO_REPEAT.includes(S.type)) rows.push(["Service reminders",S.interval||DEF_INTERVAL[S.type]||"No set schedule","customers"]);
+    if(isKingdom()) rows.push(["Instagram",S.ig||"None","social"]);
+    if(has("Guest Texts")) rows.push(["Guest Texts",`Check-in ${S.checkin}${S.checkout?", out "+S.checkout:""} · ${S.resSoftware}`,"guest"]);
+    if(has("Freeze & Heat Alert")) rows.push(["Freeze & Heat",alertTypes()+(S.alertOffer?` · ${S.alertOffer}`:""),"storm"]);
+    if(has("Extra location")) rows.push(["Second location",`${S.loc2Name} · ${S.loc2Phone}`,"extra"]);
     rows.push(["Legal name",`${S.legal} · ${S.btype}`,"legal"]);
     return `<div class="card"><table class="sum">${rows.map(([a,b,k])=>`<tr><td>${a}</td><td>${esc(b)} <a href="#" data-go="${k}">Edit</a></td></tr>`).join("")}</table></div>`},
   c:()=>""},
@@ -302,9 +364,20 @@ const STEPS = [
   c:()=>""}
 ];
 
+function extraLines(){
+  const L=[["plan",S.plan],["addons",S.addons.join(", ")||"None"],
+    ["customer_list",({Email:"emailing it to jordan@",Software:"needs help exporting from their software",None:"no list"})[S.listHow]||""],
+    ["past_customers",S.listHow==="None"?"0":S.pastCount],["text_consent_confirmed",S.listHow==="None"?"":S.consent],
+    ["service_interval_days",NO_REPEAT.includes(S.type)?"":intervalDays()]];
+  if(isKingdom()) L.push(["instagram",S.ig],["winback_deal",S.winbackDeal]);
+  if(has("Guest Texts")) L.push(["checkin_time",S.checkin],["checkout_time",S.checkout],["guest_arrival_info",arrivalInfo()],["offseason_deal",S.offseasonDeal],["reservation_software",S.resSoftware]);
+  if(has("Freeze & Heat Alert")) L.push(["alert_types",alertTypes()],["alert_offer",S.alertOffer]);
+  if(has("Extra location")) L.push(["location_2_name",S.loc2Name],["location_2_address",S.loc2Addr],["location_2_phone",S.loc2Phone],["location_2_carrier",S.loc2Carrier],["location_2_google",S.loc2Gbp]);
+  return L.map(([k,v])=>[k,String(v??"").replace(/\s*\n\s*/g,"; ").trim()]).filter(([k,v])=>v);
+}
 function setupBlock(){
   const L = [
-    "--- King Connect setup wizard v1 ---",
+    "--- King Connect setup wizard v2 ---",
     "industry: "+S.type,
     "towns: "+townsList().join(", "),
     "avg_job_value: "+(S.avgJob||""),
@@ -315,7 +388,7 @@ function setupBlock(){
     "no_google_profile: "+(S.noGbp?"yes":"no"),
     "google_manager_invite: "+(S.noGbp?"no profile":S.gbpInvite?"sent":"not yet"),
     "facebook_page: "+(S.fbPage.trim()||"none")
-  ];
+  ].concat(extraLines().map(([k,v])=>k+": "+v));
   if(isEmergency()) L.push("after_hours_emergency: "+(S.emergencyAfter||""), "emergency_phone: "+(S.emergencyPhone||""));
   return (S.notes.trim()?S.notes.trim()+"\n\n":"") + L.join("\n");
 }
@@ -393,6 +466,7 @@ function copyToKC(){
       ["Calendar type",usesBooking()?S.cal:""],["Booking rules",usesBooking()?bookingRules():""],
       ["review_tool",S.reviewTool],["Google business profile",S.noGbp?"none yet":S.gbp],["Google manager invite",S.noGbp?"":S.gbpInvite?"sent":"not yet"],["Facebook page",S.fbPage],
       ["after_hours_emergency",isEmergency()?S.emergencyAfter:""],["emergency_phone",isEmergency()?S.emergencyPhone:""],
+      ...extraLines(),
       ["Notes",S.notes]
     ].filter(([k,v])=>one(v)).map(([k,v])=>k+": "+one(v)).join("\n");
     const d=new URLSearchParams();
