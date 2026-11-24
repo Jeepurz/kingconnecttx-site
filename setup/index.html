@@ -173,7 +173,7 @@ let S = {first:"",last:"",email:"",phone:"",business:"",legal:"",btype:"",ein:""
   hours:Object.fromEntries(DAYS.map((d,i)=>[d,i<5?{o:"8am",c:"5pm",x:false}:{o:"9am",c:"12pm",x:i===6}])),
   bizPhone:"",phoneSetup:"",carrier:"",emergencyAfter:"",emergencyPhone:"",
   cal:"",jobLen:"1 hour",buffer:"30 minutes",notice:"Next day",ahead:"2 weeks",maxDay:"",sameDay:"",alertsTo:"",
-  gbp:"",noGbp:false,reviewTool:"",missedEdit:"",notes:"",step:0};
+  gbp:"",noGbp:false,gbpInvite:false,fbPage:"",reviewTool:"",missedEdit:"",notes:"",step:0};
 const KEEP_DAYS = 30;
 try{
   const s=JSON.parse(localStorage.getItem(STORE)||"null");
@@ -266,6 +266,10 @@ const STEPS = [
  {k:"reviews", t:"Google reviews", lead:"After each job, happy customers get one text with your review link.",
   r:()=>`<div class="card">${inp("gbp","Link to your Google Business Profile","url","On your phone: search your business on Google, tap Share, then Copy link.","https://g.page/...")}
     <label class="opt"><input type="checkbox" data-f="noGbp" ${S.noGbp?"checked":""}><span><b>I don't have a Google profile yet</b><small>We'll help you set one up.</small></span></label></div>
+    ${S.noGbp?"":`<div class="card"><b>Let King Connect manage it (no password needed)</b>
+    <div class="note" style="margin-top:8px">So we can reply to reviews and post for you: open your Google profile, tap <b>⋮</b> → <b>Business Profile settings</b> → <b>People and access</b> → <b>Add</b>. Type <code class=d>jordan@kingconnecttx.com</code>, pick <b>Manager</b>, tap <b>Invite</b>. You stay the owner and can remove us any time.</div>
+    <label class="opt"><input type="checkbox" data-f="gbpInvite" ${S.gbpInvite?"checked":""}><span><b>I sent the invite</b><small>Or skip it and we'll send you a request to approve instead.</small></span></label></div>`}
+    <div class="card">${inp("fbPage","Your Facebook business page (if you have one)","url","Optional. We'll send a request to it from King Connect. Tap Approve when Facebook asks.","https://facebook.com/...")}</div>
     <div class="card">${sel("reviewTool","How do you ask for reviews now?",REVIEW_TOOLS,"So customers never get asked twice.")}</div>`,
   c:()=>!S.gbp.trim()&&!S.noGbp?"Paste your Google profile link, or check the box if you don't have one.":""},
  {k:"texts", t:"Your texts", lead:"This is what your customers will get, signed with your business name.",
@@ -286,7 +290,9 @@ const STEPS = [
     ["Hours",hoursText(),"hours"],["Business phone",`${S.bizPhone} · ${S.phoneSetup}${S.carrier?" · "+S.carrier:""}`,"phone"]];
     if(isEmergency()) rows.push(["After-hours",S.emergencyAfter==="Yes"?`Yes, alerts to ${S.emergencyPhone}`:"No","hours"]);
     if(usesBooking()) rows.push(["Booking",`${S.cal} · ${S.jobLen} jobs · ${S.notice} notice`,"book"]);
-    rows.push(["Google profile",S.noGbp?"Doesn't have one yet":S.gbp,"reviews"],["Legal name",`${S.legal} · ${S.btype}`,"legal"]);
+    rows.push(["Google profile",S.noGbp?"Doesn't have one yet":S.gbp+(S.gbpInvite?" · manager invite sent":""),"reviews"]);
+    if(S.fbPage.trim()) rows.push(["Facebook page",S.fbPage,"reviews"]);
+    rows.push(["Legal name",`${S.legal} · ${S.btype}`,"legal"]);
     return `<div class="card"><table class="sum">${rows.map(([a,b,k])=>`<tr><td>${a}</td><td>${esc(b)} <a href="#" data-go="${k}">Edit</a></td></tr>`).join("")}</table></div>`},
   c:()=>""},
  {k:"send", t:"Last step: tap Submit", lead:"Your answers are filled in below. Scroll to the bottom of the form and tap Submit. Jordan gets them right away.",
@@ -306,7 +312,9 @@ function setupBlock(){
     "missed_call_line: "+(S.missedEdit.trim()||LINE[GROUP(S.type)]),
     "thank_you_word: "+(THANKS[GROUP(S.type)]||"service"),
     "review_tool: "+S.reviewTool,
-    "no_google_profile: "+(S.noGbp?"yes":"no")
+    "no_google_profile: "+(S.noGbp?"yes":"no"),
+    "google_manager_invite: "+(S.noGbp?"no profile":S.gbpInvite?"sent":"not yet"),
+    "facebook_page: "+(S.fbPage.trim()||"none")
   ];
   if(isEmergency()) L.push("after_hours_emergency: "+(S.emergencyAfter||""), "emergency_phone: "+(S.emergencyPhone||""));
   return (S.notes.trim()?S.notes.trim()+"\n\n":"") + L.join("\n");
@@ -383,7 +391,7 @@ function copyToKC(){
       ["Hours",hoursText()],["Business phone",S.bizPhone],["Phone setup",S.phoneSetup],["Phone company",S.carrier],
       ["missed_call_line",S.missedEdit.trim()||LINE[GROUP(S.type)]],["thank_you_word",THANKS[GROUP(S.type)]||"service"],
       ["Calendar type",usesBooking()?S.cal:""],["Booking rules",usesBooking()?bookingRules():""],
-      ["review_tool",S.reviewTool],["Google business profile",S.noGbp?"none yet":S.gbp],
+      ["review_tool",S.reviewTool],["Google business profile",S.noGbp?"none yet":S.gbp],["Google manager invite",S.noGbp?"":S.gbpInvite?"sent":"not yet"],["Facebook page",S.fbPage],
       ["after_hours_emergency",isEmergency()?S.emergencyAfter:""],["emergency_phone",isEmergency()?S.emergencyPhone:""],
       ["Notes",S.notes]
     ].filter(([k,v])=>one(v)).map(([k,v])=>k+": "+one(v)).join("\n");
