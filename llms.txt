@@ -1,0 +1,47 @@
+# King Connect
+
+> King Connect is a local business automation service at Cedar Creek Lake, Texas. It texts back every missed call in the business's name within seconds, asks happy customers for Google reviews, writes review replies, and keeps Google Business Profiles active. It is run by Jordan King from the Mabank area and serves Gun Barrel City, Mabank, Seven Points, Tool, Kemp, Eustace, Malakoff and Athens, TX.
+
+Contact: call or text (903) 251-5127, email info@kingconnecttx.com. Plans are month to month, texting costs are included, and the business keeps its own phone number.
+
+## Plans
+
+- Knight, $129/month + $199 setup: missed-call text back, review request texts after every job, replies written for every Google review, service reminder texts, shared inbox app, monthly results text.
+- Crown, $229/month + $299 setup: everything in Knight plus Google Business Profile care (weekly posts, job photos, hours), instant replies to website and Facebook leads, online booking link.
+- Kingdom, $399/month + $499 setup: everything in Crown plus 8 Facebook and Instagram posts a month, 4 seasonal win-back campaigns a year, a website or Facebook chat button, and a quarterly planning sit-down.
+- Add-ons: Guest Texts for RV parks, marinas and rentals (+$99/mo), Freeze & Heat Alert for plumbers, HVAC and pool companies (+$149/mo), extra location (+$79/mo).
+- Founding Ten offer: the first ten lake-area businesses pay no setup fee and lock their monthly price for 12 months.
+
+## Main pages
+
+- [Home](https://kingconnecttx.com/): what King Connect does, plans and pricing, how setup works
+- [Missed-call cost calculator](https://kingconnecttx.com/calculator/): estimate what missed calls cost a business each month and year
+- [Areas we serve](https://kingconnecttx.com/areas/): the eight Cedar Creek Lake area towns
+- [Who we help](https://kingconnecttx.com/for/): pages for each trade
+
+## Trades
+
+- [HVAC & electrical](https://kingconnecttx.com/for/hvac-electrical/)
+- [Plumbing, septic & pest control](https://kingconnecttx.com/for/plumbing-septic-pest/)
+- [Lawn, tree & pool](https://kingconnecttx.com/for/lawn-tree-pool/)
+- [Auto & boat repair](https://kingconnecttx.com/for/auto-boat-repair/)
+- [RV parks & marinas](https://kingconnecttx.com/for/rv-parks-marinas/)
+- [Salons & barbershops](https://kingconnecttx.com/for/salons-barbers/)
+- [Real estate agents](https://kingconnecttx.com/for/real-estate/)
+- [Bars & restaurants](https://kingconnecttx.com/for/bars-restaurants/)
+
+## Towns
+
+- [Gun Barrel City](https://kingconnecttx.com/areas/gun-barrel-city/)
+- [Mabank](https://kingconnecttx.com/areas/mabank/)
+- [Seven Points](https://kingconnecttx.com/areas/seven-points/)
+- [Tool](https://kingconnecttx.com/areas/tool/)
+- [Kemp](https://kingconnecttx.com/areas/kemp/)
+- [Eustace](https://kingconnecttx.com/areas/eustace/)
+- [Malakoff](https://kingconnecttx.com/areas/malakoff/)
+- [Athens](https://kingconnecttx.com/areas/athens/)
+
+## Optional
+
+- [Privacy policy](https://kingconnecttx.com/privacy.html)
+- [Terms of service](https://kingconnecttx.com/terms.html)
