@@ -102,7 +102,7 @@ code.d{font-family:ui-monospace,Menlo,Consolas,monospace;background:#F3F5F6;bord
 const FORM = "https://api.leadconnectorhq.com/widget/form/F5Khr7FWSQmgT8VQz7de";
 const STORE = "kc_setup_v1";
 
-const TYPES = ["HVAC","Electrical","Plumbing","Septic","Pest control","Lawn/landscape","Tree service","Pool service","Pressure washing","Fencing","Auto repair","Boat repair","Marina","RV park","Salon/barber","Real estate","Restaurant/bar","Retail store","Contractor","Other"];
+const TYPES = ["HVAC","Electrical","Plumbing","Septic","Pest control","Lawn/landscape","Tree service","Pool service","Pressure washing","Fencing","Auto repair","Boat repair","Marina","RV park","Salon/barber","Real estate","Restaurant/bar","Retail store","Contractor","Roofing","Other"];
 const NO_BOOKING = ["Restaurant/bar","Retail store"];
 const EMERGENCY = ["HVAC","Electrical","Plumbing","Septic"];
 const GROUP = t => ({HVAC:"hvac",Electrical:"hvac",Plumbing:"plumb",Septic:"plumb","Pest control":"pest","Lawn/landscape":"lawn","Tree service":"tree","Pool service":"pool","Auto repair":"auto","Boat repair":"auto",Marina:"stay","RV park":"stay","Salon/barber":"salon","Real estate":"re","Restaurant/bar":"food","Retail store":"retail"})[t] || "general";
@@ -124,6 +124,7 @@ const LINE = {
 const THANKS = {stay:"stay",salon:"appointment",re:"help",food:"visit",retail:"visit"};
 const SERVICES = {
   HVAC:["AC repair","Heating repair","New system installs","Maintenance plans","Duct work","Emergency calls"],
+  Roofing:["Roof replacement","Roof repair","Storm and hail damage","Insurance claims","Inspections","Gutters"],
   Electrical:["Repairs","Panel upgrades","Generators","Lighting","New construction","Emergency calls"],
   Plumbing:["Leaks and repairs","Water heaters","Drain cleaning","Remodels","New construction","Emergency calls"],
   Septic:["Pumping","Inspections","Repairs","New systems","Aerobic maintenance","Emergency calls"],
@@ -209,7 +210,7 @@ const has = a => S.addons.includes(a);
 const isKingdom = () => S.plan==="Kingdom";
 const NO_REPEAT = ["Real estate","Restaurant/bar","Retail store"];
 const INTERVALS = [["Every month",30],["Every 3 months",90],["Every 6 months",180],["Once a year",365],["Every 2 to 3 years",900],["No set schedule",0]];
-const DEF_INTERVAL = {HVAC:"Every 6 months",Electrical:"Once a year",Plumbing:"Once a year",Septic:"Every 2 to 3 years","Pest control":"Every 3 months","Lawn/landscape":"Once a year","Tree service":"Once a year","Pool service":"Once a year","Pressure washing":"Once a year","Auto repair":"Every 3 months","Boat repair":"Once a year",Marina:"Once a year","RV park":"Once a year","Salon/barber":"Every month",Fencing:"No set schedule",Contractor:"No set schedule",Other:"No set schedule"};
+const DEF_INTERVAL = {HVAC:"Every 6 months",Electrical:"Once a year",Plumbing:"Once a year",Septic:"Every 2 to 3 years","Pest control":"Every 3 months","Lawn/landscape":"Once a year","Tree service":"Once a year","Pool service":"Once a year","Pressure washing":"Once a year","Auto repair":"Every 3 months","Boat repair":"Once a year",Marina:"Once a year","RV park":"Once a year","Salon/barber":"Every month",Fencing:"No set schedule",Contractor:"No set schedule",Roofing:"No set schedule",Other:"No set schedule"};
 const intervalDays = () => { const i=INTERVALS.find(x=>x[0]===(S.interval||DEF_INTERVAL[S.type])); return i&&i[1]?String(i[1]):""; };
 const WINBACK_PH = {hvac:"$25 off a spring AC tune-up",plumb:"$25 off a water heater flush",pest:"A free re-treat with any quarterly plan",lawn:"First mow of the season 10% off",tree:"Free estimate and 10% off this month",pool:"$50 off a spring pool opening",auto:"$10 off your next oil change",stay:"10% off a weeknight stay",salon:"$10 off your next color",general:"10% off your next job"};
 const listMail = () => "mailto:info@kingconnecttx.com?subject="+encodeURIComponent("Customer list - "+bizName())+"&body="+encodeURIComponent("Hi King Connect team,\n\nHere's our customer list for King Connect (attached).\n\n"+bizName());

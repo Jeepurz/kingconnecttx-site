@@ -154,7 +154,6 @@ function fit() {
   bot('Great. Six quick taps and I’ll tell you if it’s a fit and which plan makes sense.\n\nWhat kind of business do you run?', TYPES.map((t) => ({t, fn: () => { S.type = t; fitTown(); }})));
 }
 function fitTown() {
-  if (S.type === 'Roofing') { track('chat_fit_no', {reason: 'roofing'}); return bot('Thanks for checking. Right now King Connect isn’t taking on roofing companies, so I’d rather be upfront than waste your time.', [{t: 'Back to the menu', fn: () => menu()}]); }
   bot('Which town is your business based in?', TOWNS.map((t) => ({t, fn: () => { S.town = t; fitReach(); }})).concat([
     {t: 'Somewhere else in Texas', fn: () => { S.town = 'Elsewhere in Texas'; fitReach(); }},
     {t: 'Outside Texas', fn: () => { S.town = 'Outside Texas'; track('chat_fit_no', {reason: 'outside_tx'}); bot('King Connect is Texas-only for now, starting around Cedar Creek Lake. If you’d like a heads-up when that changes, leave your info and our team will reach out.', [{t: 'Leave my info', go: true, fn: leaveInfo}, {t: 'Back to the menu', fn: () => menu()}]); }}
@@ -282,7 +281,7 @@ function save() {
     const [f, ...l] = String(S.name || '').trim().split(/\s+/);
     const put = (k, v) => { if (v && !cur[k]) cur[k] = v; };
     put('first', f); put('last', l.join(' ')); put('email', S.email.trim()); put('phone', S.phone ? fmtPhone(S.phone) : ''); put('business', S.business.trim());
-    if (S.type && S.type !== 'Roofing' && !cur.type) cur.type = S.type;
+    if (S.type && !cur.type) cur.type = S.type;
     if (S.phoneSetup && !cur.phoneSetup) cur.phoneSetup = S.phoneSetup;
     if (TOWNS.includes(S.town) && !(cur.towns && cur.towns.length)) cur.towns = [S.town];
     localStorage.setItem(key, JSON.stringify(cur));
@@ -306,7 +305,6 @@ function send(what) {
 
 /* ---------- typed questions ---------- */
 const FAQ = [
-  ['roof', /\broof/i],
   ['price', /\b(price|pric|cost|how much|\$|fee|cheap|expensive|afford|monthly|plans?)\b/i],
   ['contract', /\b(contract|cancel|commit|lock(ed)? in|refund|money back|month to month)\b/i],
   ['number', /\b(my number|phone number|same number|keep (my|the) number|port|landline|cell)\b/i],
@@ -339,7 +337,6 @@ const ANS = {
   addons: () => 'Add-ons for any plan:\n• Guest Texts +$99/mo for RV parks, marinas and rentals (booking, arrival and checkout texts)\n• Freeze & Heat Alert +$149/mo for plumbers, HVAC and pool companies\n• Extra location +$79/mo',
   who: () => 'King Connect is a veteran-owned team based in the Mabank area. It was founded by Jordan King, a U.S. Army veteran, FAA commercial pilot and Malakoff High grad whose family has run local businesses at the lake for years. No call center. You can call or text us at ' + PHONE + '.',
   referral: () => 'Know a business that could use this? When someone you refer signs up, you get a $50 Amazon gift card and they get their first month free. Ask us for your personal referral link, or have them mention your name.',
-  roof: () => 'Right now King Connect isn’t taking on roofing companies.',
   emergency: () => 'For HVAC, plumbing, septic and electrical, the missed-call text asks if it’s an emergency. If the caller says yes, you (or your on-call person) get an alert right away so you can call back. After-hours calls get an after-hours text.',
   hi: () => 'Hey there! I can check if King Connect fits your business, answer questions, or connect you with our team.'
 };
@@ -354,7 +351,7 @@ function answer(text) {
 function faq(k) {
   if (!ANS[k]) return menu();
   track('chat_faq', {topic: k});
-  const next = k === 'roof' ? [{t: 'Back to the menu', fn: () => menu()}] : [
+  const next = [
     S.plan ? {t: 'Start ' + S.plan, go: true, fn: () => startPlan(S.plan)} : {t: 'See if it fits my business', go: true, fn: fit},
     {t: 'Another question', quiet: true, fn: () => { input.focus(); }},
     {t: 'Talk to our team', fn: talk}
