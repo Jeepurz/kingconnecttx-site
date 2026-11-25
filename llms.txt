@@ -1,8 +1,8 @@
 # King Connect
 
-> King Connect is a local business automation service at Cedar Creek Lake, Texas. It texts back every missed call in the business's name within seconds, asks happy customers for Google reviews, writes review replies, and keeps Google Business Profiles active. It is a veteran-owned team based in the Mabank area and serves Gun Barrel City, Mabank, Seven Points, Tool, Kemp, Eustace, Malakoff and Athens, TX.
+> King Connect is a local business automation service at Cedar Creek Lake, Texas. It texts back every missed call in the business's name within seconds, asks happy customers for Google reviews, writes review replies, and keeps Google Business Profiles active. It is a veteran-owned team based in the Mabank area and serves Gun Barrel City, Mabank, Seven Points, Tool, Kemp, Eustace, Malakoff and Athens, TX. It works with roofing companies, HVAC and electrical contractors, plumbing, septic and pest control companies, lawn, tree and pool companies, auto and boat repair shops, RV parks and marinas, salons and barbershops, real estate agents, and bars and restaurants.
 
-Contact: call or text (903) 251-5127, email info@kingconnecttx.com. Plans are month to month, texting costs are included, and the business keeps its own phone number.
+Contact: call or text (903) 251-5127, email info@kingconnecttx.com, Facebook: https://www.facebook.com/1505715605964195 Plans are month to month, texting costs are included, and the business keeps its own phone number.
 
 ## Plans
 
@@ -11,6 +11,14 @@ Contact: call or text (903) 251-5127, email info@kingconnecttx.com. Plans are mo
 - Kingdom, $399/month + $499 setup: everything in Crown plus 8 Facebook and Instagram posts a month, 4 seasonal win-back campaigns a year, a website or Facebook chat button, and a quarterly planning sit-down.
 - Add-ons: Guest Texts for RV parks, marinas and rentals (+$99/mo), Freeze & Heat Alert for plumbers, HVAC and pool companies (+$149/mo), extra location (+$79/mo).
 - Founding Ten offer: the first ten lake-area businesses pay no setup fee and lock their monthly price for 12 months.
+
+## Common questions
+
+- What is missed-call text back? When a call to the business goes unanswered, the caller automatically gets a text within seconds, in the business's name, so they reply instead of calling a competitor. Office landlines and business lines can usually text from the same number; if the business number is a cell phone, texts come from a local King Connect number signed with the business name.
+- Does the business have to change its phone number? No. Calls still ring the owner's phone as before. King Connect only steps in when a call goes unanswered.
+- How do review requests work? After a job, the customer gets a text with the business's Google review link. Every customer gets the same link; King Connect never filters out unhappy customers (no review gating).
+- Is there a contract? No. Plans are month to month. Texting costs are included up to 1,000 texts a month.
+- Who sets it up? The King Connect team sets up every account, in person around Cedar Creek Lake, and keeps it running.
 
 ## Main pages
 
@@ -29,6 +37,7 @@ Contact: call or text (903) 251-5127, email info@kingconnecttx.com. Plans are mo
 
 ## Trades
 
+- [Roofing companies](https://kingconnecttx.com/for/roofing/)
 - [HVAC & electrical](https://kingconnecttx.com/for/hvac-electrical/)
 - [Plumbing, septic & pest control](https://kingconnecttx.com/for/plumbing-septic-pest/)
 - [Lawn, tree & pool](https://kingconnecttx.com/for/lawn-tree-pool/)
@@ -53,3 +62,5 @@ Contact: call or text (903) 251-5127, email info@kingconnecttx.com. Plans are mo
 
 - [Privacy policy](https://kingconnecttx.com/privacy.html)
 - [Terms of service](https://kingconnecttx.com/terms.html)
+
+Last updated: 2026-11-25
